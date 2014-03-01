@@ -668,6 +668,24 @@ class _Expression(AST):
         return self.expression.search(value)
 
 
+class Pipe(AST):
+    def __init__(self, parent, child):
+        self.parent = parent
+        self.child = child
+
+    def search(self, value):
+        left = self.parent.search(value)
+        unprojected = self._stop_projections(left)
+        return self.child.search(unprojected)
+
+    def _stop_projections(self, value):
+        if isinstance(value, list):
+            value = list(value)
+            for el in value:
+                pass
+        return value
+
+
 class _Projection(list):
     def __init__(self, elements):
         self.extend(elements)

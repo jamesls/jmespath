@@ -72,6 +72,10 @@ class Grammar(object):
         else:
             p[0] = ast.Index(p[2])
 
+    def p_jmespath_pipe(self, p):
+        """expression : expression PIPE expression"""
+        p[0] = ast.Pipe(p[1], p[3])
+
     def p_jmespath_bracket_specifier_filter(self, p):
         """bracket-spec : FILTER filter-expression RBRACKET
         """
