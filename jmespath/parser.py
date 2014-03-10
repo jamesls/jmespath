@@ -15,6 +15,7 @@ from jmespath.exceptions import IncompleteExpressionError
 
 class Grammar(object):
     precedence = (
+        ('left', 'PIPE'),
         ('left', 'OR'),
         ('right', 'DOT', 'STAR'),
         ('left', 'LT', 'LTE', 'GT', 'GTE', 'EQ'),
@@ -24,41 +25,48 @@ class Grammar(object):
     def p_jmespath_subexpression(self, p):
         """expression : expression DOT multi-select-list
                       | expression DOT multi-select-hash
-                      | STAR
-        """
-        if len(p) == 2:
-            # Then this is the STAR rule.
-            p[0] = ast.WildcardValues()
-        else:
-            # This is the expression DOT expression rule.
-            p[0] = ast.SubExpression(p[1], p[3])
-
-    def p_jmespath_subexpression_identifier(self, p):
-        """expression : expression DOT identifier
-        """
-        p[0] = ast.SubExpression(p[1], ast.Field(p[3]))
-
-    def p_jmespath_subexpression_wildcard(self, p):
-        """expression : expression DOT STAR
-        """
-        p[0] = ast.SubExpression(p[1], ast.WildcardValues())
-
-    def p_jmespath_subexpression_function(self, p):
-        """expression : expression DOT function-expression
+                      | expression DOT wildcard-value
+                      | expression DOT function-expression
+                      | expression DOT identifier-expr
         """
         p[0] = ast.SubExpression(p[1], p[3])
 
-    def p_jmespath_index(self, p):
-        """expression : expression bracket-spec
+    def p_jmespath_single_expr(self, p):
+        """expression : identifier-expr
+                      | wildcard-value
+                      | multi-select-hash
+                      | multi-select-list
+                      | function-expression
                       | bracket-spec
         """
-        if len(p) == 3:
-            p[0] = ast.SubExpression(p[1], p[2])
-        elif len(p) == 2:
-            # Otherwise this is just a bracket-spec, which is valid as a root
-            # level node (e.g. [2]) so we just assign the root node to the
-            # bracket-spec.
-            p[0] = p[1]
+        p[0] = p[1]
+
+    def p_jmespath_or_expression(self, p):
+        """expression : expression OR expression"""
+        p[0] = ast.ORExpression(p[1], p[3])
+
+    def p_jmespath_index(self, p):
+        """expression : expression bracket-spec
+        """
+        p[0] = ast.SubExpression(p[1], p[2])
+
+    def p_jmespath_pipe(self, p):
+        """expression : expression PIPE expression"""
+        p[0] = ast.Pipe(p[1], p[3])
+
+    def p_jmespath_literal_expression(self, p):
+        """expression : LITERAL"""
+        p[0] = ast.Literal(p[1])
+
+    def p_jmespath_identifier(self, p):
+        """identifier : UNQUOTED_IDENTIFIER
+                      | QUOTED_IDENTIFIER
+        """
+        p[0] = p[1]
+
+    def p_jmespath_star(self, p):
+        """wildcard-value : STAR"""
+        p[0] = ast.WildcardValues()
 
     def p_jmespath_bracket_specifier(self, p):
         """bracket-spec : LBRACKET STAR RBRACKET
@@ -71,10 +79,6 @@ class Grammar(object):
             p[0] = ast.WildcardIndex()
         else:
             p[0] = ast.Index(p[2])
-
-    def p_jmespath_pipe(self, p):
-        """expression : expression PIPE expression"""
-        p[0] = ast.Pipe(p[1], p[3])
 
     def p_jmespath_bracket_specifier_filter(self, p):
         """bracket-spec : FILTER filter-expression RBRACKET
@@ -108,20 +112,8 @@ class Grammar(object):
         p[0] = op_map[p[1]]
 
     def p_jmespath_identifier_expr(self, p):
-        """expression : identifier"""
+        """identifier-expr : identifier"""
         p[0] = ast.Field(p[1])
-
-    def p_jmespath_identifier(self, p):
-        """identifier : UNQUOTED_IDENTIFIER
-                      | QUOTED_IDENTIFIER
-        """
-        p[0] = p[1]
-
-    def p_jmespath_multiselect_expressions(self, p):
-        """expression : multi-select-hash
-                      | multi-select-list
-        """
-        p[0] = p[1]
 
     def p_jmespath_multiselect(self, p):
         """multi-select-hash : LBRACE keyval-exprs RBRACE
@@ -157,18 +149,6 @@ class Grammar(object):
         elif len(p) == 4:
             p[1].append(p[3])
             p[0] = p[1]
-
-    def p_jmespath_or_expression(self, p):
-        """expression : expression OR expression"""
-        p[0] = ast.ORExpression(p[1], p[3])
-
-    def p_jmespath_literal_expression(self, p):
-        """expression : LITERAL"""
-        p[0] = ast.Literal(p[1])
-
-    def p_jmespath_function(self, p):
-        """expression : function-expression"""
-        p[0] = p[1]
 
     def p_jmespath_function_expression(self, p):
         """function-expression : UNQUOTED_IDENTIFIER LPAREN function-args RPAREN

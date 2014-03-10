@@ -5,9 +5,9 @@ _tabversion = '3.2'
 
 _lr_method = 'LALR'
 
-_lr_signature = '\xb4\x1bXD\x01\x03z\xbb\x19\xfc\rk\xd7x\x00\xa3'
+_lr_signature = '+\xa6\xa6\xe3+\x12\xf6\xe6\xef?\x1f(\xde;\x1f7'
     
-_lr_action_items = {'STAR':([0,2,11,23,26,28,29,32,36,39,44,45,46,47,48,49,50,55,63,],[1,14,1,1,51,1,57,1,1,1,-16,-17,1,-18,-19,-14,-15,1,1,]),'LPAREN':([10,],[23,]),'NUMBER':([2,26,],[15,15,]),'LBRACKET':([0,1,2,3,4,5,7,8,9,10,11,12,13,14,17,18,23,25,27,28,29,30,31,32,33,35,36,37,39,42,43,44,45,46,47,48,49,50,52,53,54,55,56,57,58,59,61,62,63,64,65,],[2,-3,2,-34,-23,-33,-8,-22,-24,-21,2,-20,26,-3,-11,26,2,26,-7,2,55,-9,-10,2,-26,-25,2,-36,2,26,-12,-16,-17,2,-18,-19,-14,-15,26,-1,-2,2,-6,-5,-4,26,26,-35,2,26,26,]),'DOT':([1,3,4,5,7,8,9,10,12,13,14,17,18,25,27,30,31,33,35,37,42,43,52,53,54,56,57,58,59,61,62,64,65,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,29,-3,-11,29,29,-7,-9,-10,-26,-25,-36,29,-12,29,-1,-2,-6,-5,-4,29,29,-35,29,29,]),'RBRACE':([1,3,4,5,7,8,9,10,12,17,20,22,27,30,31,33,35,37,43,52,53,54,56,57,58,60,61,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,35,-28,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-27,-29,-35,]),'RPAREN':([1,3,4,5,7,8,9,10,12,17,23,27,30,31,33,35,37,38,40,41,42,43,52,53,54,56,57,58,62,64,66,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,37,-7,-9,-10,-26,-25,-36,62,-40,-38,-39,-12,-32,-1,-2,-6,-5,-4,-35,-41,-37,]),'NE':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,48,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'LT':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,49,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'COLON':([8,19,21,],[-22,-21,36,]),'COMMA':([1,3,4,5,7,8,9,10,12,14,16,17,18,20,22,27,30,31,33,35,37,38,40,41,42,43,52,53,54,56,57,58,59,60,61,62,64,66,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-3,32,-11,-31,34,-28,-7,-9,-10,-26,-25,-36,63,-40,-38,-39,-12,-32,-1,-2,-6,-5,-4,-30,-27,-29,-35,-41,-37,]),'$end':([1,3,4,5,7,8,9,10,12,13,17,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,0,-11,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'GT':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,44,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'GTE':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,45,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'EXPREF':([23,63,],[39,39,]),'CURRENT':([23,63,],[40,40,]),'LITERAL':([0,2,11,23,28,32,36,39,44,45,46,47,48,49,50,55,63,],[5,5,5,5,5,5,5,5,-16,-17,5,-18,-19,-14,-15,5,5,]),'LBRACE':([0,2,11,23,28,29,32,36,39,44,45,46,47,48,49,50,55,63,],[6,6,6,6,6,6,6,6,6,-16,-17,6,-18,-19,-14,-15,6,6,]),'LTE':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,50,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'EQ':([1,3,4,5,7,8,9,10,12,17,25,27,30,31,33,35,37,43,52,53,54,56,57,58,62,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,-11,47,-7,-9,-10,-26,-25,-36,-12,-32,-1,-2,-6,-5,-4,-35,]),'QUOTED_IDENTIFIER':([0,2,6,11,23,28,29,32,34,36,39,44,45,46,47,48,49,50,55,63,],[8,8,8,8,8,8,8,8,8,8,8,-16,-17,8,-18,-19,-14,-15,8,8,]),'UNQUOTED_IDENTIFIER':([0,2,6,11,23,28,29,32,34,36,39,44,45,46,47,48,49,50,55,63,],[10,10,19,10,10,10,10,10,19,10,10,-16,-17,10,-18,-19,-14,-15,10,10,]),'FILTER':([0,1,2,3,4,5,7,8,9,10,11,12,13,14,17,18,23,25,27,28,30,31,32,33,35,36,37,39,42,43,44,45,46,47,48,49,50,52,53,54,55,56,57,58,59,61,62,63,64,65,],[11,-3,11,-34,-23,-33,-8,-22,-24,-21,11,-20,11,-3,-11,11,11,11,-7,11,-9,-10,11,-26,-25,11,-36,11,11,-12,-16,-17,11,-18,-19,-14,-15,-32,-1,-2,11,-6,-5,-4,11,11,-35,11,11,11,]),'RBRACKET':([1,2,3,4,5,7,8,9,10,12,14,15,16,17,18,24,26,27,30,31,33,35,37,43,51,52,53,54,56,57,58,59,62,65,],[-3,17,-34,-23,-33,-8,-22,-24,-21,-20,30,31,33,-11,-31,43,17,-7,-9,-10,-26,-25,-36,-12,30,-32,-1,-2,-6,-5,-4,-30,-35,-13,]),'OR':([1,3,4,5,7,8,9,10,12,13,14,17,18,25,27,30,31,33,35,37,42,43,52,53,54,56,57,58,59,61,62,64,65,],[-3,-34,-23,-33,-8,-22,-24,-21,-20,28,-3,-11,28,28,-7,-9,-10,-26,-25,-36,28,-12,-32,-1,-2,-6,-5,-4,28,28,-35,28,28,]),}
+_lr_action_items = {'STAR':([0,9,13,25,29,30,31,32,35,39,42,47,48,49,50,51,52,53,60,67,],[2,16,2,2,54,2,2,2,2,2,2,-29,-24,-26,-27,-25,-28,2,2,2,]),'LPAREN':([12,],[25,]),'NUMBER':([9,29,],[17,17,]),'LBRACKET':([0,1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,19,20,25,27,28,30,31,32,33,34,35,36,38,39,40,42,45,46,47,48,49,50,51,52,53,55,56,57,58,59,60,61,62,63,65,66,67,68,69,],[9,-7,-18,-11,-10,-6,-8,-15,-17,9,-9,-16,9,-30,29,-18,-21,29,9,29,-13,9,60,9,-19,-20,9,-32,-31,9,-39,9,29,-22,-29,-24,-26,-27,-25,-28,9,29,-3,-5,-1,-2,9,-4,29,29,29,-38,9,29,29,]),'DOT':([1,2,3,4,5,6,7,8,11,12,14,15,16,19,20,27,28,33,34,36,38,40,45,46,55,56,57,58,59,61,62,63,65,66,68,69,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,31,-18,-21,31,31,-13,-19,-20,-32,-31,-39,31,-22,31,-3,-5,-1,-2,-4,31,31,31,-38,31,31,]),'RBRACE':([1,2,3,4,5,6,7,8,11,12,14,19,22,24,28,33,34,36,38,40,46,55,56,57,58,59,61,62,64,65,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,38,-34,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-33,-35,-38,]),'RPAREN':([1,2,3,4,5,6,7,8,11,12,14,19,25,28,33,34,36,38,40,41,43,44,45,46,55,56,57,58,59,61,62,66,68,70,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,40,-13,-19,-20,-32,-31,-39,66,-43,-41,-42,-22,-12,-3,-5,-1,-2,-4,-14,-38,-44,-40,]),'NE':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,47,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'PIPE':([1,2,3,4,5,6,7,8,11,12,14,15,16,19,20,27,28,33,34,36,38,40,45,46,55,56,57,58,59,61,62,63,65,66,68,69,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,32,-18,-21,32,32,-13,-19,-20,-32,-31,-39,32,-22,-12,-3,-5,-1,-2,-4,-14,32,32,-38,32,32,]),'LT':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,48,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'COLON':([8,21,23,],[-17,-16,39,]),'COMMA':([1,2,3,4,5,6,7,8,11,12,14,16,18,19,20,22,24,28,33,34,36,38,40,41,43,44,45,46,55,56,57,58,59,61,62,63,64,65,66,68,70,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-18,35,-21,-37,37,-34,-13,-19,-20,-32,-31,-39,67,-43,-41,-42,-22,-12,-3,-5,-1,-2,-4,-14,-36,-33,-35,-38,-44,-40,]),'$end':([1,2,3,4,5,6,7,8,11,12,14,15,19,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,0,-21,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'GT':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,49,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'GTE':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,50,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'EXPREF':([25,67,],[42,42,]),'CURRENT':([25,67,],[43,43,]),'LITERAL':([0,9,13,25,30,32,35,39,42,47,48,49,50,51,52,53,60,67,],[7,7,7,7,7,7,7,7,7,-29,-24,-26,-27,-25,-28,7,7,7,]),'QUOTED_IDENTIFIER':([0,9,10,13,25,30,31,32,35,37,39,42,47,48,49,50,51,52,53,60,67,],[8,8,8,8,8,8,8,8,8,8,8,8,-29,-24,-26,-27,-25,-28,8,8,8,]),'LTE':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,51,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'EQ':([1,2,3,4,5,6,7,8,11,12,14,19,27,28,33,34,36,38,40,46,55,56,57,58,59,61,62,66,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,-21,52,-13,-19,-20,-32,-31,-39,-22,-12,-3,-5,-1,-2,-4,-14,-38,]),'LBRACE':([0,9,13,25,30,31,32,35,39,42,47,48,49,50,51,52,53,60,67,],[10,10,10,10,10,10,10,10,10,10,-29,-24,-26,-27,-25,-28,10,10,10,]),'UNQUOTED_IDENTIFIER':([0,9,10,13,25,30,31,32,35,37,39,42,47,48,49,50,51,52,53,60,67,],[12,12,21,12,12,12,12,12,12,21,12,12,-29,-24,-26,-27,-25,-28,12,12,12,]),'FILTER':([0,1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,19,20,25,27,28,30,32,33,34,35,36,38,39,40,42,45,46,47,48,49,50,51,52,53,55,56,57,58,59,60,61,62,63,65,66,67,68,69,],[13,-7,-18,-11,-10,-6,-8,-15,-17,13,-9,-16,13,-30,13,-18,-21,13,13,13,-13,13,13,-19,-20,13,-32,-31,13,-39,13,13,-22,-29,-24,-26,-27,-25,-28,13,-12,-3,-5,-1,-2,13,-4,-14,13,13,-38,13,13,13,]),'RBRACKET':([1,2,3,4,5,6,7,8,9,11,12,14,16,17,18,19,20,26,28,29,33,34,36,38,40,46,54,55,56,57,58,59,61,62,63,66,69,],[-7,-18,-11,-10,-6,-8,-15,-17,19,-9,-16,-30,33,34,36,-21,-37,46,-13,19,-19,-20,-32,-31,-39,-22,33,-12,-3,-5,-1,-2,-4,-14,-36,-38,-23,]),'OR':([1,2,3,4,5,6,7,8,11,12,14,15,16,19,20,27,28,33,34,36,38,40,45,46,55,56,57,58,59,61,62,63,65,66,68,69,],[-7,-18,-11,-10,-6,-8,-15,-17,-9,-16,-30,30,-18,-21,30,30,-13,-19,-20,-32,-31,-39,30,-22,-12,-3,-5,-1,-2,-4,30,30,30,-38,30,30,]),}
 
 _lr_action = { }
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'filter-expression':([11,],[24,]),'function-args':([23,],[38,]),'multi-select-list':([0,2,11,23,28,29,32,36,39,46,55,63,],[9,9,9,9,9,53,9,9,9,9,9,9,]),'comparator':([25,],[46,]),'multi-select-hash':([0,2,11,23,28,29,32,36,39,46,55,63,],[4,4,4,4,4,54,4,4,4,4,4,4,]),'keyval-expr':([6,34,],[22,60,]),'bracket-spec':([0,2,11,13,18,23,25,28,32,36,39,42,46,52,55,59,61,63,64,65,],[7,7,7,27,27,7,27,7,7,7,7,27,7,27,7,27,27,7,27,27,]),'function-arg':([23,63,],[41,66,]),'function-expression':([0,2,11,23,28,29,32,36,39,46,55,63,],[3,3,3,3,3,56,3,3,3,3,3,3,]),'expressions':([2,55,],[16,16,]),'identifier':([0,2,6,11,23,28,29,32,34,36,39,46,55,63,],[12,12,21,12,12,12,58,12,21,12,12,12,12,12,]),'expression':([0,2,11,23,28,32,36,39,46,55,63,],[13,18,25,42,52,59,61,64,65,18,42,]),'keyval-exprs':([6,],[20,]),}
+_lr_goto_items = {'wildcard-value':([0,9,13,25,30,31,32,35,39,42,53,60,67,],[1,1,1,1,1,56,1,1,1,1,1,1,1,]),'identifier-expr':([0,9,13,25,30,31,32,35,39,42,53,60,67,],[5,5,5,5,5,57,5,5,5,5,5,5,5,]),'function-args':([25,],[41,]),'multi-select-list':([0,9,13,25,30,31,32,35,39,42,53,60,67,],[11,11,11,11,11,58,11,11,11,11,11,11,11,]),'comparator':([27,],[53,]),'multi-select-hash':([0,9,13,25,30,31,32,35,39,42,53,60,67,],[6,6,6,6,6,59,6,6,6,6,6,6,6,]),'keyval-expr':([10,37,],[24,64,]),'bracket-spec':([0,9,13,15,20,25,27,30,32,35,39,42,45,53,55,60,62,63,65,67,68,69,],[3,3,3,28,28,3,28,3,3,3,3,3,28,3,28,3,28,28,28,3,28,28,]),'filter-expression':([13,],[26,]),'function-arg':([25,67,],[44,70,]),'function-expression':([0,9,13,25,30,31,32,35,39,42,53,60,67,],[4,4,4,4,4,61,4,4,4,4,4,4,4,]),'expressions':([9,60,],[18,18,]),'identifier':([0,9,10,13,25,30,31,32,35,37,39,42,53,60,67,],[14,14,23,14,14,14,14,14,14,23,14,14,14,14,14,]),'expression':([0,9,13,25,30,32,35,39,42,53,60,67,],[15,20,27,45,55,62,63,65,68,69,20,45,]),'keyval-exprs':([10,],[22,]),}
 
 _lr_goto = { }
 for _k, _v in _lr_goto_items.items():
@@ -26,45 +26,48 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> expression","S'",1,None,None,None),
-  ('expression -> expression DOT multi-select-list','expression',3,'p_jmespath_subexpression','jmespath/parser.py',84),
-  ('expression -> expression DOT multi-select-hash','expression',3,'p_jmespath_subexpression','jmespath/parser.py',85),
-  ('expression -> STAR','expression',1,'p_jmespath_subexpression','jmespath/parser.py',86),
-  ('expression -> expression DOT identifier','expression',3,'p_jmespath_subexpression_identifier','jmespath/parser.py',96),
-  ('expression -> expression DOT STAR','expression',3,'p_jmespath_subexpression_wildcard','jmespath/parser.py',101),
-  ('expression -> expression DOT function-expression','expression',3,'p_jmespath_subexpression_function','jmespath/parser.py',106),
-  ('expression -> expression bracket-spec','expression',2,'p_jmespath_index','jmespath/parser.py',111),
-  ('expression -> bracket-spec','expression',1,'p_jmespath_index','jmespath/parser.py',112),
-  ('bracket-spec -> LBRACKET STAR RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier','jmespath/parser.py',123),
-  ('bracket-spec -> LBRACKET NUMBER RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier','jmespath/parser.py',124),
-  ('bracket-spec -> LBRACKET RBRACKET','bracket-spec',2,'p_jmespath_bracket_specifier','jmespath/parser.py',125),
-  ('bracket-spec -> FILTER filter-expression RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier_filter','jmespath/parser.py',135),
-  ('filter-expression -> expression comparator expression','filter-expression',3,'p_jmespath_filter_expression','jmespath/parser.py',140),
-  ('comparator -> LT','comparator',1,'p_jmespath_comparator','jmespath/parser.py',148),
-  ('comparator -> LTE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',149),
-  ('comparator -> GT','comparator',1,'p_jmespath_comparator','jmespath/parser.py',150),
-  ('comparator -> GTE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',151),
-  ('comparator -> EQ','comparator',1,'p_jmespath_comparator','jmespath/parser.py',152),
-  ('comparator -> NE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',153),
-  ('expression -> identifier','expression',1,'p_jmespath_identifier_expr','jmespath/parser.py',166),
-  ('identifier -> UNQUOTED_IDENTIFIER','identifier',1,'p_jmespath_identifier','jmespath/parser.py',170),
-  ('identifier -> QUOTED_IDENTIFIER','identifier',1,'p_jmespath_identifier','jmespath/parser.py',171),
-  ('expression -> multi-select-hash','expression',1,'p_jmespath_multiselect_expressions','jmespath/parser.py',176),
-  ('expression -> multi-select-list','expression',1,'p_jmespath_multiselect_expressions','jmespath/parser.py',177),
-  ('multi-select-hash -> LBRACE keyval-exprs RBRACE','multi-select-hash',3,'p_jmespath_multiselect','jmespath/parser.py',182),
-  ('multi-select-list -> LBRACKET expressions RBRACKET','multi-select-list',3,'p_jmespath_multiselect_list','jmespath/parser.py',187),
-  ('keyval-exprs -> keyval-exprs COMMA keyval-expr','keyval-exprs',3,'p_jmespath_keyval_exprs','jmespath/parser.py',192),
-  ('keyval-exprs -> keyval-expr','keyval-exprs',1,'p_jmespath_keyval_exprs','jmespath/parser.py',193),
-  ('keyval-expr -> identifier COLON expression','keyval-expr',3,'p_jmespath_keyval_expr','jmespath/parser.py',202),
-  ('expressions -> expressions COMMA expression','expressions',3,'p_jmespath_multiple_expressions','jmespath/parser.py',207),
-  ('expressions -> expression','expressions',1,'p_jmespath_multiple_expressions','jmespath/parser.py',208),
-  ('expression -> expression OR expression','expression',3,'p_jmespath_or_expression','jmespath/parser.py',217),
-  ('expression -> LITERAL','expression',1,'p_jmespath_literal_expression','jmespath/parser.py',221),
-  ('expression -> function-expression','expression',1,'p_jmespath_function','jmespath/parser.py',225),
-  ('function-expression -> UNQUOTED_IDENTIFIER LPAREN function-args RPAREN','function-expression',4,'p_jmespath_function_expression','jmespath/parser.py',229),
-  ('function-expression -> UNQUOTED_IDENTIFIER LPAREN RPAREN','function-expression',3,'p_jmespath_function_expression','jmespath/parser.py',230),
-  ('function-args -> function-args COMMA function-arg','function-args',3,'p_jmespath_function_args','jmespath/parser.py',245),
-  ('function-args -> function-arg','function-args',1,'p_jmespath_function_args','jmespath/parser.py',246),
-  ('function-arg -> expression','function-arg',1,'p_jmespath_function_arg','jmespath/parser.py',255),
-  ('function-arg -> CURRENT','function-arg',1,'p_jmespath_function_arg','jmespath/parser.py',256),
-  ('function-arg -> EXPREF expression','function-arg',2,'p_jmespath_function_arg','jmespath/parser.py',257),
+  ('expression -> expression DOT multi-select-list','expression',3,'p_jmespath_subexpression','jmespath/parser.py',26),
+  ('expression -> expression DOT multi-select-hash','expression',3,'p_jmespath_subexpression','jmespath/parser.py',27),
+  ('expression -> expression DOT wildcard-value','expression',3,'p_jmespath_subexpression','jmespath/parser.py',28),
+  ('expression -> expression DOT function-expression','expression',3,'p_jmespath_subexpression','jmespath/parser.py',29),
+  ('expression -> expression DOT identifier-expr','expression',3,'p_jmespath_subexpression','jmespath/parser.py',30),
+  ('expression -> identifier-expr','expression',1,'p_jmespath_single_expr','jmespath/parser.py',35),
+  ('expression -> wildcard-value','expression',1,'p_jmespath_single_expr','jmespath/parser.py',36),
+  ('expression -> multi-select-hash','expression',1,'p_jmespath_single_expr','jmespath/parser.py',37),
+  ('expression -> multi-select-list','expression',1,'p_jmespath_single_expr','jmespath/parser.py',38),
+  ('expression -> function-expression','expression',1,'p_jmespath_single_expr','jmespath/parser.py',39),
+  ('expression -> bracket-spec','expression',1,'p_jmespath_single_expr','jmespath/parser.py',40),
+  ('expression -> expression OR expression','expression',3,'p_jmespath_or_expression','jmespath/parser.py',45),
+  ('expression -> expression bracket-spec','expression',2,'p_jmespath_index','jmespath/parser.py',49),
+  ('expression -> expression PIPE expression','expression',3,'p_jmespath_pipe','jmespath/parser.py',54),
+  ('expression -> LITERAL','expression',1,'p_jmespath_literal_expression','jmespath/parser.py',58),
+  ('identifier -> UNQUOTED_IDENTIFIER','identifier',1,'p_jmespath_identifier','jmespath/parser.py',62),
+  ('identifier -> QUOTED_IDENTIFIER','identifier',1,'p_jmespath_identifier','jmespath/parser.py',63),
+  ('wildcard-value -> STAR','wildcard-value',1,'p_jmespath_star','jmespath/parser.py',68),
+  ('bracket-spec -> LBRACKET STAR RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier','jmespath/parser.py',72),
+  ('bracket-spec -> LBRACKET NUMBER RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier','jmespath/parser.py',73),
+  ('bracket-spec -> LBRACKET RBRACKET','bracket-spec',2,'p_jmespath_bracket_specifier','jmespath/parser.py',74),
+  ('bracket-spec -> FILTER filter-expression RBRACKET','bracket-spec',3,'p_jmespath_bracket_specifier_filter','jmespath/parser.py',84),
+  ('filter-expression -> expression comparator expression','filter-expression',3,'p_jmespath_filter_expression','jmespath/parser.py',89),
+  ('comparator -> LT','comparator',1,'p_jmespath_comparator','jmespath/parser.py',97),
+  ('comparator -> LTE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',98),
+  ('comparator -> GT','comparator',1,'p_jmespath_comparator','jmespath/parser.py',99),
+  ('comparator -> GTE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',100),
+  ('comparator -> EQ','comparator',1,'p_jmespath_comparator','jmespath/parser.py',101),
+  ('comparator -> NE','comparator',1,'p_jmespath_comparator','jmespath/parser.py',102),
+  ('identifier-expr -> identifier','identifier-expr',1,'p_jmespath_identifier_expr','jmespath/parser.py',115),
+  ('multi-select-hash -> LBRACE keyval-exprs RBRACE','multi-select-hash',3,'p_jmespath_multiselect','jmespath/parser.py',119),
+  ('multi-select-list -> LBRACKET expressions RBRACKET','multi-select-list',3,'p_jmespath_multiselect_list','jmespath/parser.py',124),
+  ('keyval-exprs -> keyval-exprs COMMA keyval-expr','keyval-exprs',3,'p_jmespath_keyval_exprs','jmespath/parser.py',129),
+  ('keyval-exprs -> keyval-expr','keyval-exprs',1,'p_jmespath_keyval_exprs','jmespath/parser.py',130),
+  ('keyval-expr -> identifier COLON expression','keyval-expr',3,'p_jmespath_keyval_expr','jmespath/parser.py',139),
+  ('expressions -> expressions COMMA expression','expressions',3,'p_jmespath_multiple_expressions','jmespath/parser.py',144),
+  ('expressions -> expression','expressions',1,'p_jmespath_multiple_expressions','jmespath/parser.py',145),
+  ('function-expression -> UNQUOTED_IDENTIFIER LPAREN function-args RPAREN','function-expression',4,'p_jmespath_function_expression','jmespath/parser.py',154),
+  ('function-expression -> UNQUOTED_IDENTIFIER LPAREN RPAREN','function-expression',3,'p_jmespath_function_expression','jmespath/parser.py',155),
+  ('function-args -> function-args COMMA function-arg','function-args',3,'p_jmespath_function_args','jmespath/parser.py',170),
+  ('function-args -> function-arg','function-args',1,'p_jmespath_function_args','jmespath/parser.py',171),
+  ('function-arg -> expression','function-arg',1,'p_jmespath_function_arg','jmespath/parser.py',180),
+  ('function-arg -> CURRENT','function-arg',1,'p_jmespath_function_arg','jmespath/parser.py',181),
+  ('function-arg -> EXPREF expression','function-arg',2,'p_jmespath_function_arg','jmespath/parser.py',182),
 ]
