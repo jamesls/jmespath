@@ -348,6 +348,114 @@ class TestAST(unittest.TestCase):
         self.assertEqual(match, [{'bar': 'yes', 'v': 1},
                                  {'bar': 'yes', 'v': 3}])
 
+    def test_projection_simple(self):
+        # foo[*].bar
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        projection = ast.Projection(field_foo, field_bar)
+        data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
+        self.assertEqual(projection.search(data), [1, 2, 3])
+
+    def test_projection_no_left(self):
+        # [*].bar
+        field_bar = ast.Field('bar')
+        projection = ast.Projection(None, field_bar)
+        data = [{'bar': 1}, {'bar': 2}, {'bar': 3}]
+        self.assertEqual(projection.search(data), [1, 2, 3])
+
+    def test_projection_no_right(self):
+        # foo[*]
+        field_foo = ast.Field('foo')
+        projection = ast.Projection(field_foo, None)
+        data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
+        self.assertEqual(projection.search(data),
+                         [{'bar': 1}, {'bar': 2}, {'bar': 3}])
+
+    def test_bare_projection(self):
+        # [*]
+        projection = ast.Projection(None, None)
+        data = [{'bar': 1}, {'bar': 2}, {'bar': 3}]
+        self.assertEqual(projection.search(data), data)
+
+    def test_base_projection_on_invalid_type(self):
+        # [*]
+        data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
+        projection = ast.Projection(None, None)
+        # search() should return None because the evaluated
+        # type is a dict, not a list.
+        self.assertIsNone(projection.search(data))
+
+    def test_multiple_projections(self):
+        # foo[*].bar[*].baz
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        field_baz = ast.Field('baz')
+        second_projection = ast.Projection(field_bar, field_baz)
+        first_projection = ast.Projection(field_foo, second_projection)
+        data = {
+            'foo': [
+                {'bar': [{'baz': 1}, {'baz': 2}, {'baz': 3}],
+                 'other': 1},
+                {'bar': [{'baz': 4}, {'baz': 5}, {'baz': 6}],
+                 'other': 2},
+            ]
+        }
+        self.assertEqual(first_projection.search(data),
+                         [[1, 2, 3], [4, 5, 6]])
+
+    def test_values_projection(self):
+        # foo.*.bar
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        projection = ast.ValueProjection(field_foo, field_bar)
+        data = {
+            'foo': {
+                'a': {'bar': 1},
+                'b': {'bar': 2},
+                'c': {'bar': 3},
+            }
+
+        }
+        result = list(sorted(projection.search(data)))
+        self.assertEqual(result, [1, 2, 3])
+
+    def test_root_value_projection(self):
+        # *
+        projection = ast.ValueProjection(None, None)
+        data = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+        }
+        result = list(sorted(projection.search(data)))
+        self.assertEqual(result, [1, 2, 3])
+
+    def test_no_left_node_value_projection(self):
+        # *.bar
+        field_bar = ast.Field('bar')
+        projection = ast.ValueProjection(None, field_bar)
+        data = {
+            'a': {'bar': 1},
+            'b': {'bar': 2},
+            'c': {'bar': 3},
+        }
+        result = list(sorted(projection.search(data)))
+        self.assertEqual(result, [1, 2, 3])
+
+    def test_no_right_node_value_projection(self):
+        # foo.*
+        field_foo = ast.Field('foo')
+        projection = ast.ValueProjection(field_foo, None)
+        data = {
+            'foo': {
+                'a': 1,
+                'b': 2,
+                'c': 3,
+            }
+        }
+        result = list(sorted(projection.search(data)))
+        self.assertEqual(result, [1, 2, 3])
+
 
 if __name__ == '__main__':
     unittest.main()

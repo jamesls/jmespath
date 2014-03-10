@@ -777,3 +777,53 @@ class _Projection(list):
             if current is not None:
                 result.append(current)
         return _Projection(result)
+
+
+class Projection(AST):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def search(self, value):
+        base = self._get_base_element(value)
+        if base is None:
+            return None
+        if self.right is None:
+            return base
+        else:
+            collected = []
+            for element in base:
+                current = self.right.search(element)
+                if current is not None:
+                    collected.append(current)
+            return collected
+
+    def _get_base_element(self, value):
+        if self.left is not None:
+            base = self.left.search(value)
+        else:
+            base = value
+        if not isinstance(base, list):
+            # Invalid type, so we return None.
+            return None
+        else:
+            return base
+
+    def pretty_print(self, indent=''):
+        sub_indent = indent + ' ' * 4
+        return "%s%s(\n%s%s,\n%s%s)" % (
+            indent, self.__class__.__name__,
+            sub_indent, self.parent.pretty_print(sub_indent),
+            sub_indent, self.child.pretty_print(sub_indent))
+
+
+class ValueProjection(Projection):
+    def _get_base_element(self, value):
+        if self.left is not None:
+            base_hash = self.left.search(value)
+        else:
+            base_hash = value
+        try:
+            return base_hash.values()
+        except AttributeError:
+            return None
