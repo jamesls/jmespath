@@ -1,3 +1,63 @@
+"""Module for parsing JMESPath expressions.
+
+Parsing Projections
+===================
+
+This module handles parsing projections slightly differently than
+what's in the ABNF grammar (though it's still 100% identical in terms
+of its final result).
+
+Let's take a simple expression: ``foo[*].bar``.  Following the productions
+from the ABNF grammar in the spec then, as an S-expression, we'd get an
+AST of::
+
+    (sub-expression
+        (index-expression (field foo)
+                          (bracket-specifier "*"))
+        (field bar))
+
+The AST walker then needs have implicit knowledge that the ``*`` creates
+a projection in which each element in the collection of the evaluated
+first child of the subexpression node is then evaluated against the
+second child ``(field bar)``.  Any non-None values are then collected
+and returned as the final result.
+
+An alternate way to express this logic is to instead embed the projection
+semantics into the AST by introducing a projection node.  The same
+expression of ``foo[*].bar`` can be written as::
+
+    (projection (field foo) (field bar))
+
+Then the projection semantics are all contained within the ``projection`` AST
+node.
+
+Here's a more complicated example.  Given the expression
+``foo.bar[*].baz.to_number(@)``, the AST from the ABNF grammar in the spec
+is::
+
+    (sub-expression
+        (sub-expression
+            (index-expression
+                (sub-expression (field foo) (field bar))
+                (bracket-specifier "*"))
+            (field baz))
+        (function-expression ("to_number" (function-arg current-node))))
+
+Again, the AST walker needs to know that all the way in the leaf node, the
+``*`` creates a projection that then applies for all the remaining AST
+walking.  Using a projection node we'd instead have::
+
+    (projection
+        (sub-expression (field foo) (field bar))
+        (sub-expression
+            (field baz)
+            (function-expression ("to_number" (function-arg current-node)))))
+
+This once again makes the projection explicit and makes the scope of the
+projection clear. This is especially useful in the case of pipes where the
+projections do not carry across child nodes of a pipe expression.
+
+"""
 import random
 
 import ply.yacc
@@ -22,40 +82,58 @@ class Grammar(object):
         ('right', 'LBRACKET', 'RBRACKET'),
     )
 
-    def p_jmespath_subexpression(self, p):
-        """expression : expression DOT multi-select-list
-                      | expression DOT multi-select-hash
-                      | expression DOT wildcard-value
-                      | expression DOT function-expression
-                      | expression DOT identifier-expr
-        """
-        p[0] = ast.SubExpression(p[1], p[3])
-
     def p_jmespath_single_expr(self, p):
-        """expression : identifier-expr
+        """expression : subexpression
+                      | index-expression
+                      | or-expression
+                      | identifier-expr
                       | wildcard-value
-                      | multi-select-hash
                       | multi-select-list
+                      | multi-select-hash
+                      | literal-expression
                       | function-expression
-                      | bracket-spec
+                      | pipe-expression
         """
         p[0] = p[1]
 
+    def p_jmespath_subexpression(self, p):
+        """subexpression : expression DOT identifier-expr
+                         | expression DOT multi-select-list
+                         | expression DOT multi-select-hash
+                         | expression DOT function-expression
+                         | expression DOT wildcard-value
+        """
+        p[0] = ast.SubExpression(p[1], p[3])
+
     def p_jmespath_or_expression(self, p):
-        """expression : expression OR expression"""
+        """or-expression : expression OR expression"""
         p[0] = ast.ORExpression(p[1], p[3])
 
     def p_jmespath_index(self, p):
-        """expression : expression bracket-spec
+        """index-expression : expression bracket-spec
+                            | bracket-spec
         """
-        p[0] = ast.SubExpression(p[1], p[2])
+        if len(p) == 3:
+            p[0] = ast.SubExpression(p[1], p[2])
+        else:
+            p[0] = p[1]
+
+    def p_jmespath_multiselect_list(self, p):
+        """multi-select-list : LBRACKET expressions RBRACKET
+        """
+        p[0] = ast.MultiFieldList(p[2])
+
+    def p_jmespath_multiselect(self, p):
+        """multi-select-hash : LBRACE keyval-exprs RBRACE
+        """
+        p[0] = ast.MultiFieldDict(p[2])
 
     def p_jmespath_pipe(self, p):
-        """expression : expression PIPE expression"""
+        """pipe-expression : expression PIPE expression"""
         p[0] = ast.Pipe(p[1], p[3])
 
     def p_jmespath_literal_expression(self, p):
-        """expression : LITERAL"""
+        """literal-expression : LITERAL"""
         p[0] = ast.Literal(p[1])
 
     def p_jmespath_identifier(self, p):
@@ -63,6 +141,11 @@ class Grammar(object):
                       | QUOTED_IDENTIFIER
         """
         p[0] = p[1]
+
+    # NOTE: Projections are parsed differently than the
+    # production rules in the official ABNF grammar from
+    # the reference docs.  See the docstring at the top
+    # of the module for more info on this.
 
     def p_jmespath_star(self, p):
         """wildcard-value : STAR"""
@@ -114,16 +197,6 @@ class Grammar(object):
     def p_jmespath_identifier_expr(self, p):
         """identifier-expr : identifier"""
         p[0] = ast.Field(p[1])
-
-    def p_jmespath_multiselect(self, p):
-        """multi-select-hash : LBRACE keyval-exprs RBRACE
-        """
-        p[0] = ast.MultiFieldDict(p[2])
-
-    def p_jmespath_multiselect_list(self, p):
-        """multi-select-list : LBRACKET expressions RBRACKET
-        """
-        p[0] = ast.MultiFieldList(p[2])
 
     def p_jmespath_keyval_exprs(self, p):
         """keyval-exprs : keyval-exprs COMMA keyval-expr

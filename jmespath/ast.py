@@ -813,8 +813,8 @@ class Projection(AST):
         sub_indent = indent + ' ' * 4
         return "%s%s(\n%s%s,\n%s%s)" % (
             indent, self.__class__.__name__,
-            sub_indent, self.parent.pretty_print(sub_indent),
-            sub_indent, self.child.pretty_print(sub_indent))
+            sub_indent, self.left.pretty_print(sub_indent),
+            sub_indent, self.right.pretty_print(sub_indent))
 
 
 class ValueProjection(Projection):
