@@ -51,6 +51,9 @@ class _Arg(object):
 class AST(object):
     VALUE_METHODS = []
 
+    def __init__(self):
+        self.children = []
+
     def search(self, value):
         pass
 
@@ -76,6 +79,11 @@ class AST(object):
         return not self.__eq__(other)
 
 
+class IdentityNode(AST):
+    def search(self, value):
+        return value
+
+
 class SubExpression(AST):
     """Represents a subexpression match.
 
@@ -86,22 +94,28 @@ class SubExpression(AST):
 
     """
     def __init__(self, parent, child):
-        self.parent = parent
-        self.child = child
+        self.children = [parent, child]
 
     def search(self, value):
         # To evaluate a subexpression we first evaluate the parent object
         # and then feed the match of the parent node into the child node.
-        sub_value = self.parent.search(value)
-        found = self.child.search(sub_value)
+        sub_value = self.children[0].search(value)
+        found = self.children[1].search(sub_value)
         return found
 
     def pretty_print(self, indent=''):
         sub_indent = indent + ' ' * 4
-        return "%sSubExpression(\n%s%s,\n%s%s)" % (
-            indent,
-            sub_indent, self.parent.pretty_print(sub_indent),
-            sub_indent, self.child.pretty_print(sub_indent))
+        return "%s%s(\n%s%s,\n%s%s)" % (
+            indent, self.__class__.__name__,
+            sub_indent, self.children[0].pretty_print(sub_indent),
+            sub_indent, self.children[1].pretty_print(sub_indent))
+
+
+# This is used just to differentiate between
+# subexpressions and indexexpressions (wildcards can hang
+# off of an indexexpression).
+class IndexExpression(SubExpression):
+    pass
 
 
 class Field(AST):
@@ -109,6 +123,7 @@ class Field(AST):
 
     def __init__(self, name):
         self.name = name
+        self.children = []
 
     def pretty_print(self, indent=''):
         return "%sField(%s)" % (indent, self.name)
@@ -121,14 +136,14 @@ class Field(AST):
 
 class BaseMultiField(AST):
     def __init__(self, nodes):
-        self.nodes = nodes
+        self.children = list(nodes)
 
     def search(self, value):
         if value is None:
             return None
         method = self._get_value_method(value)
         if method is not None:
-            return method(self.nodes)
+            return method(self.children)
         else:
             return self._multi_get(value)
 
@@ -137,7 +152,7 @@ class BaseMultiField(AST):
         raise NotImplementedError("_multi_get")
 
     def pretty_print(self, indent=''):
-        return "%s%s(%s)" % (indent, self.__class__.__name__, self.nodes)
+        return "%s%s(%s)" % (indent, self.__class__.__name__, self.children)
 
 
 class MultiFieldDict(BaseMultiField):
@@ -145,7 +160,7 @@ class MultiFieldDict(BaseMultiField):
 
     def _multi_get(self, value):
         collected = {}
-        for node in self.nodes:
+        for node in self.children:
             collected[node.key_name] = node.search(value)
         return collected
 
@@ -155,7 +170,7 @@ class MultiFieldList(BaseMultiField):
 
     def _multi_get(self, value):
         collected = []
-        for node in self.nodes:
+        for node in self.children:
             collected.append(node.search(value))
         return collected
 
@@ -163,14 +178,14 @@ class MultiFieldList(BaseMultiField):
 class KeyValPair(AST):
     def __init__(self, key_name, node):
         self.key_name = key_name
-        self.node = node
+        self.children = [node]
 
     def search(self, value):
-        return self.node.search(value)
+        return self.children[0].search(value)
 
     def pretty_print(self, indent=''):
-        return "%sKeyValPair(key_name=%s, node=%s)" % (indent, self.key_name,
-                                                       self.node)
+        return "%sKeyValPair(key_name=%s, node=%s)" % (
+            indent, self.key_name, self.children[0])
 
 
 class Index(AST):
@@ -251,13 +266,12 @@ class ListElements(AST):
 
 class ORExpression(AST):
     def __init__(self, first, remaining):
-        self.first = first
-        self.remaining = remaining
+        self.children = [first, remaining]
 
     def search(self, value):
-        matched = self.first.search(value)
+        matched = self.children[0].search(value)
         if self._is_false(matched):
-            matched = self.remaining.search(value)
+            matched = self.children[1].search(value)
         return matched
 
     def _is_false(self, value):
@@ -268,31 +282,31 @@ class ORExpression(AST):
                 value == False)
 
     def pretty_print(self, indent=''):
-        return "%sORExpression(%s, %s)" % (indent, self.first,
-                                           self.remaining)
+        return "%sORExpression(%s, %s)" % (indent, self.children[0],
+                                           self.children[1])
 
 
 class FilterExpression(AST):
     VALUE_METHODS = ['multi_filter']
 
     def __init__(self, expression):
-        self.expression = expression
+        self.children = [expression]
 
     def search(self, value):
         if not isinstance(value, list):
             return None
         method = self._get_value_method(value)
         if method is not None:
-            return method(self.expression)
+            return method(self.children[0])
         else:
             result = []
             for element in value:
-                if self.expression.search(element):
+                if self.children[0].search(element):
                     result.append(element)
             return _Projection(result)
 
     def pretty_print(self, indent=''):
-        return '%sFilterExpression(%s)' % (indent, self.expression)
+        return '%sFilterExpression(%s)' % (indent, self.children[0])
 
 
 class Literal(AST):
@@ -316,16 +330,15 @@ class Comparator(AST):
     operation = None
 
     def __init__(self, first, second):
-        self.first = first
-        self.second = second
+        self.children = [first, second]
 
     def search(self, data):
-        return self.operation(self.first.search(data),
-                              self.second.search(data))
+        return self.operation(self.children[0].search(data),
+                              self.children[1].search(data))
 
     def pretty_print(self, indent=''):
         return '%s%s(%s, %s)' % (indent, self.__class__.__name__,
-                                 self.first, self.second)
+                                 self.children[0], self.children[1])
 
 
 class OPEquals(Comparator):
@@ -393,6 +406,10 @@ class FunctionExpression(AST):
 
     def __init__(self, name, args):
         self.name = name
+        # The .children attribute is to support homogeneous
+        # children nodes, but .args is a better name for all the
+        # code that uses the children, so we support both.
+        self.children = args
         self.args = args
         try:
             self.function = getattr(self, '_func_%s' % name)
@@ -654,10 +671,10 @@ class FunctionExpression(AST):
 
 class ExpressionReference(AST):
     def __init__(self, expression):
-        self.expression = expression
+        self.children = [expression]
 
     def search(self, value):
-        return _Expression(self.expression)
+        return _Expression(self.children[0])
 
 
 class _Expression(AST):
@@ -670,13 +687,12 @@ class _Expression(AST):
 
 class Pipe(AST):
     def __init__(self, parent, child):
-        self.parent = parent
-        self.child = child
+        self.children = [parent, child]
 
     def search(self, value):
-        left = self.parent.search(value)
+        left = self.children[0].search(value)
         unprojected = self._stop_projections(left)
-        return self.child.search(unprojected)
+        return self.children[1].search(unprojected)
 
     def _stop_projections(self, value):
         if isinstance(value, list):
@@ -781,26 +797,25 @@ class _Projection(list):
 
 class Projection(AST):
     def __init__(self, left, right):
-        self.left = left
-        self.right = right
+        self.children = [left, right]
 
     def search(self, value):
         base = self._get_base_element(value)
         if base is None:
             return None
-        if self.right is None:
+        if self.children[1] is None:
             return base
         else:
             collected = []
             for element in base:
-                current = self.right.search(element)
+                current = self.children[1].search(element)
                 if current is not None:
                     collected.append(current)
             return collected
 
     def _get_base_element(self, value):
-        if self.left is not None:
-            base = self.left.search(value)
+        if self.children[0] is not None:
+            base = self.children[0].search(value)
         else:
             base = value
         if not isinstance(base, list):
@@ -813,14 +828,14 @@ class Projection(AST):
         sub_indent = indent + ' ' * 4
         return "%s%s(\n%s%s,\n%s%s)" % (
             indent, self.__class__.__name__,
-            sub_indent, self.left.pretty_print(sub_indent),
-            sub_indent, self.right.pretty_print(sub_indent))
+            sub_indent, self.children[0].pretty_print(sub_indent),
+            sub_indent, self.children[1].pretty_print(sub_indent))
 
 
 class ValueProjection(Projection):
     def _get_base_element(self, value):
-        if self.left is not None:
-            base_hash = self.left.search(value)
+        if self.children[0] is not None:
+            base_hash = self.children[0].search(value)
         else:
             base_hash = value
         try:

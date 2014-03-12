@@ -34,8 +34,8 @@ class TestParser(unittest.TestCase):
     def test_quoted_subexpression(self):
         parsed = self.parser.parse('"foo"."bar"')
         self.assertIsInstance(parsed.parsed, ast.SubExpression)
-        self.assertEqual(parsed.parsed.parent.name, 'foo')
-        self.assertEqual(parsed.parsed.child.name, 'bar')
+        self.assertEqual(parsed.parsed.children[0].name, 'foo')
+        self.assertEqual(parsed.parsed.children[1].name, 'bar')
 
     def test_wildcard(self):
         parsed = self.parser.parse('foo[*]')
