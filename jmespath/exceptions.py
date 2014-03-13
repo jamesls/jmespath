@@ -96,11 +96,10 @@ class JMESPathTypeError(JMESPathError):
         self.expected_types = expected_types
 
     def __str__(self):
-        jmespath_actual = TYPES_MAP.get(self.actual_type, 'unknown')
         return ('In function %s(), invalid type for value: %s, '
                 'expected one of: %s, received: "%s"' % (
                     self.function_name, self.current_value,
-                    self.expected_types, jmespath_actual))
+                    self.expected_types, self.actual_type))
 
 
 class UnknownFunctionError(JMESPathError):

@@ -8,6 +8,7 @@ from jmespath import ast
 from jmespath import lexer
 from jmespath.compat import with_repr_method
 from jmespath.compat import LR_TABLE
+from jmespath.transform import ProjectionTransform
 from jmespath.exceptions import VariadictArityError
 from jmespath.exceptions import ArityError
 from jmespath.exceptions import ParseError
@@ -42,7 +43,6 @@ class Grammar(object):
                          | expression DOT multi-select-list
                          | expression DOT multi-select-hash
                          | expression DOT function-expression
-                         | expression DOT wildcard-value
         """
         p[0] = ast.SubExpression(p[1], p[3])
 
@@ -53,11 +53,14 @@ class Grammar(object):
     def p_jmespath_index(self, p):
         """index-expression : expression bracket-spec
                             | bracket-spec
+                            | expression DOT STAR
         """
-        if len(p) == 3:
+        if len(p) == 4:
+            p[0] = ast.IndexExpression(p[1], ast.WildcardValues())
+        elif len(p) == 3:
             p[0] = ast.IndexExpression(p[1], p[2])
         else:
-            p[0] = ast.IndexExpression(ast.IdentityNode(), p[1])
+            p[0] = ast.IndexExpression(ast.Identity(), p[1])
 
     def p_jmespath_multiselect_list(self, p):
         """multi-select-list : LBRACKET expressions RBRACKET
@@ -90,7 +93,8 @@ class Grammar(object):
 
     def p_jmespath_star(self, p):
         """wildcard-value : STAR"""
-        p[0] = ast.WildcardValues()
+        p[0] = ast.IndexExpression(ast.Identity(),
+                                   ast.WildcardValues())
 
     def p_jmespath_bracket_specifier(self, p):
         """bracket-spec : LBRACKET STAR RBRACKET
@@ -217,15 +221,18 @@ class Parser(object):
     _table_module = LR_TABLE
 
     def __init__(self, lexer_definition=None, grammar=None,
-                 debug=False):
+                 debug=False, transforms=None):
         if lexer_definition is None:
             lexer_definition = lexer.LexerDefinition
         if grammar is None:
             grammar = Grammar
+        if transforms is None:
+            transforms = [ProjectionTransform()]
         self._lexer_definition = lexer_definition
         self._grammar = grammar
         self.tokens = self._lexer_definition.tokens
         self._debug = debug
+        self._ast_transforms = transforms
 
     def parse(self, expression):
         cached = self._cache.get(expression)
@@ -241,6 +248,8 @@ class Parser(object):
                                write_tables=False)
         parsed = self._parse_expression(parser=parser, expression=expression,
                                         lexer_obj=lexer)
+        for transform in self._ast_transforms:
+            parsed = transform.transform(parsed)
         parsed_result = ParsedResult(expression, parsed)
         self._cache[expression] = parsed_result
         if len(self._cache) > self._max_size:

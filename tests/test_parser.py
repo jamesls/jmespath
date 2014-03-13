@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from tests import unittest
+from tests import unittest, as_s_expression
 
 from jmespath import parser
 from jmespath import ast
@@ -293,7 +293,10 @@ class TestParserCaching(unittest.TestCase):
         for i in range(parser.Parser._max_size + 1):
             compiled2.append(p.parse('foo%s' % i))
         self.assertEqual(len(compiled), len(compiled2))
-        self.assertEqual(compiled, compiled2)
+        s = as_s_expression
+        self.assertEqual(
+            [s(expr.parsed) for expr in compiled],
+            [s(expr.parsed) for expr in compiled2])
 
 
 class TestParserAddsExpressionAttribute(unittest.TestCase):

@@ -1,49 +1,43 @@
 #!/usr/bin/env python
 
 import unittest
-from tests import OrderedDict
+from tests import OrderedDict, as_s_expression
 
 from jmespath import ast
 from jmespath import transform
 from jmespath import parser
 
 
-def as_s_expression(node):
-    parts = []
-    _as_s_expression(node, parts)
-    return ''.join(parts)
-
-def _as_s_expression(node, parts):
-    parts.append("(%s" % (node.__class__.__name__.lower()))
-    if isinstance(node, ast.Field):
-        parts.append(" %s" % node.name)
-    elif isinstance(node, ast.FunctionExpression):
-        parts.append(" %s" % node.name)
-    elif isinstance(node, ast.KeyValPair):
-        parts.append(" %s" % node.key_name)
-    for child in node.children:
-        parts.append(" ")
-        _as_s_expression(child, parts)
-    parts.append(")")
-
-
 class TestAST(unittest.TestCase):
     def setUp(self):
-        self.parser = parser.Parser()
+        self.parser = parser.Parser(transforms=[])
         self.transform = transform.ProjectionTransform()
 
-    def test_subexp_single_field(self):
-        parsed = self.parser.parse('a[*].b').parsed
+    def assert_transformation(self, expression, s_exp):
+        parsed = self.parser.parse(expression).parsed
         transformed = self.transform.transform(parsed)
+        self.assertEqual(as_s_expression(transformed), s_exp)
+
+    def test_subexp_single_field(self):
         # From:
         # (subexpression (subexpression (field a) (wildcardindex)) (field b))
         # To:
         expected = (
-            '(projection (field a) (field b))')
-        self.assertEqual(as_s_expression(transformed), expected)
+            '(projection (field a) (subexpression (identity) (field b)))')
+        self.assert_transformation('a[*].b', expected)
+
+    def test_subexp_with_flatten(self):
+        # TODO: fix flatten, filters, and maybe functions.
+        # They need their own projection type.
+        return
+        # From:
+        # (subexpression (subexpression (field a) (wildcardindex)) (field b))
+        # To:
+        expected = (
+            '(projection (field a) (subexpression (identity) (field b)))')
+        self.assert_transformation('a[].b', expected)
 
     def test_subexp_transform_complete(self):
-        parsed = self.parser.parse('a.b.c[*].d.e.f').parsed
         # From:
         # (subexpression
         #   (subexpression
@@ -68,10 +62,9 @@ class TestAST(unittest.TestCase):
         #     (field c)
         #  (subexpression
         #    (subexpression
-        #      (field d)
+        #      (subexpression (identity) (field d))
         #      (field e))
         #    (field f)))
-        transformed = self.transform.transform(parsed)
         expected = (
             "(projection "
               "(subexpression "
@@ -79,12 +72,13 @@ class TestAST(unittest.TestCase):
                 "(field c)) "
               "(subexpression "
                 "(subexpression "
-                  "(field d) (field e)) "
+                  "(subexpression (identity) (field d)) "
+                  "(field e)) "
                 "(field f)))")
-        self.assertEqual(as_s_expression(transformed), expected)
+        self.assert_transformation('a.b.c[*].d.e.f',
+                                   expected)
 
     def test_or_expression(self):
-        parsed = self.parser.parse('a[*].b || c').parsed
         # From:
         # (orexpression
         #   (subexpression
@@ -96,9 +90,84 @@ class TestAST(unittest.TestCase):
         # (orexpression
         #   (projection (field a) (field b))
         #   (field c))
-        transformed = self.transform.transform(parsed)
         expected = (
             "(orexpression "
-              "(projection (field a) (field b)) "
+              "(projection (field a) (subexpression (identity) (field b))) "
               "(field c))")
-        self.assertEqual(as_s_expression(transformed), expected)
+        self.assert_transformation('a[*].b || c', expected)
+
+    def test_pipe_expression(self):
+        expected = (
+            "(pipe "
+              "(projection "
+                "(field a) "
+                "(subexpression (identity) (field b))) "
+              "(field c))"
+        )
+        self.assert_transformation('a[*].b | c', expected)
+
+    def test_multiple_projections(self):
+        expected = (
+            "(projection "
+              "(field a) "
+              "(projection "
+                "(subexpression (identity) (field b)) "
+                "(subexpression (identity) (field c))))"
+        )
+        self.assert_transformation('a[*].b[*].c', expected)
+
+    def test_multiple_projection_with_identity(self):
+        expected = (
+            "(projection "
+              "(field a) "
+              "(projection "
+                "(subexpression (identity) (field b)) "
+                "(identity)))"
+        )
+        self.assert_transformation('a[*].b[*]', expected)
+
+    def test_value_projection(self):
+        expected = (
+            "(valueprojection "
+              "(field a) "
+              "(subexpression (identity) (field b)))"
+        )
+        self.assert_transformation('a.*.b', expected)
+
+    def test_only_projection(self):
+        expected = (
+            "(projection (identity) (identity))"
+        )
+        self.assert_transformation('[*]', expected)
+
+    def test_complex_projection(self):
+        expected = (
+            "(pipe "
+              "(projection "
+                "(field foo) "
+                "(projection "
+                  "(subexpression (identity) (field bar)) "
+                  "(identity))) "
+              "(indexexpression "
+                "(indexexpression "
+                  "(identity) (index)) "
+                "(index)))"
+        )
+        self.assert_transformation('foo[*].bar[*] | [0][0]', expected)
+
+    def test_star_dot_star(self):
+        expected = (
+            "(valueprojection "
+              "(identity) "
+              "(valueprojection "
+                "(identity) (identity)))"
+        )
+        self.assert_transformation('*.*', expected)
+
+    def test_multiselect_hash(self):
+        expected = (
+            "(multifielddict "
+              "(keyvalpair "
+                "a (valueprojection (identity) (identity))))"
+        )
+        self.assert_transformation('{"a": *}', expected)

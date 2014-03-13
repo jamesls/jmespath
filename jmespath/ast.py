@@ -71,17 +71,13 @@ class AST(object):
     def __repr__(self):
         return self.pretty_print()
 
-    def __eq__(self, other):
-        return (isinstance(other, self.__class__)
-                and self.__dict__ == other.__dict__)
 
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-
-class IdentityNode(AST):
+class Identity(AST):
     def search(self, value):
         return value
+
+    def pretty_print(self, indent=''):
+        return "%sIdentity()" % indent
 
 
 class SubExpression(AST):
@@ -192,6 +188,7 @@ class Index(AST):
     VALUE_METHODS = ['get_index', '__getitem__']
 
     def __init__(self, index):
+        super(Index, self).__init__()
         self.index = index
 
     def pretty_print(self, indent=''):
@@ -311,7 +308,9 @@ class FilterExpression(AST):
 
 class Literal(AST):
     VALUE_METHODS = ['get_literal']
+
     def __init__(self, literal_value):
+        super(Literal, self).__init__()
         self.literal_value = literal_value
 
     def search(self, value):
@@ -472,7 +471,8 @@ class FunctionExpression(AST):
             actual_typename = type(current).__name__
             if actual_typename not in allowed_types:
                 raise JMESPathTypeError(self.name, current,
-                                        actual_typename,
+                                        TYPES_MAP.get(actual_typename,
+                                                      'unknown'),
                                         types)
             # If we're dealing with a list type, we can have
             # additional restrictions on the type of the list
@@ -691,15 +691,14 @@ class Pipe(AST):
 
     def search(self, value):
         left = self.children[0].search(value)
-        unprojected = self._stop_projections(left)
-        return self.children[1].search(unprojected)
+        return self.children[1].search(left)
 
-    def _stop_projections(self, value):
-        if isinstance(value, list):
-            value = list(value)
-            for el in value:
-                pass
-        return value
+    def pretty_print(self, indent=''):
+        sub_indent = indent + ' ' * 4
+        return "%s%s(\n%s%s,\n%s%s)" % (
+            indent, self.__class__.__name__,
+            sub_indent, self.children[0].pretty_print(sub_indent),
+            sub_indent, self.children[1].pretty_print(sub_indent))
 
 
 class _Projection(list):

@@ -19,8 +19,16 @@ def main():
                         help=('The filename containing the input data.  '
                               'If a filename is not given then data is '
                               'read from stdin.'))
+    parser.add_argument('--ast', action='store_true',
+                        help=('Pretty print the AST, do not search the data.'))
     args = parser.parse_args()
     expression = args.expression
+    if args.ast:
+        # Only print the AST
+        expression = jmespath.compile(args.expression)
+        sys.stdout.write(str(expression))
+        sys.stdout.write('\n')
+        return 0
     if args.filename:
         with open(args.filename, 'r') as f:
             data = json.load(f)
