@@ -359,28 +359,28 @@ class TestAST(unittest.TestCase):
     def test_projection_no_left(self):
         # [*].bar
         field_bar = ast.Field('bar')
-        projection = ast.Projection(None, field_bar)
+        projection = ast.Projection(ast.Identity(), field_bar)
         data = [{'bar': 1}, {'bar': 2}, {'bar': 3}]
         self.assertEqual(projection.search(data), [1, 2, 3])
 
     def test_projection_no_right(self):
         # foo[*]
         field_foo = ast.Field('foo')
-        projection = ast.Projection(field_foo, None)
+        projection = ast.Projection(field_foo, ast.Identity())
         data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
         self.assertEqual(projection.search(data),
                          [{'bar': 1}, {'bar': 2}, {'bar': 3}])
 
     def test_bare_projection(self):
         # [*]
-        projection = ast.Projection(None, None)
+        projection = ast.Projection(ast.Identity(), ast.Identity())
         data = [{'bar': 1}, {'bar': 2}, {'bar': 3}]
         self.assertEqual(projection.search(data), data)
 
     def test_base_projection_on_invalid_type(self):
         # [*]
         data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
-        projection = ast.Projection(None, None)
+        projection = ast.Projection(ast.Identity(), ast.Identity())
         # search() should return None because the evaluated
         # type is a dict, not a list.
         self.assertIsNone(projection.search(data))
@@ -421,7 +421,7 @@ class TestAST(unittest.TestCase):
 
     def test_root_value_projection(self):
         # *
-        projection = ast.ValueProjection(None, None)
+        projection = ast.ValueProjection(ast.Identity(), ast.Identity())
         data = {
             'a': 1,
             'b': 2,
@@ -433,7 +433,7 @@ class TestAST(unittest.TestCase):
     def test_no_left_node_value_projection(self):
         # *.bar
         field_bar = ast.Field('bar')
-        projection = ast.ValueProjection(None, field_bar)
+        projection = ast.ValueProjection(ast.Identity(), field_bar)
         data = {
             'a': {'bar': 1},
             'b': {'bar': 2},
@@ -445,7 +445,7 @@ class TestAST(unittest.TestCase):
     def test_no_right_node_value_projection(self):
         # foo.*
         field_foo = ast.Field('foo')
-        projection = ast.ValueProjection(field_foo, None)
+        projection = ast.ValueProjection(field_foo, ast.Identity())
         data = {
             'foo': {
                 'a': 1,
@@ -455,6 +455,46 @@ class TestAST(unittest.TestCase):
         }
         result = list(sorted(projection.search(data)))
         self.assertEqual(result, [1, 2, 3])
+
+    def test_filter_projection(self):
+        # foo[?bar==`1`].baz
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        field_baz = ast.Field('baz')
+        literal = ast.Literal(1)
+        comparator = ast.OPEquals(field_bar, literal)
+        filter_projection = ast.FilterProjection(field_foo, field_baz, comparator)
+        data = {
+            'foo': [{'bar': 1}, {'bar': 2}, {'bar': 1, 'baz': 3}]
+        }
+        result = filter_projection.search(data)
+        self.assertEqual(result, [3])
+
+    def test_flatten_projection(self):
+        # foo[].bar
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        projection = ast.FlattenProjection(field_foo, field_bar)
+        data = {'foo': [{'bar': 1}, {'bar': 2}, {'bar': 3}]}
+        self.assertEqual(projection.search(data), [1, 2, 3])
+
+    def test_multiple_flatten_projection(self):
+        # foo[].bar[].baz
+        field_foo = ast.Field('foo')
+        field_bar = ast.Field('bar')
+        field_baz = ast.Field('baz')
+        flatten_foo = ast.FlattenProjection(field_foo, field_bar)
+        flatten = ast.FlattenProjection(flatten_foo, field_baz)
+        data = {
+            'foo': [
+                {'bar': [{'baz': 1}, {'baz': 2}, {'baz': 3}],
+                 'other': 1},
+                {'bar': [{'baz': 4}, {'baz': 5}, {'baz': 6}],
+                 'other': 2},
+            ]
+        }
+        self.assertEqual(flatten.search(data),
+                         [1, 2, 3, 4, 5, 6])
 
 
 if __name__ == '__main__':

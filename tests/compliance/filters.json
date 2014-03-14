@@ -18,6 +18,11 @@
         "comment": "Matching an expression",
         "expression": "foo[?first == last]",
         "result": [{"first": "foo", "last": "foo"}]
+      },
+      {
+        "comment": "Verify projection created from filter",
+        "expression": "foo[?first == last].first",
+        "result": ["foo"]
       }
     ]
   },

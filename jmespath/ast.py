@@ -799,29 +799,28 @@ class Projection(AST):
         self.children = [left, right]
 
     def search(self, value):
-        base = self._get_base_element(value)
+        base = self._evaluate_left_child(value)
         if base is None:
             return None
-        if self.children[1] is None:
-            return base
         else:
-            collected = []
-            for element in base:
-                current = self.children[1].search(element)
-                if current is not None:
-                    collected.append(current)
+            collected = self._evaluate_right_child(base)
             return collected
 
-    def _get_base_element(self, value):
-        if self.children[0] is not None:
-            base = self.children[0].search(value)
+    def _evaluate_left_child(self, value):
+        base = self.children[0].search(value)
+        if isinstance(base, list):
+            return base
         else:
-            base = value
-        if not isinstance(base, list):
             # Invalid type, so we return None.
             return None
-        else:
-            return base
+
+    def _evaluate_right_child(self, value):
+        collected = []
+        for element in value:
+            current = self.children[1].search(element)
+            if current is not None:
+                collected.append(current)
+        return collected
 
     def pretty_print(self, indent=''):
         sub_indent = indent + ' ' * 4
@@ -832,12 +831,41 @@ class Projection(AST):
 
 
 class ValueProjection(Projection):
-    def _get_base_element(self, value):
-        if self.children[0] is not None:
-            base_hash = self.children[0].search(value)
-        else:
-            base_hash = value
+    def _evaluate_left_child(self, value):
+        base_hash = self.children[0].search(value)
         try:
             return base_hash.values()
         except AttributeError:
             return None
+
+
+class FilterProjection(Projection):
+    # A filter projection is a left projection that
+    # filter elements against an expression before allowing
+    # them to be right evaluated.
+    def __init__(self, left, right, comparator):
+        self.children = [left, right, comparator]
+
+    def _evaluate_left_child(self, value):
+        left_eval = super(FilterProjection, self)._evaluate_left_child(value)
+        result = []
+        for element in left_eval:
+            if self.children[2].search(element):
+                result.append(element)
+        return result
+
+
+class FlattenProjection(Projection):
+    # A flatten projection is a right projection that
+    # flattens (up to a single level) the projected elements from
+    # the right side evaluation.
+    def _evaluate_right_child(self, value):
+        collected = super(FlattenProjection, self)._evaluate_right_child(value)
+        # Reduce inner list elements into a single list.
+        merged_list = []
+        for element in collected:
+            if isinstance(element, list):
+                merged_list.extend(element)
+            else:
+                merged_list.append(element)
+        return merged_list
