@@ -61,8 +61,9 @@ class RuntimeFunctions(object):
     FUNCTION_TABLE = {
     }
 
-    def __init__(self):
+    def __init__(self, scope):
         self._interpreter = None
+        self._scope = scope
 
     @property
     def interpreter(self):
@@ -325,6 +326,14 @@ class RuntimeFunctions(object):
                                         ['number', 'string'],
                                         'min_by')
         return max(array, key=keyfunc)
+
+    @builtin_function({'types': ['object']}, {'types': ['expref']})
+    def _func_let(self, lexical_scope, expref):
+        self._scope.push_scope(lexical_scope)
+        try:
+            return self.interpreter.visit(expref.expression, expref.context)
+        finally:
+            self._scope.pop_scope()
 
     def _create_key_func(self, expr_node, allowed_types, function_name):
         interpreter = self.interpreter
