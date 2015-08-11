@@ -1,4 +1,5 @@
 import random
+from StringIO import StringIO
 
 import ply.yacc
 import ply.lex
@@ -77,9 +78,7 @@ class Grammar(object):
         ('left', 'PIPE'),
         ('left', 'OR'),
         ('left', 'AND'),
-        ('left', 'DOT', 'STAR'),
-        ('left', 'LT', 'LTE', 'GT', 'GTE', 'EQ'),
-        ('right', 'LBRACKET', 'RBRACKET'),
+        ('left', 'RBRACKET'),
     )
 
     def p_jmespath_subexpression(self, p):
@@ -318,6 +317,7 @@ class Parser(object):
         self._grammar = grammar
         self.tokens = self._lexer_definition.tokens
         self._debug = debug
+        self.errors = StringIO()
 
     def parse(self, expression):
         cached = self._cache.get(expression)
@@ -329,8 +329,8 @@ class Parser(object):
         grammar = self._grammar()
         grammar.tokens = self._lexer_definition.tokens
         parser = ply.yacc.yacc(module=grammar, debug=self._debug,
-                               tabmodule=self._table_module,
-                               write_tables=True)
+                               errorlog=ply.yacc.PlyLogger(self.errors),
+                               write_tables=False)
         parsed = self._parse_expression(parser=parser, expression=expression,
                                         lexer_obj=lexer)
         parsed_result = ParsedResult(expression, parsed)
