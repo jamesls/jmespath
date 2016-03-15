@@ -5,10 +5,9 @@ from json import loads
 from jmespath.exceptions import LexerError, EmptyExpressionError
 
 
-class Lexer(object):
+cdef class Lexer(object):
     START_IDENTIFIER = set(string.ascii_letters + '_')
     VALID_IDENTIFIER = set(string.ascii_letters + string.digits + '_')
-    VALID_NUMBER = set(string.digits)
     WHITESPACE = set(" \t\n\r")
     SIMPLE_TOKENS = {
         '.': 'dot',
@@ -22,6 +21,17 @@ class Lexer(object):
         '{': 'lbrace',
         '}': 'rbrace',
     }
+
+    cdef int _position, _length
+    cdef basestring _expression, _current
+    cdef object _chars
+
+    def __init__(self):
+        self._position = 0
+        self._expression = ''
+        self._chars = []
+        self._current = ''
+        self._length = 0
 
     def tokenize(self, expression):
         self._initialize_for_expression(expression)
@@ -62,7 +72,7 @@ class Lexer(object):
                 yield self._match_or_else('&', 'and', 'expref')
             elif self._current == '`':
                 yield self._consume_literal()
-            elif self._current in self.VALID_NUMBER:
+            elif '0' <= self._current <= '9':
                 start = self._position
                 buff = self._consume_number()
                 yield {'type': 'number', 'value': int(buff),
@@ -96,9 +106,8 @@ class Lexer(object):
                'start': self._length, 'end': self._length}
 
     def _consume_number(self):
-        start = self._position
         buff = self._current
-        while self._next() in self.VALID_NUMBER:
+        while '0' <= self._next() <= '9':
             buff += self._current
         return buff
 
@@ -190,9 +199,3 @@ class Lexer(object):
                     'start': start, 'end': start + 1}
         return {'type': else_type, 'value': current,
                 'start': start, 'end': start}
-
-
-try:
-    from jmespath._lexer import Lexer
-except ImportError:
-    pass

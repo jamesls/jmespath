@@ -5,6 +5,7 @@ import sys
 import io
 
 from setuptools import setup, find_packages
+from distutils.extension import Extension
 
 
 setup(
@@ -17,6 +18,7 @@ setup(
     url='https://github.com/jmespath/jmespath.py',
     scripts=['bin/jp.py'],
     packages=find_packages(exclude=['tests']),
+    ext_modules=[Extension('jmespath._lexer', [os.path.join('jmespath', '_lexer.c')])],
     classifiers=(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
