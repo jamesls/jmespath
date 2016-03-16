@@ -7,13 +7,16 @@ from jmespath.exceptions import LexerError, EmptyExpressionError
 cdef unsigned long long IDENT_START = 0x7fffffe87fffffe
 cdef unsigned long long *IDENT_TRAIL = [0x3ff000000000000, 0x7fffffe87fffffe]
 
+DEF LBRACKET = ord('[')
+DEF RBRACKET = ord(']')
+DEF ZERO = ord('0')
+DEF NINE = ord('9')
 
-cdef _is_ident_start(s):
-    cdef unsigned long long i
-    i = ord(s)
-    if i < 65:
+
+cdef _is_ident_start(unsigned long long ch):
+    if ch < 65:
         return False
-    return (IDENT_START & (1ULL << (i - 64ULL))) > 0
+    return (IDENT_START & (1ULL << (ch - 64ULL))) > 0
 
 
 cdef _is_ident_trailing(s):
@@ -56,25 +59,25 @@ cdef class Lexer(object):
 
     def tokenize(self, expression):
         self._initialize_for_expression(expression)
+        cdef unsigned curchar
         while self._current is not None:
-            if self._current in self.SIMPLE_TOKENS:
-                yield {'type': self.SIMPLE_TOKENS[self._current],
-                       'value': self._current,
-                       'start': self._position, 'end': self._position + 1}
-                self._next()
-            elif _is_ident_start(self._current):
+            curchar = ord(self._current)
+            if _is_ident_start(curchar):
                 start = self._position
                 buff = self._current
                 while _is_ident_trailing(self._next()):
                     buff += self._current
                 yield {'type': 'unquoted_identifier', 'value': buff,
                        'start': start, 'end': start + len(buff)}
-            elif self._current in self.WHITESPACE:
+            elif self._current in self.SIMPLE_TOKENS:
+                yield {'type': self.SIMPLE_TOKENS[self._current],
+                       'value': self._current,
+                       'start': self._position, 'end': self._position + 1}
                 self._next()
-            elif self._current == '[':
+            elif curchar == LBRACKET:
                 start = self._position
                 next_char = self._next()
-                if next_char == ']':
+                if next_char is not None and ord(next_char) == RBRACKET:
                     self._next()
                     yield {'type': 'flatten', 'value': '[]',
                            'start': start, 'end': start + 2}
@@ -93,7 +96,7 @@ cdef class Lexer(object):
                 yield self._match_or_else('&', 'and', 'expref')
             elif self._current == '`':
                 yield self._consume_literal()
-            elif '0' <= self._current <= '9':
+            elif ZERO <= curchar <= NINE:
                 start = self._position
                 buff = self._consume_number()
                 yield {'type': 'number', 'value': int(buff),
@@ -119,6 +122,8 @@ cdef class Lexer(object):
                 yield self._match_or_else('=', 'ne', 'not')
             elif self._current == '=':
                 yield self._match_or_else('=', 'eq', 'unknown')
+            elif self._current in self.WHITESPACE:
+                self._next()
             else:
                 raise LexerError(lexer_position=self._position,
                                  lexer_value=self._current,
@@ -128,8 +133,16 @@ cdef class Lexer(object):
 
     cdef _consume_number(self):
         buff = self._current
-        while '0' <= self._next() <= '9':
-            buff += self._current
+        cdef unsigned ch
+        while True:
+            current = self._next()
+            if current is None:
+                break
+            ch = ord(current)
+            if ZERO <= ch <= NINE:
+                buff += current
+            else:
+                break
         return buff
 
     cdef _initialize_for_expression(self, basestring expression):
@@ -142,12 +155,13 @@ cdef class Lexer(object):
         self._length = len(self._expression)
 
     cdef _next(self):
-        if self._position == self._length - 1:
-            self._current = None
-        else:
-            self._position += 1
+        self._position += 1
+        if self._position != self._length:
             self._current = self._chars[self._position]
-        return self._current
+            return self._current
+        else:
+            self._position -= 1
+            self._current = None
 
     cdef _consume_until(self, basestring delimiter):
         # Consume until the delimiter is reached,

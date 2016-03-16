@@ -451,7 +451,7 @@ static const char *__pyx_f[] = {
 struct __pyx_obj_8jmespath_6_lexer_Lexer;
 struct __pyx_obj_8jmespath_6_lexer___pyx_scope_struct__tokenize;
 
-/* "jmespath/_lexer.pyx":32
+/* "jmespath/_lexer.pyx":34
  * 
  * 
  * cdef class Lexer(object):             # <<<<<<<<<<<<<<
@@ -469,16 +469,17 @@ struct __pyx_obj_8jmespath_6_lexer_Lexer {
 };
 
 
-/* "jmespath/_lexer.pyx":58
+/* "jmespath/_lexer.pyx":60
  *         self._length = 0
  * 
  *     def tokenize(self, expression):             # <<<<<<<<<<<<<<
  *         self._initialize_for_expression(expression)
- *         while self._current is not None:
+ *         cdef unsigned curchar
  */
 struct __pyx_obj_8jmespath_6_lexer___pyx_scope_struct__tokenize {
   PyObject_HEAD
   PyObject *__pyx_v_buff;
+  unsigned int __pyx_v_curchar;
   PyObject *__pyx_v_expression;
   PyObject *__pyx_v_next_char;
   struct __pyx_obj_8jmespath_6_lexer_Lexer *__pyx_v_self;
@@ -487,7 +488,7 @@ struct __pyx_obj_8jmespath_6_lexer___pyx_scope_struct__tokenize {
 
 
 
-/* "jmespath/_lexer.pyx":32
+/* "jmespath/_lexer.pyx":34
  * 
  * 
  * cdef class Lexer(object):             # <<<<<<<<<<<<<<
@@ -609,6 +610,13 @@ static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* s
     return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
 }
 
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
+#else
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
 #include <string.h>
 
 static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
@@ -619,13 +627,6 @@ static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int 
 #define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
 #else
 #define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
@@ -771,7 +772,7 @@ static PyTypeObject *__pyx_ptype_8jmespath_6_lexer_Lexer = 0;
 static PyTypeObject *__pyx_ptype_8jmespath_6_lexer___pyx_scope_struct__tokenize = 0;
 static unsigned PY_LONG_LONG __pyx_v_8jmespath_6_lexer_IDENT_START;
 static unsigned PY_LONG_LONG *__pyx_v_8jmespath_6_lexer_IDENT_TRAIL;
-static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(PyObject *); /*proto*/
+static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(unsigned PY_LONG_LONG); /*proto*/
 static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "jmespath._lexer"
 int __pyx_module_is_main_jmespath___lexer = 0;
@@ -780,36 +781,34 @@ int __pyx_module_is_main_jmespath___lexer = 0;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_PendingDeprecationWarning;
 static char __pyx_k_[] = "";
-static char __pyx_k_0[] = "0";
-static char __pyx_k_9[] = "9";
 static char __pyx_k_s[] = "\"%s\"";
-static char __pyx_k__2[] = "[";
-static char __pyx_k__3[] = "]";
-static char __pyx_k__4[] = "[]";
-static char __pyx_k__5[] = "?";
-static char __pyx_k__6[] = "[?";
-static char __pyx_k__7[] = "'";
-static char __pyx_k__8[] = "|";
-static char __pyx_k__9[] = "&";
+static char __pyx_k__2[] = "[]";
+static char __pyx_k__3[] = "?";
+static char __pyx_k__4[] = "[?";
+static char __pyx_k__5[] = "[";
+static char __pyx_k__6[] = "'";
+static char __pyx_k__7[] = "|";
+static char __pyx_k__8[] = "&";
+static char __pyx_k__9[] = "`";
 static char __pyx_k_eq[] = "eq";
 static char __pyx_k_gt[] = "gt";
 static char __pyx_k_lt[] = "lt";
 static char __pyx_k_ne[] = "ne";
 static char __pyx_k_or[] = "or";
-static char __pyx_k__10[] = "`";
-static char __pyx_k__11[] = "-";
-static char __pyx_k__12[] = "\"";
-static char __pyx_k__13[] = "<";
-static char __pyx_k__14[] = "=";
-static char __pyx_k__15[] = ">";
-static char __pyx_k__16[] = "!";
-static char __pyx_k__17[] = "\\";
-static char __pyx_k__18[] = "\\`";
-static char __pyx_k__20[] = ":";
-static char __pyx_k__22[] = "\\'";
-static char __pyx_k__24[] = " \t\n\r";
-static char __pyx_k__25[] = ".";
-static char __pyx_k__26[] = "*";
+static char __pyx_k__10[] = "-";
+static char __pyx_k__11[] = "\"";
+static char __pyx_k__12[] = "<";
+static char __pyx_k__13[] = "=";
+static char __pyx_k__14[] = ">";
+static char __pyx_k__15[] = "!";
+static char __pyx_k__16[] = "\\";
+static char __pyx_k__17[] = "\\`";
+static char __pyx_k__19[] = ":";
+static char __pyx_k__21[] = "\\'";
+static char __pyx_k__23[] = " \t\n\r";
+static char __pyx_k__24[] = ".";
+static char __pyx_k__25[] = "*";
+static char __pyx_k__26[] = "]";
 static char __pyx_k__27[] = ",";
 static char __pyx_k__28[] = "@";
 static char __pyx_k__29[] = "(";
@@ -879,8 +878,6 @@ static char __pyx_k_Unclosed_s_delimiter[] = "Unclosed %s delimiter";
 static char __pyx_k_PendingDeprecationWarning[] = "PendingDeprecationWarning";
 static char __pyx_k_deprecated_string_literal_syntax[] = "deprecated string literal syntax";
 static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_0;
-static PyObject *__pyx_kp_s_9;
 static PyObject *__pyx_kp_s_Bad_token_s;
 static PyObject *__pyx_n_s_EmptyExpressionError;
 static PyObject *__pyx_n_s_LexerError;
@@ -900,10 +897,10 @@ static PyObject *__pyx_kp_s__14;
 static PyObject *__pyx_kp_s__15;
 static PyObject *__pyx_kp_s__16;
 static PyObject *__pyx_kp_s__17;
-static PyObject *__pyx_kp_s__18;
+static PyObject *__pyx_kp_s__19;
 static PyObject *__pyx_kp_s__2;
-static PyObject *__pyx_kp_s__20;
-static PyObject *__pyx_kp_s__22;
+static PyObject *__pyx_kp_s__21;
+static PyObject *__pyx_kp_s__23;
 static PyObject *__pyx_kp_s__24;
 static PyObject *__pyx_kp_s__25;
 static PyObject *__pyx_kp_s__26;
@@ -983,55 +980,43 @@ static PyObject *__pyx_tp_new_8jmespath_6_lexer_Lexer(PyTypeObject *t, PyObject 
 static PyObject *__pyx_tp_new_8jmespath_6_lexer___pyx_scope_struct__tokenize(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
-static PyObject *__pyx_tuple__19;
-static PyObject *__pyx_tuple__21;
-static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__22;
 
-/* "jmespath/_lexer.pyx":11
+/* "jmespath/_lexer.pyx":16
  * 
  * 
- * cdef _is_ident_start(s):             # <<<<<<<<<<<<<<
- *     cdef unsigned long long i
- *     i = ord(s)
+ * cdef _is_ident_start(unsigned long long ch):             # <<<<<<<<<<<<<<
+ *     if ch < 65:
+ *         return False
  */
 
-static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(PyObject *__pyx_v_s) {
-  unsigned PY_LONG_LONG __pyx_v_i;
+static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(unsigned PY_LONG_LONG __pyx_v_ch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  long __pyx_t_1;
-  int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_is_ident_start", 0);
 
-  /* "jmespath/_lexer.pyx":13
- * cdef _is_ident_start(s):
- *     cdef unsigned long long i
- *     i = ord(s)             # <<<<<<<<<<<<<<
- *     if i < 65:
+  /* "jmespath/_lexer.pyx":17
+ * 
+ * cdef _is_ident_start(unsigned long long ch):
+ *     if ch < 65:             # <<<<<<<<<<<<<<
  *         return False
+ *     return (IDENT_START & (1ULL << (ch - 64ULL))) > 0
  */
-  __pyx_t_1 = __Pyx_PyObject_Ord(__pyx_v_s); if (unlikely(__pyx_t_1 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_i = __pyx_t_1;
+  __pyx_t_1 = ((__pyx_v_ch < 65) != 0);
+  if (__pyx_t_1) {
 
-  /* "jmespath/_lexer.pyx":14
- *     cdef unsigned long long i
- *     i = ord(s)
- *     if i < 65:             # <<<<<<<<<<<<<<
- *         return False
- *     return (IDENT_START & (1ULL << (i - 64ULL))) > 0
- */
-  __pyx_t_2 = ((__pyx_v_i < 65) != 0);
-  if (__pyx_t_2) {
-
-    /* "jmespath/_lexer.pyx":15
- *     i = ord(s)
- *     if i < 65:
+    /* "jmespath/_lexer.pyx":18
+ * cdef _is_ident_start(unsigned long long ch):
+ *     if ch < 65:
  *         return False             # <<<<<<<<<<<<<<
- *     return (IDENT_START & (1ULL << (i - 64ULL))) > 0
+ *     return (IDENT_START & (1ULL << (ch - 64ULL))) > 0
  * 
  */
     __Pyx_XDECREF(__pyx_r);
@@ -1039,40 +1024,40 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(PyObject *__pyx_v_s) 
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "jmespath/_lexer.pyx":14
- *     cdef unsigned long long i
- *     i = ord(s)
- *     if i < 65:             # <<<<<<<<<<<<<<
+    /* "jmespath/_lexer.pyx":17
+ * 
+ * cdef _is_ident_start(unsigned long long ch):
+ *     if ch < 65:             # <<<<<<<<<<<<<<
  *         return False
- *     return (IDENT_START & (1ULL << (i - 64ULL))) > 0
+ *     return (IDENT_START & (1ULL << (ch - 64ULL))) > 0
  */
   }
 
-  /* "jmespath/_lexer.pyx":16
- *     if i < 65:
+  /* "jmespath/_lexer.pyx":19
+ *     if ch < 65:
  *         return False
- *     return (IDENT_START & (1ULL << (i - 64ULL))) > 0             # <<<<<<<<<<<<<<
+ *     return (IDENT_START & (1ULL << (ch - 64ULL))) > 0             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyBool_FromLong(((__pyx_v_8jmespath_6_lexer_IDENT_START & (1ULL << (__pyx_v_i - 64ULL))) > 0)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyBool_FromLong(((__pyx_v_8jmespath_6_lexer_IDENT_START & (1ULL << (__pyx_v_ch - 64ULL))) > 0)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":11
+  /* "jmespath/_lexer.pyx":16
  * 
  * 
- * cdef _is_ident_start(s):             # <<<<<<<<<<<<<<
- *     cdef unsigned long long i
- *     i = ord(s)
+ * cdef _is_ident_start(unsigned long long ch):             # <<<<<<<<<<<<<<
+ *     if ch < 65:
+ *         return False
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("jmespath._lexer._is_ident_start", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -1081,7 +1066,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_start(PyObject *__pyx_v_s) 
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":19
+/* "jmespath/_lexer.pyx":22
  * 
  * 
  * cdef _is_ident_trailing(s):             # <<<<<<<<<<<<<<
@@ -1103,7 +1088,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_is_ident_trailing", 0);
 
-  /* "jmespath/_lexer.pyx":22
+  /* "jmespath/_lexer.pyx":25
  *     cdef unsigned x
  *     cdef unsigned long long chrbit
  *     if s is None:             # <<<<<<<<<<<<<<
@@ -1114,7 +1099,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "jmespath/_lexer.pyx":23
+    /* "jmespath/_lexer.pyx":26
  *     cdef unsigned long long chrbit
  *     if s is None:
  *         return None             # <<<<<<<<<<<<<<
@@ -1126,7 +1111,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "jmespath/_lexer.pyx":22
+    /* "jmespath/_lexer.pyx":25
  *     cdef unsigned x
  *     cdef unsigned long long chrbit
  *     if s is None:             # <<<<<<<<<<<<<<
@@ -1135,17 +1120,17 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
  */
   }
 
-  /* "jmespath/_lexer.pyx":24
+  /* "jmespath/_lexer.pyx":27
  *     if s is None:
  *         return None
  *     x = ord(s)             # <<<<<<<<<<<<<<
  *     if x > 128:
  *         return False
  */
-  __pyx_t_3 = __Pyx_PyObject_Ord(__pyx_v_s); if (unlikely(__pyx_t_3 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Ord(__pyx_v_s); if (unlikely(__pyx_t_3 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_x = __pyx_t_3;
 
-  /* "jmespath/_lexer.pyx":25
+  /* "jmespath/_lexer.pyx":28
  *         return None
  *     x = ord(s)
  *     if x > 128:             # <<<<<<<<<<<<<<
@@ -1155,7 +1140,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
   __pyx_t_2 = ((__pyx_v_x > 0x80) != 0);
   if (__pyx_t_2) {
 
-    /* "jmespath/_lexer.pyx":26
+    /* "jmespath/_lexer.pyx":29
  *     x = ord(s)
  *     if x > 128:
  *         return False             # <<<<<<<<<<<<<<
@@ -1167,7 +1152,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "jmespath/_lexer.pyx":25
+    /* "jmespath/_lexer.pyx":28
  *         return None
  *     x = ord(s)
  *     if x > 128:             # <<<<<<<<<<<<<<
@@ -1176,7 +1161,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
  */
   }
 
-  /* "jmespath/_lexer.pyx":27
+  /* "jmespath/_lexer.pyx":30
  *     if x > 128:
  *         return False
  *     chrbit = (1ULL << (x % 64ULL))             # <<<<<<<<<<<<<<
@@ -1185,7 +1170,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
  */
   __pyx_v_chrbit = (1ULL << (__pyx_v_x % 64ULL));
 
-  /* "jmespath/_lexer.pyx":28
+  /* "jmespath/_lexer.pyx":31
  *         return False
  *     chrbit = (1ULL << (x % 64ULL))
  *     return (IDENT_TRAIL[x / 64] & chrbit) > 0             # <<<<<<<<<<<<<<
@@ -1193,13 +1178,13 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyBool_FromLong((((__pyx_v_8jmespath_6_lexer_IDENT_TRAIL[__Pyx_div_long(__pyx_v_x, 64)]) & __pyx_v_chrbit) > 0)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyBool_FromLong((((__pyx_v_8jmespath_6_lexer_IDENT_TRAIL[__Pyx_div_long(__pyx_v_x, 64)]) & __pyx_v_chrbit) > 0)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":19
+  /* "jmespath/_lexer.pyx":22
  * 
  * 
  * cdef _is_ident_trailing(s):             # <<<<<<<<<<<<<<
@@ -1218,7 +1203,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer__is_ident_trailing(PyObject *__pyx_v_
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":51
+/* "jmespath/_lexer.pyx":53
  *     cdef object _chars
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -1251,7 +1236,7 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "jmespath/_lexer.pyx":52
+  /* "jmespath/_lexer.pyx":54
  * 
  *     def __init__(self):
  *         self._position = 0             # <<<<<<<<<<<<<<
@@ -1260,7 +1245,7 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
  */
   __pyx_v_self->_position = 0;
 
-  /* "jmespath/_lexer.pyx":53
+  /* "jmespath/_lexer.pyx":55
  *     def __init__(self):
  *         self._position = 0
  *         self._expression = ''             # <<<<<<<<<<<<<<
@@ -1273,14 +1258,14 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
   __Pyx_DECREF(__pyx_v_self->_expression);
   __pyx_v_self->_expression = ((PyObject*)__pyx_kp_s_);
 
-  /* "jmespath/_lexer.pyx":54
+  /* "jmespath/_lexer.pyx":56
  *         self._position = 0
  *         self._expression = ''
  *         self._chars = []             # <<<<<<<<<<<<<<
  *         self._current = ''
  *         self._length = 0
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->_chars);
@@ -1288,7 +1273,7 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
   __pyx_v_self->_chars = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":55
+  /* "jmespath/_lexer.pyx":57
  *         self._expression = ''
  *         self._chars = []
  *         self._current = ''             # <<<<<<<<<<<<<<
@@ -1301,7 +1286,7 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
   __Pyx_DECREF(__pyx_v_self->_current);
   __pyx_v_self->_current = ((PyObject*)__pyx_kp_s_);
 
-  /* "jmespath/_lexer.pyx":56
+  /* "jmespath/_lexer.pyx":58
  *         self._chars = []
  *         self._current = ''
  *         self._length = 0             # <<<<<<<<<<<<<<
@@ -1310,7 +1295,7 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
  */
   __pyx_v_self->_length = 0;
 
-  /* "jmespath/_lexer.pyx":51
+  /* "jmespath/_lexer.pyx":53
  *     cdef object _chars
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -1331,12 +1316,12 @@ static int __pyx_pf_8jmespath_6_lexer_5Lexer___init__(struct __pyx_obj_8jmespath
 }
 static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
-/* "jmespath/_lexer.pyx":58
+/* "jmespath/_lexer.pyx":60
  *         self._length = 0
  * 
  *     def tokenize(self, expression):             # <<<<<<<<<<<<<<
  *         self._initialize_for_expression(expression)
- *         while self._current is not None:
+ *         cdef unsigned curchar
  */
 
 /* Python wrapper */
@@ -1373,7 +1358,7 @@ static PyObject *__pyx_pf_8jmespath_6_lexer_5Lexer_2tokenize(struct __pyx_obj_8j
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_expression);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_expression);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_8jmespath_6_lexer_5Lexer_4generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_tokenize, __pyx_n_s_Lexer_tokenize); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_8jmespath_6_lexer_5Lexer_4generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_tokenize, __pyx_n_s_Lexer_tokenize); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -1396,9 +1381,11 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
   int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
+  long __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   Py_ssize_t __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1406,185 +1393,109 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
   __Pyx_RefNannySetupContext("None", 0);
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
-    case 1: goto __pyx_L7_resume_from_yield;
+    case 1: goto __pyx_L9_resume_from_yield;
     case 2: goto __pyx_L10_resume_from_yield;
-    case 3: goto __pyx_L12_resume_from_yield;
-    case 4: goto __pyx_L13_resume_from_yield;
-    case 5: goto __pyx_L14_resume_from_yield;
-    case 6: goto __pyx_L15_resume_from_yield;
-    case 7: goto __pyx_L16_resume_from_yield;
-    case 8: goto __pyx_L17_resume_from_yield;
-    case 9: goto __pyx_L18_resume_from_yield;
-    case 10: goto __pyx_L19_resume_from_yield;
-    case 11: goto __pyx_L21_resume_from_yield;
-    case 12: goto __pyx_L22_resume_from_yield;
-    case 13: goto __pyx_L23_resume_from_yield;
-    case 14: goto __pyx_L24_resume_from_yield;
-    case 15: goto __pyx_L25_resume_from_yield;
-    case 16: goto __pyx_L26_resume_from_yield;
-    case 17: goto __pyx_L27_resume_from_yield;
+    case 3: goto __pyx_L14_resume_from_yield;
+    case 4: goto __pyx_L15_resume_from_yield;
+    case 5: goto __pyx_L16_resume_from_yield;
+    case 6: goto __pyx_L17_resume_from_yield;
+    case 7: goto __pyx_L18_resume_from_yield;
+    case 8: goto __pyx_L19_resume_from_yield;
+    case 9: goto __pyx_L20_resume_from_yield;
+    case 10: goto __pyx_L21_resume_from_yield;
+    case 11: goto __pyx_L23_resume_from_yield;
+    case 12: goto __pyx_L24_resume_from_yield;
+    case 13: goto __pyx_L25_resume_from_yield;
+    case 14: goto __pyx_L26_resume_from_yield;
+    case 15: goto __pyx_L27_resume_from_yield;
+    case 16: goto __pyx_L28_resume_from_yield;
+    case 17: goto __pyx_L29_resume_from_yield;
     default: /* CPython raises the right error here */
     __Pyx_RefNannyFinishContext();
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":59
+  /* "jmespath/_lexer.pyx":61
  * 
  *     def tokenize(self, expression):
  *         self._initialize_for_expression(expression)             # <<<<<<<<<<<<<<
+ *         cdef unsigned curchar
  *         while self._current is not None:
- *             if self._current in self.SIMPLE_TOKENS:
  */
-  if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_cur_scope->__pyx_v_expression))||((__pyx_cur_scope->__pyx_v_expression) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_cur_scope->__pyx_v_expression)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_initialize_for_expression(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_cur_scope->__pyx_v_expression)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_cur_scope->__pyx_v_expression))||((__pyx_cur_scope->__pyx_v_expression) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_cur_scope->__pyx_v_expression)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_initialize_for_expression(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_cur_scope->__pyx_v_expression)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":60
- *     def tokenize(self, expression):
+  /* "jmespath/_lexer.pyx":63
  *         self._initialize_for_expression(expression)
+ *         cdef unsigned curchar
  *         while self._current is not None:             # <<<<<<<<<<<<<<
- *             if self._current in self.SIMPLE_TOKENS:
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],
+ *             curchar = ord(self._current)
+ *             if _is_ident_start(curchar):
  */
   while (1) {
     __pyx_t_2 = (__pyx_cur_scope->__pyx_v_self->_current != ((PyObject*)Py_None));
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "jmespath/_lexer.pyx":61
- *         self._initialize_for_expression(expression)
+    /* "jmespath/_lexer.pyx":64
+ *         cdef unsigned curchar
  *         while self._current is not None:
- *             if self._current in self.SIMPLE_TOKENS:             # <<<<<<<<<<<<<<
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],
- *                        'value': self._current,
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_SIMPLE_TOKENS); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_cur_scope->__pyx_v_self->_current, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_2 = (__pyx_t_3 != 0);
-    if (__pyx_t_2) {
-
-      /* "jmespath/_lexer.pyx":62
- *         while self._current is not None:
- *             if self._current in self.SIMPLE_TOKENS:
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],             # <<<<<<<<<<<<<<
- *                        'value': self._current,
- *                        'start': self._position, 'end': self._position + 1}
- */
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_SIMPLE_TOKENS); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PyObject_GetItem(__pyx_t_4, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-      /* "jmespath/_lexer.pyx":63
- *             if self._current in self.SIMPLE_TOKENS:
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],
- *                        'value': self._current,             # <<<<<<<<<<<<<<
- *                        'start': self._position, 'end': self._position + 1}
- *                 self._next()
- */
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_cur_scope->__pyx_v_self->_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-      /* "jmespath/_lexer.pyx":64
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],
- *                        'value': self._current,
- *                        'start': self._position, 'end': self._position + 1}             # <<<<<<<<<<<<<<
- *                 self._next()
- *             elif _is_ident_start(self._current):
- */
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_cur_scope->__pyx_v_self->_position + 1)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
-      __Pyx_XGIVEREF(__pyx_r);
-      __Pyx_RefNannyFinishContext();
-      /* return from generator, yielding value */
-      __pyx_generator->resume_label = 1;
-      return __pyx_r;
-      __pyx_L7_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-      /* "jmespath/_lexer.pyx":65
- *                        'value': self._current,
- *                        'start': self._position, 'end': self._position + 1}
- *                 self._next()             # <<<<<<<<<<<<<<
- *             elif _is_ident_start(self._current):
+ *             curchar = ord(self._current)             # <<<<<<<<<<<<<<
+ *             if _is_ident_start(curchar):
  *                 start = self._position
- */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-      /* "jmespath/_lexer.pyx":61
- *         self._initialize_for_expression(expression)
- *         while self._current is not None:
- *             if self._current in self.SIMPLE_TOKENS:             # <<<<<<<<<<<<<<
- *                 yield {'type': self.SIMPLE_TOKENS[self._current],
- *                        'value': self._current,
- */
-      goto __pyx_L6;
-    }
-
-    /* "jmespath/_lexer.pyx":66
- *                        'start': self._position, 'end': self._position + 1}
- *                 self._next()
- *             elif _is_ident_start(self._current):             # <<<<<<<<<<<<<<
- *                 start = self._position
- *                 buff = self._current
  */
     __pyx_t_1 = __pyx_cur_scope->__pyx_v_self->_current;
     __Pyx_INCREF(__pyx_t_1);
-    __pyx_t_5 = __pyx_f_8jmespath_6_lexer__is_ident_start(__pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyObject_Ord(__pyx_t_1); if (unlikely(__pyx_t_4 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__pyx_t_2) {
+    __pyx_cur_scope->__pyx_v_curchar = __pyx_t_4;
 
-      /* "jmespath/_lexer.pyx":67
- *                 self._next()
- *             elif _is_ident_start(self._current):
+    /* "jmespath/_lexer.pyx":65
+ *         while self._current is not None:
+ *             curchar = ord(self._current)
+ *             if _is_ident_start(curchar):             # <<<<<<<<<<<<<<
+ *                 start = self._position
+ *                 buff = self._current
+ */
+    __pyx_t_1 = __pyx_f_8jmespath_6_lexer__is_ident_start(__pyx_cur_scope->__pyx_v_curchar); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (__pyx_t_3) {
+
+      /* "jmespath/_lexer.pyx":66
+ *             curchar = ord(self._current)
+ *             if _is_ident_start(curchar):
  *                 start = self._position             # <<<<<<<<<<<<<<
  *                 buff = self._current
  *                 while _is_ident_trailing(self._next()):
  */
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_start);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_5);
-      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      __pyx_t_1 = 0;
 
-      /* "jmespath/_lexer.pyx":68
- *             elif _is_ident_start(self._current):
+      /* "jmespath/_lexer.pyx":67
+ *             if _is_ident_start(curchar):
  *                 start = self._position
  *                 buff = self._current             # <<<<<<<<<<<<<<
  *                 while _is_ident_trailing(self._next()):
  *                     buff += self._current
  */
-      __pyx_t_5 = __pyx_cur_scope->__pyx_v_self->_current;
-      __Pyx_INCREF(__pyx_t_5);
+      __pyx_t_1 = __pyx_cur_scope->__pyx_v_self->_current;
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_buff);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_5);
-      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      __pyx_t_1 = 0;
 
-      /* "jmespath/_lexer.pyx":69
+      /* "jmespath/_lexer.pyx":68
  *                 start = self._position
  *                 buff = self._current
  *                 while _is_ident_trailing(self._next()):             # <<<<<<<<<<<<<<
@@ -1592,273 +1503,333 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
  *                 yield {'type': 'unquoted_identifier', 'value': buff,
  */
       while (1) {
-        __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __pyx_f_8jmespath_6_lexer__is_ident_trailing(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = __pyx_f_8jmespath_6_lexer__is_ident_trailing(__pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (!__pyx_t_2) break;
+        __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (!__pyx_t_3) break;
 
-        /* "jmespath/_lexer.pyx":70
+        /* "jmespath/_lexer.pyx":69
  *                 buff = self._current
  *                 while _is_ident_trailing(self._next()):
  *                     buff += self._current             # <<<<<<<<<<<<<<
  *                 yield {'type': 'unquoted_identifier', 'value': buff,
  *                        'start': start, 'end': start + len(buff)}
  */
-        __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_cur_scope->__pyx_v_buff, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_cur_scope->__pyx_v_buff, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_buff);
-        __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_1);
-        __Pyx_GIVEREF(__pyx_t_1);
-        __pyx_t_1 = 0;
+        __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_5);
+        __pyx_t_5 = 0;
       }
 
-      /* "jmespath/_lexer.pyx":71
+      /* "jmespath/_lexer.pyx":70
  *                 while _is_ident_trailing(self._next()):
  *                     buff += self._current
  *                 yield {'type': 'unquoted_identifier', 'value': buff,             # <<<<<<<<<<<<<<
  *                        'start': start, 'end': start + len(buff)}
- *             elif self._current in self.WHITESPACE:
+ *             elif self._current in self.SIMPLE_TOKENS:
  */
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_unquoted_identifier) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_cur_scope->__pyx_v_buff) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_unquoted_identifier) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_cur_scope->__pyx_v_buff) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":72
+      /* "jmespath/_lexer.pyx":71
  *                     buff += self._current
  *                 yield {'type': 'unquoted_identifier', 'value': buff,
  *                        'start': start, 'end': start + len(buff)}             # <<<<<<<<<<<<<<
- *             elif self._current in self.WHITESPACE:
- *                 self._next()
+ *             elif self._current in self.SIMPLE_TOKENS:
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],
  */
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
-      __pyx_generator->resume_label = 2;
+      __pyx_generator->resume_label = 1;
       return __pyx_r;
-      __pyx_L10_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L9_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":66
- *                        'start': self._position, 'end': self._position + 1}
- *                 self._next()
- *             elif _is_ident_start(self._current):             # <<<<<<<<<<<<<<
+      /* "jmespath/_lexer.pyx":65
+ *         while self._current is not None:
+ *             curchar = ord(self._current)
+ *             if _is_ident_start(curchar):             # <<<<<<<<<<<<<<
  *                 start = self._position
  *                 buff = self._current
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":73
+    /* "jmespath/_lexer.pyx":72
  *                 yield {'type': 'unquoted_identifier', 'value': buff,
  *                        'start': start, 'end': start + len(buff)}
- *             elif self._current in self.WHITESPACE:             # <<<<<<<<<<<<<<
- *                 self._next()
- *             elif self._current == '[':
+ *             elif self._current in self.SIMPLE_TOKENS:             # <<<<<<<<<<<<<<
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],
+ *                        'value': self._current,
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_WHITESPACE); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_cur_scope->__pyx_v_self->_current, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
-
-      /* "jmespath/_lexer.pyx":74
- *                        'start': start, 'end': start + len(buff)}
- *             elif self._current in self.WHITESPACE:
- *                 self._next()             # <<<<<<<<<<<<<<
- *             elif self._current == '[':
- *                 start = self._position
- */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_SIMPLE_TOKENS); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_cur_scope->__pyx_v_self->_current, __pyx_t_5, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_2 = (__pyx_t_3 != 0);
+    if (__pyx_t_2) {
 
       /* "jmespath/_lexer.pyx":73
+ *                        'start': start, 'end': start + len(buff)}
+ *             elif self._current in self.SIMPLE_TOKENS:
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],             # <<<<<<<<<<<<<<
+ *                        'value': self._current,
+ *                        'start': self._position, 'end': self._position + 1}
+ */
+      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_SIMPLE_TOKENS); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_1 = PyObject_GetItem(__pyx_t_7, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "jmespath/_lexer.pyx":74
+ *             elif self._current in self.SIMPLE_TOKENS:
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],
+ *                        'value': self._current,             # <<<<<<<<<<<<<<
+ *                        'start': self._position, 'end': self._position + 1}
+ *                 self._next()
+ */
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_cur_scope->__pyx_v_self->_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "jmespath/_lexer.pyx":75
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],
+ *                        'value': self._current,
+ *                        'start': self._position, 'end': self._position + 1}             # <<<<<<<<<<<<<<
+ *                 self._next()
+ *             elif curchar == LBRACKET:
+ */
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_cur_scope->__pyx_v_self->_position + 1)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
+      __Pyx_XGIVEREF(__pyx_r);
+      __Pyx_RefNannyFinishContext();
+      /* return from generator, yielding value */
+      __pyx_generator->resume_label = 2;
+      return __pyx_r;
+      __pyx_L10_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "jmespath/_lexer.pyx":76
+ *                        'value': self._current,
+ *                        'start': self._position, 'end': self._position + 1}
+ *                 self._next()             # <<<<<<<<<<<<<<
+ *             elif curchar == LBRACKET:
+ *                 start = self._position
+ */
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+      /* "jmespath/_lexer.pyx":72
  *                 yield {'type': 'unquoted_identifier', 'value': buff,
  *                        'start': start, 'end': start + len(buff)}
- *             elif self._current in self.WHITESPACE:             # <<<<<<<<<<<<<<
- *                 self._next()
- *             elif self._current == '[':
+ *             elif self._current in self.SIMPLE_TOKENS:             # <<<<<<<<<<<<<<
+ *                 yield {'type': self.SIMPLE_TOKENS[self._current],
+ *                        'value': self._current,
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":75
- *             elif self._current in self.WHITESPACE:
+    /* "jmespath/_lexer.pyx":77
+ *                        'start': self._position, 'end': self._position + 1}
  *                 self._next()
- *             elif self._current == '[':             # <<<<<<<<<<<<<<
+ *             elif curchar == LBRACKET:             # <<<<<<<<<<<<<<
  *                 start = self._position
  *                 next_char = self._next()
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__2, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
+    __pyx_t_2 = ((__pyx_cur_scope->__pyx_v_curchar == 91) != 0);
     if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":76
+      /* "jmespath/_lexer.pyx":78
  *                 self._next()
- *             elif self._current == '[':
+ *             elif curchar == LBRACKET:
  *                 start = self._position             # <<<<<<<<<<<<<<
  *                 next_char = self._next()
- *                 if next_char == ']':
+ *                 if next_char is not None and ord(next_char) == RBRACKET:
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_start);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":77
- *             elif self._current == '[':
+      /* "jmespath/_lexer.pyx":79
+ *             elif curchar == LBRACKET:
  *                 start = self._position
  *                 next_char = self._next()             # <<<<<<<<<<<<<<
- *                 if next_char == ']':
+ *                 if next_char is not None and ord(next_char) == RBRACKET:
  *                     self._next()
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_next_char);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_next_char, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_next_char, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":78
+      /* "jmespath/_lexer.pyx":80
  *                 start = self._position
  *                 next_char = self._next()
- *                 if next_char == ']':             # <<<<<<<<<<<<<<
+ *                 if next_char is not None and ord(next_char) == RBRACKET:             # <<<<<<<<<<<<<<
  *                     self._next()
  *                     yield {'type': 'flatten', 'value': '[]',
  */
-      __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_next_char, __pyx_kp_s__3, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = (__pyx_cur_scope->__pyx_v_next_char != Py_None);
+      __pyx_t_8 = (__pyx_t_3 != 0);
+      if (__pyx_t_8) {
+      } else {
+        __pyx_t_2 = __pyx_t_8;
+        goto __pyx_L12_bool_binop_done;
+      }
+      __pyx_t_4 = __Pyx_PyObject_Ord(__pyx_cur_scope->__pyx_v_next_char); if (unlikely(__pyx_t_4 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_8 = ((__pyx_t_4 == 93) != 0);
+      __pyx_t_2 = __pyx_t_8;
+      __pyx_L12_bool_binop_done:;
       if (__pyx_t_2) {
 
-        /* "jmespath/_lexer.pyx":79
+        /* "jmespath/_lexer.pyx":81
  *                 next_char = self._next()
- *                 if next_char == ']':
+ *                 if next_char is not None and ord(next_char) == RBRACKET:
  *                     self._next()             # <<<<<<<<<<<<<<
  *                     yield {'type': 'flatten', 'value': '[]',
  *                            'start': start, 'end': start + 2}
  */
-        __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "jmespath/_lexer.pyx":80
- *                 if next_char == ']':
+        /* "jmespath/_lexer.pyx":82
+ *                 if next_char is not None and ord(next_char) == RBRACKET:
  *                     self._next()
  *                     yield {'type': 'flatten', 'value': '[]',             # <<<<<<<<<<<<<<
  *                            'start': start, 'end': start + 2}
  *                 elif next_char == '?':
  */
-        __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_flatten) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_kp_s__4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_flatten) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_kp_s__2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":81
+        /* "jmespath/_lexer.pyx":83
  *                     self._next()
  *                     yield {'type': 'flatten', 'value': '[]',
  *                            'start': start, 'end': start + 2}             # <<<<<<<<<<<<<<
  *                 elif next_char == '?':
  *                     self._next()
  */
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_r = __pyx_t_1;
-        __pyx_t_1 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_r = __pyx_t_5;
+        __pyx_t_5 = 0;
         __Pyx_XGIVEREF(__pyx_r);
         __Pyx_RefNannyFinishContext();
         /* return from generator, yielding value */
         __pyx_generator->resume_label = 3;
         return __pyx_r;
-        __pyx_L12_resume_from_yield:;
-        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_L14_resume_from_yield:;
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":78
+        /* "jmespath/_lexer.pyx":80
  *                 start = self._position
  *                 next_char = self._next()
- *                 if next_char == ']':             # <<<<<<<<<<<<<<
+ *                 if next_char is not None and ord(next_char) == RBRACKET:             # <<<<<<<<<<<<<<
  *                     self._next()
  *                     yield {'type': 'flatten', 'value': '[]',
  */
         goto __pyx_L11;
       }
 
-      /* "jmespath/_lexer.pyx":82
+      /* "jmespath/_lexer.pyx":84
  *                     yield {'type': 'flatten', 'value': '[]',
  *                            'start': start, 'end': start + 2}
  *                 elif next_char == '?':             # <<<<<<<<<<<<<<
  *                     self._next()
  *                     yield {'type': 'filter', 'value': '[?',
  */
-      __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_next_char, __pyx_kp_s__5, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_next_char, __pyx_kp_s__3, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_2) {
 
-        /* "jmespath/_lexer.pyx":83
+        /* "jmespath/_lexer.pyx":85
  *                            'start': start, 'end': start + 2}
  *                 elif next_char == '?':
  *                     self._next()             # <<<<<<<<<<<<<<
  *                     yield {'type': 'filter', 'value': '[?',
  *                            'start': start, 'end': start + 2}
  */
-        __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "jmespath/_lexer.pyx":84
+        /* "jmespath/_lexer.pyx":86
  *                 elif next_char == '?':
  *                     self._next()
  *                     yield {'type': 'filter', 'value': '[?',             # <<<<<<<<<<<<<<
  *                            'start': start, 'end': start + 2}
  *                 else:
  */
-        __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_filter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_kp_s__6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_filter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_kp_s__4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":85
+        /* "jmespath/_lexer.pyx":87
  *                     self._next()
  *                     yield {'type': 'filter', 'value': '[?',
  *                            'start': start, 'end': start + 2}             # <<<<<<<<<<<<<<
  *                 else:
  *                     yield {'type': 'lbracket', 'value': '[',
  */
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_r = __pyx_t_1;
-        __pyx_t_1 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_r = __pyx_t_5;
+        __pyx_t_5 = 0;
         __Pyx_XGIVEREF(__pyx_r);
         __Pyx_RefNannyFinishContext();
         /* return from generator, yielding value */
         __pyx_generator->resume_label = 4;
         return __pyx_r;
-        __pyx_L13_resume_from_yield:;
-        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_L15_resume_from_yield:;
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":82
+        /* "jmespath/_lexer.pyx":84
  *                     yield {'type': 'flatten', 'value': '[]',
  *                            'start': start, 'end': start + 2}
  *                 elif next_char == '?':             # <<<<<<<<<<<<<<
@@ -1868,7 +1839,7 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
         goto __pyx_L11;
       }
 
-      /* "jmespath/_lexer.pyx":87
+      /* "jmespath/_lexer.pyx":89
  *                            'start': start, 'end': start + 2}
  *                 else:
  *                     yield {'type': 'lbracket', 'value': '[',             # <<<<<<<<<<<<<<
@@ -1876,76 +1847,76 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
  *             elif self._current == "'":
  */
       /*else*/ {
-        __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_lbracket) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_kp_s__2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_lbracket) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_kp_s__5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":88
+        /* "jmespath/_lexer.pyx":90
  *                 else:
  *                     yield {'type': 'lbracket', 'value': '[',
  *                            'start': start, 'end': start + 1}             # <<<<<<<<<<<<<<
  *             elif self._current == "'":
  *                 yield self._consume_raw_string_literal()
  */
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_r = __pyx_t_1;
-        __pyx_t_1 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_start, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_r = __pyx_t_5;
+        __pyx_t_5 = 0;
         __Pyx_XGIVEREF(__pyx_r);
         __Pyx_RefNannyFinishContext();
         /* return from generator, yielding value */
         __pyx_generator->resume_label = 5;
         return __pyx_r;
-        __pyx_L14_resume_from_yield:;
-        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_L16_resume_from_yield:;
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __pyx_L11:;
 
-      /* "jmespath/_lexer.pyx":75
- *             elif self._current in self.WHITESPACE:
+      /* "jmespath/_lexer.pyx":77
+ *                        'start': self._position, 'end': self._position + 1}
  *                 self._next()
- *             elif self._current == '[':             # <<<<<<<<<<<<<<
+ *             elif curchar == LBRACKET:             # <<<<<<<<<<<<<<
  *                 start = self._position
  *                 next_char = self._next()
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":89
+    /* "jmespath/_lexer.pyx":91
  *                     yield {'type': 'lbracket', 'value': '[',
  *                            'start': start, 'end': start + 1}
  *             elif self._current == "'":             # <<<<<<<<<<<<<<
  *                 yield self._consume_raw_string_literal()
  *             elif self._current == '|':
  */
-    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__7, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__6, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":90
+      /* "jmespath/_lexer.pyx":92
  *                            'start': start, 'end': start + 1}
  *             elif self._current == "'":
  *                 yield self._consume_raw_string_literal()             # <<<<<<<<<<<<<<
  *             elif self._current == '|':
  *                 yield self._match_or_else('|', 'or', 'pipe')
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_raw_string_literal(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_raw_string_literal(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 6;
       return __pyx_r;
-      __pyx_L15_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L17_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":89
+      /* "jmespath/_lexer.pyx":91
  *                     yield {'type': 'lbracket', 'value': '[',
  *                            'start': start, 'end': start + 1}
  *             elif self._current == "'":             # <<<<<<<<<<<<<<
@@ -1955,37 +1926,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":91
+    /* "jmespath/_lexer.pyx":93
  *             elif self._current == "'":
  *                 yield self._consume_raw_string_literal()
  *             elif self._current == '|':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('|', 'or', 'pipe')
  *             elif self._current == '&':
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__8, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__7, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = (__pyx_t_8 != 0);
     if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":92
+      /* "jmespath/_lexer.pyx":94
  *                 yield self._consume_raw_string_literal()
  *             elif self._current == '|':
  *                 yield self._match_or_else('|', 'or', 'pipe')             # <<<<<<<<<<<<<<
  *             elif self._current == '&':
  *                 yield self._match_or_else('&', 'and', 'expref')
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__8), ((PyObject*)__pyx_n_s_or), ((PyObject*)__pyx_n_s_pipe)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__7), ((PyObject*)__pyx_n_s_or), ((PyObject*)__pyx_n_s_pipe)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 7;
       return __pyx_r;
-      __pyx_L16_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L18_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":91
+      /* "jmespath/_lexer.pyx":93
  *             elif self._current == "'":
  *                 yield self._consume_raw_string_literal()
  *             elif self._current == '|':             # <<<<<<<<<<<<<<
@@ -1995,37 +1966,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":93
+    /* "jmespath/_lexer.pyx":95
  *             elif self._current == '|':
  *                 yield self._match_or_else('|', 'or', 'pipe')
  *             elif self._current == '&':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('&', 'and', 'expref')
  *             elif self._current == '`':
  */
-    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__9, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__8, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":94
+      /* "jmespath/_lexer.pyx":96
  *                 yield self._match_or_else('|', 'or', 'pipe')
  *             elif self._current == '&':
  *                 yield self._match_or_else('&', 'and', 'expref')             # <<<<<<<<<<<<<<
  *             elif self._current == '`':
  *                 yield self._consume_literal()
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__9), ((PyObject*)__pyx_n_s_and), ((PyObject*)__pyx_n_s_expref)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__8), ((PyObject*)__pyx_n_s_and), ((PyObject*)__pyx_n_s_expref)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 8;
       return __pyx_r;
-      __pyx_L17_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L19_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":93
+      /* "jmespath/_lexer.pyx":95
  *             elif self._current == '|':
  *                 yield self._match_or_else('|', 'or', 'pipe')
  *             elif self._current == '&':             # <<<<<<<<<<<<<<
@@ -2035,243 +2006,241 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":95
+    /* "jmespath/_lexer.pyx":97
  *             elif self._current == '&':
  *                 yield self._match_or_else('&', 'and', 'expref')
  *             elif self._current == '`':             # <<<<<<<<<<<<<<
  *                 yield self._consume_literal()
- *             elif '0' <= self._current <= '9':
+ *             elif ZERO <= curchar <= NINE:
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__10, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__9, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = (__pyx_t_8 != 0);
     if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":96
+      /* "jmespath/_lexer.pyx":98
  *                 yield self._match_or_else('&', 'and', 'expref')
  *             elif self._current == '`':
  *                 yield self._consume_literal()             # <<<<<<<<<<<<<<
- *             elif '0' <= self._current <= '9':
+ *             elif ZERO <= curchar <= NINE:
  *                 start = self._position
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_literal(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_literal(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 9;
       return __pyx_r;
-      __pyx_L18_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L20_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":95
+      /* "jmespath/_lexer.pyx":97
  *             elif self._current == '&':
  *                 yield self._match_or_else('&', 'and', 'expref')
  *             elif self._current == '`':             # <<<<<<<<<<<<<<
  *                 yield self._consume_literal()
- *             elif '0' <= self._current <= '9':
+ *             elif ZERO <= curchar <= NINE:
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":97
+    /* "jmespath/_lexer.pyx":99
  *             elif self._current == '`':
  *                 yield self._consume_literal()
- *             elif '0' <= self._current <= '9':             # <<<<<<<<<<<<<<
+ *             elif ZERO <= curchar <= NINE:             # <<<<<<<<<<<<<<
  *                 start = self._position
  *                 buff = self._consume_number()
  */
-    __pyx_t_1 = PyObject_RichCompare(__pyx_kp_s_0, __pyx_cur_scope->__pyx_v_self->_current, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (__Pyx_PyObject_IsTrue(__pyx_t_1)) {
-      __Pyx_DECREF(__pyx_t_1);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s_9, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_2 = (48 <= __pyx_cur_scope->__pyx_v_curchar);
     if (__pyx_t_2) {
+      __pyx_t_2 = (__pyx_cur_scope->__pyx_v_curchar <= 57);
+    }
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":98
+      /* "jmespath/_lexer.pyx":100
  *                 yield self._consume_literal()
- *             elif '0' <= self._current <= '9':
+ *             elif ZERO <= curchar <= NINE:
  *                 start = self._position             # <<<<<<<<<<<<<<
  *                 buff = self._consume_number()
  *                 yield {'type': 'number', 'value': int(buff),
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_start);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":99
- *             elif '0' <= self._current <= '9':
+      /* "jmespath/_lexer.pyx":101
+ *             elif ZERO <= curchar <= NINE:
  *                 start = self._position
  *                 buff = self._consume_number()             # <<<<<<<<<<<<<<
  *                 yield {'type': 'number', 'value': int(buff),
  *                        'start': start, 'end': start + len(buff)}
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_number(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_number(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_buff);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":100
+      /* "jmespath/_lexer.pyx":102
  *                 start = self._position
  *                 buff = self._consume_number()
  *                 yield {'type': 'number', 'value': int(buff),             # <<<<<<<<<<<<<<
  *                        'start': start, 'end': start + len(buff)}
  *             elif self._current == '-':
  */
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_number) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyNumber_Int(__pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_number) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_4 = PyNumber_Int(__pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "jmespath/_lexer.pyx":101
+      /* "jmespath/_lexer.pyx":103
  *                 buff = self._consume_number()
  *                 yield {'type': 'number', 'value': int(buff),
  *                        'start': start, 'end': start + len(buff)}             # <<<<<<<<<<<<<<
  *             elif self._current == '-':
  *                 # Negative number.
  */
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_r = __pyx_t_1;
-      __pyx_t_1 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_r = __pyx_t_5;
+      __pyx_t_5 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 10;
       return __pyx_r;
-      __pyx_L19_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L21_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":97
+      /* "jmespath/_lexer.pyx":99
  *             elif self._current == '`':
  *                 yield self._consume_literal()
- *             elif '0' <= self._current <= '9':             # <<<<<<<<<<<<<<
+ *             elif ZERO <= curchar <= NINE:             # <<<<<<<<<<<<<<
  *                 start = self._position
  *                 buff = self._consume_number()
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":102
+    /* "jmespath/_lexer.pyx":104
  *                 yield {'type': 'number', 'value': int(buff),
  *                        'start': start, 'end': start + len(buff)}
  *             elif self._current == '-':             # <<<<<<<<<<<<<<
  *                 # Negative number.
  *                 start = self._position
  */
-    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__11, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__10, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = (__pyx_t_8 != 0);
+    if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":104
+      /* "jmespath/_lexer.pyx":106
  *             elif self._current == '-':
  *                 # Negative number.
  *                 start = self._position             # <<<<<<<<<<<<<<
  *                 buff = self._consume_number()
  *                 if len(buff) > 1:
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_start);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_start, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":105
+      /* "jmespath/_lexer.pyx":107
  *                 # Negative number.
  *                 start = self._position
  *                 buff = self._consume_number()             # <<<<<<<<<<<<<<
  *                 if len(buff) > 1:
  *                     yield {'type': 'number', 'value': int(buff),
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_number(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_number(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_buff);
-      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_buff, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":106
+      /* "jmespath/_lexer.pyx":108
  *                 start = self._position
  *                 buff = self._consume_number()
  *                 if len(buff) > 1:             # <<<<<<<<<<<<<<
  *                     yield {'type': 'number', 'value': int(buff),
  *                            'start': start, 'end': start + len(buff)}
  */
-      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_3 = ((__pyx_t_6 > 1) != 0);
-      if (__pyx_t_3) {
+      __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = ((__pyx_t_6 > 1) != 0);
+      if (__pyx_t_2) {
 
-        /* "jmespath/_lexer.pyx":107
+        /* "jmespath/_lexer.pyx":109
  *                 buff = self._consume_number()
  *                 if len(buff) > 1:
  *                     yield {'type': 'number', 'value': int(buff),             # <<<<<<<<<<<<<<
  *                            'start': start, 'end': start + len(buff)}
  *                 else:
  */
-        __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_number) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_5 = PyNumber_Int(__pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_5);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_number) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_7 = PyNumber_Int(__pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "jmespath/_lexer.pyx":108
+        /* "jmespath/_lexer.pyx":110
  *                 if len(buff) > 1:
  *                     yield {'type': 'number', 'value': int(buff),
  *                            'start': start, 'end': start + len(buff)}             # <<<<<<<<<<<<<<
  *                 else:
  *                     raise LexerError(lexer_position=start,
  */
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_4 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_r = __pyx_t_1;
-        __pyx_t_1 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_buff); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_1 = PyNumber_Add(__pyx_cur_scope->__pyx_v_start, __pyx_t_7); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_r = __pyx_t_5;
+        __pyx_t_5 = 0;
         __Pyx_XGIVEREF(__pyx_r);
         __Pyx_RefNannyFinishContext();
         /* return from generator, yielding value */
         __pyx_generator->resume_label = 11;
         return __pyx_r;
-        __pyx_L21_resume_from_yield:;
-        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_L23_resume_from_yield:;
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":106
+        /* "jmespath/_lexer.pyx":108
  *                 start = self._position
  *                 buff = self._consume_number()
  *                 if len(buff) > 1:             # <<<<<<<<<<<<<<
  *                     yield {'type': 'number', 'value': int(buff),
  *                            'start': start, 'end': start + len(buff)}
  */
-        goto __pyx_L20;
+        goto __pyx_L22;
       }
 
-      /* "jmespath/_lexer.pyx":110
+      /* "jmespath/_lexer.pyx":112
  *                            'start': start, 'end': start + len(buff)}
  *                 else:
  *                     raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
@@ -2279,51 +2248,51 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
  *                                      message="Unknown token '%s'" % buff)
  */
       /*else*/ {
-        __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lexer_position, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lexer_position, __pyx_cur_scope->__pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":111
+        /* "jmespath/_lexer.pyx":113
  *                 else:
  *                     raise LexerError(lexer_position=start,
  *                                      lexer_value=buff,             # <<<<<<<<<<<<<<
  *                                      message="Unknown token '%s'" % buff)
  *             elif self._current == '"':
  */
-        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lexer_value, __pyx_cur_scope->__pyx_v_buff) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lexer_value, __pyx_cur_scope->__pyx_v_buff) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "jmespath/_lexer.pyx":112
+        /* "jmespath/_lexer.pyx":114
  *                     raise LexerError(lexer_position=start,
  *                                      lexer_value=buff,
  *                                      message="Unknown token '%s'" % buff)             # <<<<<<<<<<<<<<
  *             elif self._current == '"':
  *                 yield self._consume_quoted_identifier()
  */
-        __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_Unknown_token_s, __pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_5);
-        if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_message, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_7 = __Pyx_PyString_Format(__pyx_kp_s_Unknown_token_s, __pyx_cur_scope->__pyx_v_buff); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_message, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "jmespath/_lexer.pyx":110
+        /* "jmespath/_lexer.pyx":112
  *                            'start': start, 'end': start + len(buff)}
  *                 else:
  *                     raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                                      lexer_value=buff,
  *                                      message="Unknown token '%s'" % buff)
  */
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_Raise(__pyx_t_7, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
-      __pyx_L20:;
+      __pyx_L22:;
 
-      /* "jmespath/_lexer.pyx":102
+      /* "jmespath/_lexer.pyx":104
  *                 yield {'type': 'number', 'value': int(buff),
  *                        'start': start, 'end': start + len(buff)}
  *             elif self._current == '-':             # <<<<<<<<<<<<<<
@@ -2333,37 +2302,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":113
+    /* "jmespath/_lexer.pyx":115
  *                                      lexer_value=buff,
  *                                      message="Unknown token '%s'" % buff)
  *             elif self._current == '"':             # <<<<<<<<<<<<<<
  *                 yield self._consume_quoted_identifier()
  *             elif self._current == '<':
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__12, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
-    if (__pyx_t_2) {
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__11, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":114
+      /* "jmespath/_lexer.pyx":116
  *                                      message="Unknown token '%s'" % buff)
  *             elif self._current == '"':
  *                 yield self._consume_quoted_identifier()             # <<<<<<<<<<<<<<
  *             elif self._current == '<':
  *                 yield self._match_or_else('=', 'lte', 'lt')
  */
-      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_quoted_identifier(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_consume_quoted_identifier(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_r = __pyx_t_7;
+      __pyx_t_7 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 12;
       return __pyx_r;
-      __pyx_L22_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L24_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":113
+      /* "jmespath/_lexer.pyx":115
  *                                      lexer_value=buff,
  *                                      message="Unknown token '%s'" % buff)
  *             elif self._current == '"':             # <<<<<<<<<<<<<<
@@ -2373,37 +2342,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":115
+    /* "jmespath/_lexer.pyx":117
  *             elif self._current == '"':
  *                 yield self._consume_quoted_identifier()
  *             elif self._current == '<':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('=', 'lte', 'lt')
  *             elif self._current == '>':
  */
-    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__13, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__12, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = (__pyx_t_8 != 0);
+    if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":116
+      /* "jmespath/_lexer.pyx":118
  *                 yield self._consume_quoted_identifier()
  *             elif self._current == '<':
  *                 yield self._match_or_else('=', 'lte', 'lt')             # <<<<<<<<<<<<<<
  *             elif self._current == '>':
  *                 yield self._match_or_else('=', 'gte', 'gt')
  */
-      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__14), ((PyObject*)__pyx_n_s_lte), ((PyObject*)__pyx_n_s_lt)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__13), ((PyObject*)__pyx_n_s_lte), ((PyObject*)__pyx_n_s_lt)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_r = __pyx_t_7;
+      __pyx_t_7 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 13;
       return __pyx_r;
-      __pyx_L23_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L25_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":115
+      /* "jmespath/_lexer.pyx":117
  *             elif self._current == '"':
  *                 yield self._consume_quoted_identifier()
  *             elif self._current == '<':             # <<<<<<<<<<<<<<
@@ -2413,37 +2382,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":117
+    /* "jmespath/_lexer.pyx":119
  *             elif self._current == '<':
  *                 yield self._match_or_else('=', 'lte', 'lt')
  *             elif self._current == '>':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('=', 'gte', 'gt')
  *             elif self._current == '!':
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__15, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
-    if (__pyx_t_2) {
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__14, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":118
+      /* "jmespath/_lexer.pyx":120
  *                 yield self._match_or_else('=', 'lte', 'lt')
  *             elif self._current == '>':
  *                 yield self._match_or_else('=', 'gte', 'gt')             # <<<<<<<<<<<<<<
  *             elif self._current == '!':
  *                 yield self._match_or_else('=', 'ne', 'not')
  */
-      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__14), ((PyObject*)__pyx_n_s_gte), ((PyObject*)__pyx_n_s_gt)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__13), ((PyObject*)__pyx_n_s_gte), ((PyObject*)__pyx_n_s_gt)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_r = __pyx_t_7;
+      __pyx_t_7 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 14;
       return __pyx_r;
-      __pyx_L24_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L26_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":117
+      /* "jmespath/_lexer.pyx":119
  *             elif self._current == '<':
  *                 yield self._match_or_else('=', 'lte', 'lt')
  *             elif self._current == '>':             # <<<<<<<<<<<<<<
@@ -2453,37 +2422,37 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":119
+    /* "jmespath/_lexer.pyx":121
  *             elif self._current == '>':
  *                 yield self._match_or_else('=', 'gte', 'gt')
  *             elif self._current == '!':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('=', 'ne', 'not')
  *             elif self._current == '=':
  */
-    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__16, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = (__pyx_t_2 != 0);
-    if (__pyx_t_3) {
+    __pyx_t_8 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__15, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = (__pyx_t_8 != 0);
+    if (__pyx_t_2) {
 
-      /* "jmespath/_lexer.pyx":120
+      /* "jmespath/_lexer.pyx":122
  *                 yield self._match_or_else('=', 'gte', 'gt')
  *             elif self._current == '!':
  *                 yield self._match_or_else('=', 'ne', 'not')             # <<<<<<<<<<<<<<
  *             elif self._current == '=':
  *                 yield self._match_or_else('=', 'eq', 'unknown')
  */
-      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__14), ((PyObject*)__pyx_n_s_ne), ((PyObject*)__pyx_n_s_not)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__13), ((PyObject*)__pyx_n_s_ne), ((PyObject*)__pyx_n_s_not)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_r = __pyx_t_7;
+      __pyx_t_7 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 15;
       return __pyx_r;
-      __pyx_L25_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L27_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":119
+      /* "jmespath/_lexer.pyx":121
  *             elif self._current == '>':
  *                 yield self._match_or_else('=', 'gte', 'gt')
  *             elif self._current == '!':             # <<<<<<<<<<<<<<
@@ -2493,145 +2462,180 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":121
+    /* "jmespath/_lexer.pyx":123
  *             elif self._current == '!':
  *                 yield self._match_or_else('=', 'ne', 'not')
  *             elif self._current == '=':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('=', 'eq', 'unknown')
- *             else:
+ *             elif self._current in self.WHITESPACE:
  */
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__14, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = (__pyx_t_3 != 0);
-    if (__pyx_t_2) {
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_cur_scope->__pyx_v_self->_current, __pyx_kp_s__13, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = (__pyx_t_2 != 0);
+    if (__pyx_t_8) {
 
-      /* "jmespath/_lexer.pyx":122
+      /* "jmespath/_lexer.pyx":124
  *                 yield self._match_or_else('=', 'ne', 'not')
  *             elif self._current == '=':
  *                 yield self._match_or_else('=', 'eq', 'unknown')             # <<<<<<<<<<<<<<
- *             else:
- *                 raise LexerError(lexer_position=self._position,
+ *             elif self._current in self.WHITESPACE:
+ *                 self._next()
  */
-      __pyx_t_5 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__14), ((PyObject*)__pyx_n_s_eq), ((PyObject*)__pyx_n_s_unknown)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_match_or_else(__pyx_cur_scope->__pyx_v_self, ((PyObject*)__pyx_kp_s__13), ((PyObject*)__pyx_n_s_eq), ((PyObject*)__pyx_n_s_unknown)); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_r = __pyx_t_7;
+      __pyx_t_7 = 0;
       __Pyx_XGIVEREF(__pyx_r);
       __Pyx_RefNannyFinishContext();
       /* return from generator, yielding value */
       __pyx_generator->resume_label = 16;
       return __pyx_r;
-      __pyx_L26_resume_from_yield:;
-      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L28_resume_from_yield:;
+      if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":121
+      /* "jmespath/_lexer.pyx":123
  *             elif self._current == '!':
  *                 yield self._match_or_else('=', 'ne', 'not')
  *             elif self._current == '=':             # <<<<<<<<<<<<<<
  *                 yield self._match_or_else('=', 'eq', 'unknown')
+ *             elif self._current in self.WHITESPACE:
+ */
+      goto __pyx_L6;
+    }
+
+    /* "jmespath/_lexer.pyx":125
+ *             elif self._current == '=':
+ *                 yield self._match_or_else('=', 'eq', 'unknown')
+ *             elif self._current in self.WHITESPACE:             # <<<<<<<<<<<<<<
+ *                 self._next()
+ *             else:
+ */
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_WHITESPACE); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_cur_scope->__pyx_v_self->_current, __pyx_t_7, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_2 = (__pyx_t_8 != 0);
+    if (__pyx_t_2) {
+
+      /* "jmespath/_lexer.pyx":126
+ *                 yield self._match_or_else('=', 'eq', 'unknown')
+ *             elif self._current in self.WHITESPACE:
+ *                 self._next()             # <<<<<<<<<<<<<<
+ *             else:
+ *                 raise LexerError(lexer_position=self._position,
+ */
+      __pyx_t_7 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_cur_scope->__pyx_v_self->__pyx_vtab)->_next(__pyx_cur_scope->__pyx_v_self); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "jmespath/_lexer.pyx":125
+ *             elif self._current == '=':
+ *                 yield self._match_or_else('=', 'eq', 'unknown')
+ *             elif self._current in self.WHITESPACE:             # <<<<<<<<<<<<<<
+ *                 self._next()
  *             else:
  */
       goto __pyx_L6;
     }
 
-    /* "jmespath/_lexer.pyx":124
- *                 yield self._match_or_else('=', 'eq', 'unknown')
+    /* "jmespath/_lexer.pyx":128
+ *                 self._next()
  *             else:
  *                 raise LexerError(lexer_position=self._position,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._current,
  *                                  message="Unknown token %s" % self._current)
  */
     /*else*/ {
-      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lexer_position, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_position); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lexer_position, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":125
+      /* "jmespath/_lexer.pyx":129
  *             else:
  *                 raise LexerError(lexer_position=self._position,
  *                                  lexer_value=self._current,             # <<<<<<<<<<<<<<
  *                                  message="Unknown token %s" % self._current)
  *         yield {'type': 'eof', 'value': '',
  */
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lexer_value, __pyx_cur_scope->__pyx_v_self->_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lexer_value, __pyx_cur_scope->__pyx_v_self->_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":126
+      /* "jmespath/_lexer.pyx":130
  *                 raise LexerError(lexer_position=self._position,
  *                                  lexer_value=self._current,
  *                                  message="Unknown token %s" % self._current)             # <<<<<<<<<<<<<<
  *         yield {'type': 'eof', 'value': '',
  *                'start': self._length, 'end': self._length}
  */
-      __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Unknown_token_s_2, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_message, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_Unknown_token_s_2, __pyx_cur_scope->__pyx_v_self->_current); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_message, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "jmespath/_lexer.pyx":124
- *                 yield self._match_or_else('=', 'eq', 'unknown')
+      /* "jmespath/_lexer.pyx":128
+ *                 self._next()
  *             else:
  *                 raise LexerError(lexer_position=self._position,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._current,
  *                                  message="Unknown token %s" % self._current)
  */
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __pyx_L6:;
   }
 
-  /* "jmespath/_lexer.pyx":127
+  /* "jmespath/_lexer.pyx":131
  *                                  lexer_value=self._current,
  *                                  message="Unknown token %s" % self._current)
  *         yield {'type': 'eof', 'value': '',             # <<<<<<<<<<<<<<
  *                'start': self._length, 'end': self._length}
  * 
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_n_s_eof) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_kp_s_) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_eof) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_value, __pyx_kp_s_) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":128
+  /* "jmespath/_lexer.pyx":132
  *                                  message="Unknown token %s" % self._current)
  *         yield {'type': 'eof', 'value': '',
  *                'start': self._length, 'end': self._length}             # <<<<<<<<<<<<<<
  * 
  *     cdef _consume_number(self):
  */
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_length); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_length); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_length); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_start, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->_length); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_end, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   /* return from generator, yielding value */
   __pyx_generator->resume_label = 17;
   return __pyx_r;
-  __pyx_L27_resume_from_yield:;
-  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_L29_resume_from_yield:;
+  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":58
+  /* "jmespath/_lexer.pyx":60
  *         self._length = 0
  * 
  *     def tokenize(self, expression):             # <<<<<<<<<<<<<<
  *         self._initialize_for_expression(expression)
- *         while self._current is not None:
+ *         cdef unsigned curchar
  */
 
   /* function exit code */
@@ -2639,8 +2643,8 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("tokenize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
@@ -2650,74 +2654,154 @@ static PyObject *__pyx_gb_8jmespath_6_lexer_5Lexer_4generator(__pyx_CoroutineObj
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":130
+/* "jmespath/_lexer.pyx":134
  *                'start': self._length, 'end': self._length}
  * 
  *     cdef _consume_number(self):             # <<<<<<<<<<<<<<
  *         buff = self._current
- *         while '0' <= self._next() <= '9':
+ *         cdef unsigned ch
  */
 
 static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_number(struct __pyx_obj_8jmespath_6_lexer_Lexer *__pyx_v_self) {
   PyObject *__pyx_v_buff = NULL;
+  unsigned int __pyx_v_ch;
+  PyObject *__pyx_v_current = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_2;
   int __pyx_t_3;
+  long __pyx_t_4;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_consume_number", 0);
 
-  /* "jmespath/_lexer.pyx":131
+  /* "jmespath/_lexer.pyx":135
  * 
  *     cdef _consume_number(self):
  *         buff = self._current             # <<<<<<<<<<<<<<
- *         while '0' <= self._next() <= '9':
- *             buff += self._current
+ *         cdef unsigned ch
+ *         while True:
  */
   __pyx_t_1 = __pyx_v_self->_current;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_buff = ((PyObject*)__pyx_t_1);
+  __pyx_v_buff = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":132
- *     cdef _consume_number(self):
+  /* "jmespath/_lexer.pyx":137
  *         buff = self._current
- *         while '0' <= self._next() <= '9':             # <<<<<<<<<<<<<<
- *             buff += self._current
- *         return buff
+ *         cdef unsigned ch
+ *         while True:             # <<<<<<<<<<<<<<
+ *             current = self._next()
+ *             if current is None:
  */
   while (1) {
-    __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyObject_RichCompare(__pyx_kp_s_0, __pyx_t_1, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (__Pyx_PyObject_IsTrue(__pyx_t_2)) {
-      __Pyx_DECREF(__pyx_t_2);
-      __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_kp_s_9, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!__pyx_t_3) break;
 
-    /* "jmespath/_lexer.pyx":133
- *         buff = self._current
- *         while '0' <= self._next() <= '9':
- *             buff += self._current             # <<<<<<<<<<<<<<
+    /* "jmespath/_lexer.pyx":138
+ *         cdef unsigned ch
+ *         while True:
+ *             current = self._next()             # <<<<<<<<<<<<<<
+ *             if current is None:
+ *                 break
+ */
+    __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_current, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "jmespath/_lexer.pyx":139
+ *         while True:
+ *             current = self._next()
+ *             if current is None:             # <<<<<<<<<<<<<<
+ *                 break
+ *             ch = ord(current)
+ */
+    __pyx_t_2 = (__pyx_v_current == Py_None);
+    __pyx_t_3 = (__pyx_t_2 != 0);
+    if (__pyx_t_3) {
+
+      /* "jmespath/_lexer.pyx":140
+ *             current = self._next()
+ *             if current is None:
+ *                 break             # <<<<<<<<<<<<<<
+ *             ch = ord(current)
+ *             if ZERO <= ch <= NINE:
+ */
+      goto __pyx_L4_break;
+
+      /* "jmespath/_lexer.pyx":139
+ *         while True:
+ *             current = self._next()
+ *             if current is None:             # <<<<<<<<<<<<<<
+ *                 break
+ *             ch = ord(current)
+ */
+    }
+
+    /* "jmespath/_lexer.pyx":141
+ *             if current is None:
+ *                 break
+ *             ch = ord(current)             # <<<<<<<<<<<<<<
+ *             if ZERO <= ch <= NINE:
+ *                 buff += current
+ */
+    __pyx_t_4 = __Pyx_PyObject_Ord(__pyx_v_current); if (unlikely(__pyx_t_4 == (long)(Py_UCS4)-1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_v_ch = __pyx_t_4;
+
+    /* "jmespath/_lexer.pyx":142
+ *                 break
+ *             ch = ord(current)
+ *             if ZERO <= ch <= NINE:             # <<<<<<<<<<<<<<
+ *                 buff += current
+ *             else:
+ */
+    __pyx_t_3 = (48 <= __pyx_v_ch);
+    if (__pyx_t_3) {
+      __pyx_t_3 = (__pyx_v_ch <= 57);
+    }
+    __pyx_t_2 = (__pyx_t_3 != 0);
+    if (__pyx_t_2) {
+
+      /* "jmespath/_lexer.pyx":143
+ *             ch = ord(current)
+ *             if ZERO <= ch <= NINE:
+ *                 buff += current             # <<<<<<<<<<<<<<
+ *             else:
+ *                 break
+ */
+      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_v_current); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF_SET(__pyx_v_buff, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "jmespath/_lexer.pyx":142
+ *                 break
+ *             ch = ord(current)
+ *             if ZERO <= ch <= NINE:             # <<<<<<<<<<<<<<
+ *                 buff += current
+ *             else:
+ */
+      goto __pyx_L6;
+    }
+
+    /* "jmespath/_lexer.pyx":145
+ *                 buff += current
+ *             else:
+ *                 break             # <<<<<<<<<<<<<<
  *         return buff
  * 
  */
-    __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_v_self->_current); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF_SET(__pyx_v_buff, ((PyObject*)__pyx_t_2));
-    __pyx_t_2 = 0;
+    /*else*/ {
+      goto __pyx_L4_break;
+    }
+    __pyx_L6:;
   }
+  __pyx_L4_break:;
 
-  /* "jmespath/_lexer.pyx":134
- *         while '0' <= self._next() <= '9':
- *             buff += self._current
+  /* "jmespath/_lexer.pyx":146
+ *             else:
+ *                 break
  *         return buff             # <<<<<<<<<<<<<<
  * 
  *     cdef _initialize_for_expression(self, basestring expression):
@@ -2727,28 +2811,28 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_number(struct __pyx_o
   __pyx_r = __pyx_v_buff;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":130
+  /* "jmespath/_lexer.pyx":134
  *                'start': self._length, 'end': self._length}
  * 
  *     cdef _consume_number(self):             # <<<<<<<<<<<<<<
  *         buff = self._current
- *         while '0' <= self._next() <= '9':
+ *         cdef unsigned ch
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("jmespath._lexer.Lexer._consume_number", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_buff);
+  __Pyx_XDECREF(__pyx_v_current);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":136
+/* "jmespath/_lexer.pyx":148
  *         return buff
  * 
  *     cdef _initialize_for_expression(self, basestring expression):             # <<<<<<<<<<<<<<
@@ -2770,25 +2854,25 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_initialize_for_expression", 0);
 
-  /* "jmespath/_lexer.pyx":137
+  /* "jmespath/_lexer.pyx":149
  * 
  *     cdef _initialize_for_expression(self, basestring expression):
  *         if not expression:             # <<<<<<<<<<<<<<
  *             raise EmptyExpressionError()
  *         self._position = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_expression); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_expression); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_2 = ((!__pyx_t_1) != 0);
   if (__pyx_t_2) {
 
-    /* "jmespath/_lexer.pyx":138
+    /* "jmespath/_lexer.pyx":150
  *     cdef _initialize_for_expression(self, basestring expression):
  *         if not expression:
  *             raise EmptyExpressionError()             # <<<<<<<<<<<<<<
  *         self._position = 0
  *         self._expression = expression
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_EmptyExpressionError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_EmptyExpressionError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -2801,18 +2885,18 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
       }
     }
     if (__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "jmespath/_lexer.pyx":137
+    /* "jmespath/_lexer.pyx":149
  * 
  *     cdef _initialize_for_expression(self, basestring expression):
  *         if not expression:             # <<<<<<<<<<<<<<
@@ -2821,7 +2905,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
  */
   }
 
-  /* "jmespath/_lexer.pyx":139
+  /* "jmespath/_lexer.pyx":151
  *         if not expression:
  *             raise EmptyExpressionError()
  *         self._position = 0             # <<<<<<<<<<<<<<
@@ -2830,7 +2914,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
  */
   __pyx_v_self->_position = 0;
 
-  /* "jmespath/_lexer.pyx":140
+  /* "jmespath/_lexer.pyx":152
  *             raise EmptyExpressionError()
  *         self._position = 0
  *         self._expression = expression             # <<<<<<<<<<<<<<
@@ -2843,14 +2927,14 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
   __Pyx_DECREF(__pyx_v_self->_expression);
   __pyx_v_self->_expression = __pyx_v_expression;
 
-  /* "jmespath/_lexer.pyx":141
+  /* "jmespath/_lexer.pyx":153
  *         self._position = 0
  *         self._expression = expression
  *         self._chars = list(self._expression)             # <<<<<<<<<<<<<<
  *         self._current = self._chars[self._position]
  *         self._length = len(self._expression)
  */
-  __pyx_t_3 = PySequence_List(__pyx_v_self->_expression); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PySequence_List(__pyx_v_self->_expression); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v_self->_chars);
@@ -2858,23 +2942,23 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
   __pyx_v_self->_chars = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "jmespath/_lexer.pyx":142
+  /* "jmespath/_lexer.pyx":154
  *         self._expression = expression
  *         self._chars = list(self._expression)
  *         self._current = self._chars[self._position]             # <<<<<<<<<<<<<<
  *         self._length = len(self._expression)
  * 
  */
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_self->_chars, __pyx_v_self->_position, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_self->_chars, __pyx_v_self->_position, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v_self->_current);
   __Pyx_DECREF(__pyx_v_self->_current);
   __pyx_v_self->_current = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "jmespath/_lexer.pyx":143
+  /* "jmespath/_lexer.pyx":155
  *         self._chars = list(self._expression)
  *         self._current = self._chars[self._position]
  *         self._length = len(self._expression)             # <<<<<<<<<<<<<<
@@ -2883,11 +2967,11 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
  */
   __pyx_t_3 = __pyx_v_self->_expression;
   __Pyx_INCREF(__pyx_t_3);
-  __pyx_t_6 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_length = __pyx_t_6;
 
-  /* "jmespath/_lexer.pyx":136
+  /* "jmespath/_lexer.pyx":148
  *         return buff
  * 
  *     cdef _initialize_for_expression(self, basestring expression):             # <<<<<<<<<<<<<<
@@ -2910,12 +2994,12 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__initialize_for_expression(str
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":145
+/* "jmespath/_lexer.pyx":157
  *         self._length = len(self._expression)
  * 
  *     cdef _next(self):             # <<<<<<<<<<<<<<
- *         if self._position == self._length - 1:
- *             self._current = None
+ *         self._position += 1
+ *         if self._position != self._length:
  */
 
 static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__next(struct __pyx_obj_8jmespath_6_lexer_Lexer *__pyx_v_self) {
@@ -2928,88 +3012,97 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__next(struct __pyx_obj_8jmespa
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_next", 0);
 
-  /* "jmespath/_lexer.pyx":146
+  /* "jmespath/_lexer.pyx":158
  * 
  *     cdef _next(self):
- *         if self._position == self._length - 1:             # <<<<<<<<<<<<<<
- *             self._current = None
- *         else:
+ *         self._position += 1             # <<<<<<<<<<<<<<
+ *         if self._position != self._length:
+ *             self._current = self._chars[self._position]
  */
-  __pyx_t_1 = ((__pyx_v_self->_position == (__pyx_v_self->_length - 1)) != 0);
+  __pyx_v_self->_position = (__pyx_v_self->_position + 1);
+
+  /* "jmespath/_lexer.pyx":159
+ *     cdef _next(self):
+ *         self._position += 1
+ *         if self._position != self._length:             # <<<<<<<<<<<<<<
+ *             self._current = self._chars[self._position]
+ *             return self._current
+ */
+  __pyx_t_1 = ((__pyx_v_self->_position != __pyx_v_self->_length) != 0);
   if (__pyx_t_1) {
 
-    /* "jmespath/_lexer.pyx":147
- *     cdef _next(self):
- *         if self._position == self._length - 1:
- *             self._current = None             # <<<<<<<<<<<<<<
+    /* "jmespath/_lexer.pyx":160
+ *         self._position += 1
+ *         if self._position != self._length:
+ *             self._current = self._chars[self._position]             # <<<<<<<<<<<<<<
+ *             return self._current
  *         else:
- *             self._position += 1
+ */
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_self->_chars, __pyx_v_self->_position, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __Pyx_GOTREF(__pyx_t_2);
+    if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GIVEREF(__pyx_t_2);
+    __Pyx_GOTREF(__pyx_v_self->_current);
+    __Pyx_DECREF(__pyx_v_self->_current);
+    __pyx_v_self->_current = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "jmespath/_lexer.pyx":161
+ *         if self._position != self._length:
+ *             self._current = self._chars[self._position]
+ *             return self._current             # <<<<<<<<<<<<<<
+ *         else:
+ *             self._position -= 1
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(__pyx_v_self->_current);
+    __pyx_r = __pyx_v_self->_current;
+    goto __pyx_L0;
+
+    /* "jmespath/_lexer.pyx":159
+ *     cdef _next(self):
+ *         self._position += 1
+ *         if self._position != self._length:             # <<<<<<<<<<<<<<
+ *             self._current = self._chars[self._position]
+ *             return self._current
+ */
+  }
+
+  /* "jmespath/_lexer.pyx":163
+ *             return self._current
+ *         else:
+ *             self._position -= 1             # <<<<<<<<<<<<<<
+ *             self._current = None
+ * 
+ */
+  /*else*/ {
+    __pyx_v_self->_position = (__pyx_v_self->_position - 1);
+
+    /* "jmespath/_lexer.pyx":164
+ *         else:
+ *             self._position -= 1
+ *             self._current = None             # <<<<<<<<<<<<<<
+ * 
+ *     cdef _consume_until(self, basestring delimiter):
  */
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
     __Pyx_GOTREF(__pyx_v_self->_current);
     __Pyx_DECREF(__pyx_v_self->_current);
     __pyx_v_self->_current = ((PyObject*)Py_None);
-
-    /* "jmespath/_lexer.pyx":146
- * 
- *     cdef _next(self):
- *         if self._position == self._length - 1:             # <<<<<<<<<<<<<<
- *             self._current = None
- *         else:
- */
-    goto __pyx_L3;
   }
 
-  /* "jmespath/_lexer.pyx":149
- *             self._current = None
- *         else:
- *             self._position += 1             # <<<<<<<<<<<<<<
- *             self._current = self._chars[self._position]
- *         return self._current
- */
-  /*else*/ {
-    __pyx_v_self->_position = (__pyx_v_self->_position + 1);
-
-    /* "jmespath/_lexer.pyx":150
- *         else:
- *             self._position += 1
- *             self._current = self._chars[self._position]             # <<<<<<<<<<<<<<
- *         return self._current
- * 
- */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_self->_chars, __pyx_v_self->_position, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(__Pyx_PyBaseString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", (PY_MAJOR_VERSION < 3 ? "basestring" : "str"), Py_TYPE(__pyx_t_2)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GIVEREF(__pyx_t_2);
-    __Pyx_GOTREF(__pyx_v_self->_current);
-    __Pyx_DECREF(__pyx_v_self->_current);
-    __pyx_v_self->_current = ((PyObject*)__pyx_t_2);
-    __pyx_t_2 = 0;
-  }
-  __pyx_L3:;
-
-  /* "jmespath/_lexer.pyx":151
- *             self._position += 1
- *             self._current = self._chars[self._position]
- *         return self._current             # <<<<<<<<<<<<<<
- * 
- *     cdef _consume_until(self, basestring delimiter):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_self->_current);
-  __pyx_r = __pyx_v_self->_current;
-  goto __pyx_L0;
-
-  /* "jmespath/_lexer.pyx":145
+  /* "jmespath/_lexer.pyx":157
  *         self._length = len(self._expression)
  * 
  *     cdef _next(self):             # <<<<<<<<<<<<<<
- *         if self._position == self._length - 1:
- *             self._current = None
+ *         self._position += 1
+ *         if self._position != self._length:
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("jmespath._lexer.Lexer._next", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -3020,8 +3113,8 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__next(struct __pyx_obj_8jmespa
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":153
- *         return self._current
+/* "jmespath/_lexer.pyx":166
+ *             self._current = None
  * 
  *     cdef _consume_until(self, basestring delimiter):             # <<<<<<<<<<<<<<
  *         # Consume until the delimiter is reached,
@@ -3044,7 +3137,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_consume_until", 0);
 
-  /* "jmespath/_lexer.pyx":156
+  /* "jmespath/_lexer.pyx":169
  *         # Consume until the delimiter is reached,
  *         # allowing for the delimiter to be escaped with "\".
  *         start = self._position             # <<<<<<<<<<<<<<
@@ -3054,7 +3147,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
   __pyx_t_1 = __pyx_v_self->_position;
   __pyx_v_start = __pyx_t_1;
 
-  /* "jmespath/_lexer.pyx":157
+  /* "jmespath/_lexer.pyx":170
  *         # allowing for the delimiter to be escaped with "\".
  *         start = self._position
  *         buff = ''             # <<<<<<<<<<<<<<
@@ -3064,18 +3157,18 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
   __Pyx_INCREF(__pyx_kp_s_);
   __pyx_v_buff = __pyx_kp_s_;
 
-  /* "jmespath/_lexer.pyx":158
+  /* "jmespath/_lexer.pyx":171
  *         start = self._position
  *         buff = ''
  *         self._next()             # <<<<<<<<<<<<<<
  *         while self._current != delimiter:
  *             if self._current == '\\':
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "jmespath/_lexer.pyx":159
+  /* "jmespath/_lexer.pyx":172
  *         buff = ''
  *         self._next()
  *         while self._current != delimiter:             # <<<<<<<<<<<<<<
@@ -3083,45 +3176,45 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
  *                 buff += '\\'
  */
   while (1) {
-    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_self->_current, __pyx_v_delimiter, Py_NE)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_v_self->_current, __pyx_v_delimiter, Py_NE)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_4 = (__pyx_t_3 != 0);
     if (!__pyx_t_4) break;
 
-    /* "jmespath/_lexer.pyx":160
+    /* "jmespath/_lexer.pyx":173
  *         self._next()
  *         while self._current != delimiter:
  *             if self._current == '\\':             # <<<<<<<<<<<<<<
  *                 buff += '\\'
  *                 self._next()
  */
-    __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_v_self->_current, __pyx_kp_s__17, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_v_self->_current, __pyx_kp_s__16, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_3 = (__pyx_t_4 != 0);
     if (__pyx_t_3) {
 
-      /* "jmespath/_lexer.pyx":161
+      /* "jmespath/_lexer.pyx":174
  *         while self._current != delimiter:
  *             if self._current == '\\':
  *                 buff += '\\'             # <<<<<<<<<<<<<<
  *                 self._next()
  *             if self._current is None:
  */
-      __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_kp_s__17); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_kp_s__16); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_buff, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "jmespath/_lexer.pyx":162
+      /* "jmespath/_lexer.pyx":175
  *             if self._current == '\\':
  *                 buff += '\\'
  *                 self._next()             # <<<<<<<<<<<<<<
  *             if self._current is None:
  *                 raise LexerError(lexer_position=start,
  */
-      __pyx_t_2 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "jmespath/_lexer.pyx":160
+      /* "jmespath/_lexer.pyx":173
  *         self._next()
  *         while self._current != delimiter:
  *             if self._current == '\\':             # <<<<<<<<<<<<<<
@@ -3130,7 +3223,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
  */
     }
 
-    /* "jmespath/_lexer.pyx":163
+    /* "jmespath/_lexer.pyx":176
  *                 buff += '\\'
  *                 self._next()
  *             if self._current is None:             # <<<<<<<<<<<<<<
@@ -3141,59 +3234,59 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
     __pyx_t_4 = (__pyx_t_3 != 0);
     if (__pyx_t_4) {
 
-      /* "jmespath/_lexer.pyx":164
+      /* "jmespath/_lexer.pyx":177
  *                 self._next()
  *             if self._current is None:
  *                 raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._expression,
  *                                  message="Unclosed %s delimiter" % delimiter)
  */
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_start); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_lexer_position, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_lexer_position, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "jmespath/_lexer.pyx":165
+      /* "jmespath/_lexer.pyx":178
  *             if self._current is None:
  *                 raise LexerError(lexer_position=start,
  *                                  lexer_value=self._expression,             # <<<<<<<<<<<<<<
  *                                  message="Unclosed %s delimiter" % delimiter)
  *             buff += self._current
  */
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_lexer_value, __pyx_v_self->_expression) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_lexer_value, __pyx_v_self->_expression) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":166
+      /* "jmespath/_lexer.pyx":179
  *                 raise LexerError(lexer_position=start,
  *                                  lexer_value=self._expression,
  *                                  message="Unclosed %s delimiter" % delimiter)             # <<<<<<<<<<<<<<
  *             buff += self._current
  *             self._next()
  */
-      __pyx_t_6 = __Pyx_PyString_Format(__pyx_kp_s_Unclosed_s_delimiter, __pyx_v_delimiter); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyString_Format(__pyx_kp_s_Unclosed_s_delimiter, __pyx_v_delimiter); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_message, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_message, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "jmespath/_lexer.pyx":164
+      /* "jmespath/_lexer.pyx":177
  *                 self._next()
  *             if self._current is None:
  *                 raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._expression,
  *                                  message="Unclosed %s delimiter" % delimiter)
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "jmespath/_lexer.pyx":163
+      /* "jmespath/_lexer.pyx":176
  *                 buff += '\\'
  *                 self._next()
  *             if self._current is None:             # <<<<<<<<<<<<<<
@@ -3202,42 +3295,42 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
  */
     }
 
-    /* "jmespath/_lexer.pyx":167
+    /* "jmespath/_lexer.pyx":180
  *                                  lexer_value=self._expression,
  *                                  message="Unclosed %s delimiter" % delimiter)
  *             buff += self._current             # <<<<<<<<<<<<<<
  *             self._next()
  *         # Skip the closing delimiter.
  */
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_v_self->_current); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_buff, __pyx_v_self->_current); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF_SET(__pyx_v_buff, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "jmespath/_lexer.pyx":168
+    /* "jmespath/_lexer.pyx":181
  *                                  message="Unclosed %s delimiter" % delimiter)
  *             buff += self._current
  *             self._next()             # <<<<<<<<<<<<<<
  *         # Skip the closing delimiter.
  *         self._next()
  */
-    __pyx_t_6 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
 
-  /* "jmespath/_lexer.pyx":170
+  /* "jmespath/_lexer.pyx":183
  *             self._next()
  *         # Skip the closing delimiter.
  *         self._next()             # <<<<<<<<<<<<<<
  *         return buff
  * 
  */
-  __pyx_t_6 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "jmespath/_lexer.pyx":171
+  /* "jmespath/_lexer.pyx":184
  *         # Skip the closing delimiter.
  *         self._next()
  *         return buff             # <<<<<<<<<<<<<<
@@ -3249,8 +3342,8 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
   __pyx_r = __pyx_v_buff;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":153
- *         return self._current
+  /* "jmespath/_lexer.pyx":166
+ *             self._current = None
  * 
  *     cdef _consume_until(self, basestring delimiter):             # <<<<<<<<<<<<<<
  *         # Consume until the delimiter is reached,
@@ -3271,7 +3364,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_until(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":173
+/* "jmespath/_lexer.pyx":186
  *         return buff
  * 
  *     cdef _consume_literal(self):             # <<<<<<<<<<<<<<
@@ -3308,37 +3401,37 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_consume_literal", 0);
 
-  /* "jmespath/_lexer.pyx":174
+  /* "jmespath/_lexer.pyx":187
  * 
  *     cdef _consume_literal(self):
  *         start = self._position             # <<<<<<<<<<<<<<
  *         lexeme = self._consume_until('`').replace('\\`', '`')
  *         try:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_start = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":175
+  /* "jmespath/_lexer.pyx":188
  *     cdef _consume_literal(self):
  *         start = self._position
  *         lexeme = self._consume_until('`').replace('\\`', '`')             # <<<<<<<<<<<<<<
  *         try:
  *             # Assume it is valid JSON and attempt to parse.
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__10)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__9)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_replace); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_replace); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lexeme = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":176
+  /* "jmespath/_lexer.pyx":189
  *         start = self._position
  *         lexeme = self._consume_until('`').replace('\\`', '`')
  *         try:             # <<<<<<<<<<<<<<
@@ -3352,14 +3445,14 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
     __Pyx_XGOTREF(__pyx_t_5);
     /*try:*/ {
 
-      /* "jmespath/_lexer.pyx":178
+      /* "jmespath/_lexer.pyx":191
  *         try:
  *             # Assume it is valid JSON and attempt to parse.
  *             parsed_json = loads(lexeme)             # <<<<<<<<<<<<<<
  *         except ValueError:
  *             try:
  */
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_6 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -3372,16 +3465,16 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
         }
       }
       if (!__pyx_t_6) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_lexeme); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_lexeme); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_lexeme);
         __Pyx_GIVEREF(__pyx_v_lexeme);
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_lexeme);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
@@ -3389,7 +3482,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
       __pyx_v_parsed_json = __pyx_t_1;
       __pyx_t_1 = 0;
 
-      /* "jmespath/_lexer.pyx":176
+      /* "jmespath/_lexer.pyx":189
  *         start = self._position
  *         lexeme = self._consume_until('`').replace('\\`', '`')
  *         try:             # <<<<<<<<<<<<<<
@@ -3407,7 +3500,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "jmespath/_lexer.pyx":179
+    /* "jmespath/_lexer.pyx":192
  *             # Assume it is valid JSON and attempt to parse.
  *             parsed_json = loads(lexeme)
  *         except ValueError:             # <<<<<<<<<<<<<<
@@ -3417,12 +3510,12 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
     __pyx_t_8 = PyErr_ExceptionMatches(__pyx_builtin_ValueError);
     if (__pyx_t_8) {
       __Pyx_AddTraceback("jmespath._lexer.Lexer._consume_literal", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "jmespath/_lexer.pyx":180
+      /* "jmespath/_lexer.pyx":193
  *             parsed_json = loads(lexeme)
  *         except ValueError:
  *             try:             # <<<<<<<<<<<<<<
@@ -3436,16 +3529,16 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
         __Pyx_XGOTREF(__pyx_t_11);
         /*try:*/ {
 
-          /* "jmespath/_lexer.pyx":183
+          /* "jmespath/_lexer.pyx":196
  *                 # Invalid JSON values should be converted to quoted
  *                 # JSON strings during the JEP-12 deprecation period.
  *                 parsed_json = loads('"%s"' % lexeme.lstrip())             # <<<<<<<<<<<<<<
  *                 warnings.warn("deprecated string literal syntax",
  *                               PendingDeprecationWarning)
  */
-          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_lexeme, __pyx_n_s_lstrip); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_lexeme, __pyx_n_s_lstrip); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_14);
           __pyx_t_15 = NULL;
           if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_14))) {
@@ -3458,14 +3551,14 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
             }
           }
           if (__pyx_t_15) {
-            __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_15); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+            __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_15); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           } else {
-            __pyx_t_13 = __Pyx_PyObject_CallNoArg(__pyx_t_14); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+            __pyx_t_13 = __Pyx_PyObject_CallNoArg(__pyx_t_14); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           }
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __pyx_t_14 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_14 = __Pyx_PyString_Format(__pyx_kp_s_s, __pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_14);
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __pyx_t_13 = NULL;
@@ -3479,17 +3572,17 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
             }
           }
           if (!__pyx_t_13) {
-            __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_14); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+            __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_14); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
             __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
             __Pyx_GOTREF(__pyx_t_6);
           } else {
-            __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+            __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
             __Pyx_GOTREF(__pyx_t_15);
             __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_13); __pyx_t_13 = NULL;
             __Pyx_GIVEREF(__pyx_t_14);
             PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_14);
             __pyx_t_14 = 0;
-            __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_15, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+            __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_15, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
             __Pyx_GOTREF(__pyx_t_6);
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           }
@@ -3497,20 +3590,20 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
           __Pyx_XDECREF_SET(__pyx_v_parsed_json, __pyx_t_6);
           __pyx_t_6 = 0;
 
-          /* "jmespath/_lexer.pyx":184
+          /* "jmespath/_lexer.pyx":197
  *                 # JSON strings during the JEP-12 deprecation period.
  *                 parsed_json = loads('"%s"' % lexeme.lstrip())
  *                 warnings.warn("deprecated string literal syntax",             # <<<<<<<<<<<<<<
  *                               PendingDeprecationWarning)
  *             except ValueError:
  */
-          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_warn); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_warn); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-          /* "jmespath/_lexer.pyx":185
+          /* "jmespath/_lexer.pyx":198
  *                 parsed_json = loads('"%s"' % lexeme.lstrip())
  *                 warnings.warn("deprecated string literal syntax",
  *                               PendingDeprecationWarning)             # <<<<<<<<<<<<<<
@@ -3529,7 +3622,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
               __pyx_t_16 = 1;
             }
           }
-          __pyx_t_14 = PyTuple_New(2+__pyx_t_16); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_14 = PyTuple_New(2+__pyx_t_16); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_14);
           if (__pyx_t_12) {
             __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -3540,13 +3633,13 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
           __Pyx_INCREF(__pyx_builtin_PendingDeprecationWarning);
           __Pyx_GIVEREF(__pyx_builtin_PendingDeprecationWarning);
           PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_16, __pyx_builtin_PendingDeprecationWarning);
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L13_error;}
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-          /* "jmespath/_lexer.pyx":180
+          /* "jmespath/_lexer.pyx":193
  *             parsed_json = loads(lexeme)
  *         except ValueError:
  *             try:             # <<<<<<<<<<<<<<
@@ -3565,7 +3658,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
         __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "jmespath/_lexer.pyx":186
+        /* "jmespath/_lexer.pyx":199
  *                 warnings.warn("deprecated string literal syntax",
  *                               PendingDeprecationWarning)
  *             except ValueError:             # <<<<<<<<<<<<<<
@@ -3575,64 +3668,64 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
         __pyx_t_8 = PyErr_ExceptionMatches(__pyx_builtin_ValueError);
         if (__pyx_t_8) {
           __Pyx_AddTraceback("jmespath._lexer.Lexer._consume_literal", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_15, &__pyx_t_14) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_15, &__pyx_t_14) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_GOTREF(__pyx_t_14);
 
-          /* "jmespath/_lexer.pyx":187
+          /* "jmespath/_lexer.pyx":200
  *                               PendingDeprecationWarning)
  *             except ValueError:
  *                 raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._expression,
  *                                  message="Bad token %s" % lexeme)
  */
-          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_GOTREF(__pyx_t_13);
-          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_lexer_position, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_lexer_position, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
 
-          /* "jmespath/_lexer.pyx":188
+          /* "jmespath/_lexer.pyx":201
  *             except ValueError:
  *                 raise LexerError(lexer_position=start,
  *                                  lexer_value=self._expression,             # <<<<<<<<<<<<<<
  *                                  message="Bad token %s" % lexeme)
  *         token_len = self._position - start
  */
-          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_lexer_value, __pyx_v_self->_expression) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_lexer_value, __pyx_v_self->_expression) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
 
-          /* "jmespath/_lexer.pyx":189
+          /* "jmespath/_lexer.pyx":202
  *                 raise LexerError(lexer_position=start,
  *                                  lexer_value=self._expression,
  *                                  message="Bad token %s" % lexeme)             # <<<<<<<<<<<<<<
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': parsed_json,
  */
-          __pyx_t_17 = __Pyx_PyString_Format(__pyx_kp_s_Bad_token_s, __pyx_v_lexeme); if (unlikely(!__pyx_t_17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          __pyx_t_17 = __Pyx_PyString_Format(__pyx_kp_s_Bad_token_s, __pyx_v_lexeme); if (unlikely(!__pyx_t_17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_GOTREF(__pyx_t_17);
-          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_message, __pyx_t_17) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_message, __pyx_t_17) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
 
-          /* "jmespath/_lexer.pyx":187
+          /* "jmespath/_lexer.pyx":200
  *                               PendingDeprecationWarning)
  *             except ValueError:
  *                 raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                                  lexer_value=self._expression,
  *                                  message="Bad token %s" % lexeme)
  */
-          __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_empty_tuple, __pyx_t_13); if (unlikely(!__pyx_t_17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_empty_tuple, __pyx_t_13); if (unlikely(!__pyx_t_17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
           __Pyx_GOTREF(__pyx_t_17);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_Raise(__pyx_t_17, 0, 0, 0);
           __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L15_except_error;}
         }
         goto __pyx_L15_except_error;
         __pyx_L15_except_error:;
 
-        /* "jmespath/_lexer.pyx":180
+        /* "jmespath/_lexer.pyx":193
  *             parsed_json = loads(lexeme)
  *         except ValueError:
  *             try:             # <<<<<<<<<<<<<<
@@ -3654,7 +3747,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "jmespath/_lexer.pyx":176
+    /* "jmespath/_lexer.pyx":189
  *         start = self._position
  *         lexeme = self._consume_until('`').replace('\\`', '`')
  *         try:             # <<<<<<<<<<<<<<
@@ -3674,22 +3767,22 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
     __pyx_L10_try_end:;
   }
 
-  /* "jmespath/_lexer.pyx":190
+  /* "jmespath/_lexer.pyx":203
  *                                  lexer_value=self._expression,
  *                                  message="Bad token %s" % lexeme)
  *         token_len = self._position - start             # <<<<<<<<<<<<<<
  *         return {'type': 'literal', 'value': parsed_json,
  *                 'start': start, 'end': token_len}
  */
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_7, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Subtract(__pyx_t_7, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_token_len = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "jmespath/_lexer.pyx":191
+  /* "jmespath/_lexer.pyx":204
  *                                  message="Bad token %s" % lexeme)
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': parsed_json,             # <<<<<<<<<<<<<<
@@ -3697,25 +3790,25 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_literal) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_v_parsed_json) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_literal) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_v_parsed_json) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":192
+  /* "jmespath/_lexer.pyx":205
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': parsed_json,
  *                 'start': start, 'end': token_len}             # <<<<<<<<<<<<<<
  * 
  *     cdef _consume_quoted_identifier(self):
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":173
+  /* "jmespath/_lexer.pyx":186
  *         return buff
  * 
  *     cdef _consume_literal(self):             # <<<<<<<<<<<<<<
@@ -3746,7 +3839,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_literal(struct __pyx_
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":194
+/* "jmespath/_lexer.pyx":207
  *                 'start': start, 'end': token_len}
  * 
  *     cdef _consume_quoted_identifier(self):             # <<<<<<<<<<<<<<
@@ -3777,37 +3870,37 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_consume_quoted_identifier", 0);
 
-  /* "jmespath/_lexer.pyx":195
+  /* "jmespath/_lexer.pyx":208
  * 
  *     cdef _consume_quoted_identifier(self):
  *         start = self._position             # <<<<<<<<<<<<<<
  *         lexeme = '"' + self._consume_until('"') + '"'
  *         try:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_start = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":196
+  /* "jmespath/_lexer.pyx":209
  *     cdef _consume_quoted_identifier(self):
  *         start = self._position
  *         lexeme = '"' + self._consume_until('"') + '"'             # <<<<<<<<<<<<<<
  *         try:
  *             token_len = self._position - start
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__12)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__11)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_kp_s__12, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Add(__pyx_kp_s__11, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s__12); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_kp_s__11); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lexeme = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":197
+  /* "jmespath/_lexer.pyx":210
  *         start = self._position
  *         lexeme = '"' + self._consume_until('"') + '"'
  *         try:             # <<<<<<<<<<<<<<
@@ -3821,22 +3914,22 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
     __Pyx_XGOTREF(__pyx_t_5);
     /*try:*/ {
 
-      /* "jmespath/_lexer.pyx":198
+      /* "jmespath/_lexer.pyx":211
  *         lexeme = '"' + self._consume_until('"') + '"'
  *         try:
  *             token_len = self._position - start             # <<<<<<<<<<<<<<
  *             return {'type': 'quoted_identifier', 'value': loads(lexeme),
  *                     'start': start, 'end': token_len}
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_token_len = __pyx_t_2;
       __pyx_t_2 = 0;
 
-      /* "jmespath/_lexer.pyx":199
+      /* "jmespath/_lexer.pyx":212
  *         try:
  *             token_len = self._position - start
  *             return {'type': 'quoted_identifier', 'value': loads(lexeme),             # <<<<<<<<<<<<<<
@@ -3844,10 +3937,10 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
  *         except ValueError as e:
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_quoted_identifier) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_quoted_identifier) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_loads); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -3860,37 +3953,37 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_lexeme); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_lexeme); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_INCREF(__pyx_v_lexeme);
         __Pyx_GIVEREF(__pyx_v_lexeme);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_lexeme);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "jmespath/_lexer.pyx":200
+      /* "jmespath/_lexer.pyx":213
  *             token_len = self._position - start
  *             return {'type': 'quoted_identifier', 'value': loads(lexeme),
  *                     'start': start, 'end': token_len}             # <<<<<<<<<<<<<<
  *         except ValueError as e:
  *             error_message = str(e).split(':')[0]
  */
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
       goto __pyx_L7_try_return;
 
-      /* "jmespath/_lexer.pyx":197
+      /* "jmespath/_lexer.pyx":210
  *         start = self._position
  *         lexeme = '"' + self._consume_until('"') + '"'
  *         try:             # <<<<<<<<<<<<<<
@@ -3905,7 +3998,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "jmespath/_lexer.pyx":201
+    /* "jmespath/_lexer.pyx":214
  *             return {'type': 'quoted_identifier', 'value': loads(lexeme),
  *                     'start': start, 'end': token_len}
  *         except ValueError as e:             # <<<<<<<<<<<<<<
@@ -3915,90 +4008,90 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
     __pyx_t_9 = PyErr_ExceptionMatches(__pyx_builtin_ValueError);
     if (__pyx_t_9) {
       __Pyx_AddTraceback("jmespath._lexer.Lexer._consume_quoted_identifier", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_v_e = __pyx_t_1;
 
-      /* "jmespath/_lexer.pyx":202
+      /* "jmespath/_lexer.pyx":215
  *                     'start': start, 'end': token_len}
  *         except ValueError as e:
  *             error_message = str(e).split(':')[0]             # <<<<<<<<<<<<<<
  *             raise LexerError(lexer_position=start,
  *                              lexer_value=lexeme,
  */
-      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_v_e);
       __Pyx_GIVEREF(__pyx_v_e);
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_e);
-      __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_split); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_split); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_8 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;};
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_8 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;};
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_v_error_message = __pyx_t_8;
       __pyx_t_8 = 0;
 
-      /* "jmespath/_lexer.pyx":203
+      /* "jmespath/_lexer.pyx":216
  *         except ValueError as e:
  *             error_message = str(e).split(':')[0]
  *             raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                              lexer_value=lexeme,
  *                              message=error_message)
  */
-      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_LexerError); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_7);
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_lexer_position, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_lexer_position, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
 
-      /* "jmespath/_lexer.pyx":204
+      /* "jmespath/_lexer.pyx":217
  *             error_message = str(e).split(':')[0]
  *             raise LexerError(lexer_position=start,
  *                              lexer_value=lexeme,             # <<<<<<<<<<<<<<
  *                              message=error_message)
  * 
  */
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_lexer_value, __pyx_v_lexeme) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_lexer_value, __pyx_v_lexeme) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
 
-      /* "jmespath/_lexer.pyx":205
+      /* "jmespath/_lexer.pyx":218
  *             raise LexerError(lexer_position=start,
  *                              lexer_value=lexeme,
  *                              message=error_message)             # <<<<<<<<<<<<<<
  * 
  *     cdef _consume_raw_string_literal(self):
  */
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_message, __pyx_v_error_message) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_message, __pyx_v_error_message) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
 
-      /* "jmespath/_lexer.pyx":203
+      /* "jmespath/_lexer.pyx":216
  *         except ValueError as e:
  *             error_message = str(e).split(':')[0]
  *             raise LexerError(lexer_position=start,             # <<<<<<<<<<<<<<
  *                              lexer_value=lexeme,
  *                              message=error_message)
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "jmespath/_lexer.pyx":197
+    /* "jmespath/_lexer.pyx":210
  *         start = self._position
  *         lexeme = '"' + self._consume_until('"') + '"'
  *         try:             # <<<<<<<<<<<<<<
@@ -4018,7 +4111,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
     goto __pyx_L0;
   }
 
-  /* "jmespath/_lexer.pyx":194
+  /* "jmespath/_lexer.pyx":207
  *                 'start': start, 'end': token_len}
  * 
  *     cdef _consume_quoted_identifier(self):             # <<<<<<<<<<<<<<
@@ -4047,7 +4140,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier(str
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":207
+/* "jmespath/_lexer.pyx":220
  *                              message=error_message)
  * 
  *     cdef _consume_raw_string_literal(self):             # <<<<<<<<<<<<<<
@@ -4068,52 +4161,52 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_raw_string_literal(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_consume_raw_string_literal", 0);
 
-  /* "jmespath/_lexer.pyx":208
+  /* "jmespath/_lexer.pyx":221
  * 
  *     cdef _consume_raw_string_literal(self):
  *         start = self._position             # <<<<<<<<<<<<<<
  *         lexeme = self._consume_until("'").replace("\\'", "'")
  *         token_len = self._position - start
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_start = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":209
+  /* "jmespath/_lexer.pyx":222
  *     cdef _consume_raw_string_literal(self):
  *         start = self._position
  *         lexeme = self._consume_until("'").replace("\\'", "'")             # <<<<<<<<<<<<<<
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': lexeme,
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__7)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_consume_until(__pyx_v_self, ((PyObject*)__pyx_kp_s__6)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_replace); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_replace); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lexeme = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":210
+  /* "jmespath/_lexer.pyx":223
  *         start = self._position
  *         lexeme = self._consume_until("'").replace("\\'", "'")
  *         token_len = self._position - start             # <<<<<<<<<<<<<<
  *         return {'type': 'literal', 'value': lexeme,
  *                 'start': start, 'end': token_len}
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_v_start); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_token_len = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "jmespath/_lexer.pyx":211
+  /* "jmespath/_lexer.pyx":224
  *         lexeme = self._consume_until("'").replace("\\'", "'")
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': lexeme,             # <<<<<<<<<<<<<<
@@ -4121,25 +4214,25 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_raw_string_literal(st
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_literal) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_v_lexeme) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, __pyx_n_s_literal) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_value, __pyx_v_lexeme) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":212
+  /* "jmespath/_lexer.pyx":225
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': lexeme,
  *                 'start': start, 'end': token_len}             # <<<<<<<<<<<<<<
  * 
  *     cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_v_token_len) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":207
+  /* "jmespath/_lexer.pyx":220
  *                              message=error_message)
  * 
  *     cdef _consume_raw_string_literal(self):             # <<<<<<<<<<<<<<
@@ -4162,7 +4255,7 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__consume_raw_string_literal(st
   return __pyx_r;
 }
 
-/* "jmespath/_lexer.pyx":214
+/* "jmespath/_lexer.pyx":227
  *                 'start': start, 'end': token_len}
  * 
  *     cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):             # <<<<<<<<<<<<<<
@@ -4184,19 +4277,19 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__match_or_else(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_match_or_else", 0);
 
-  /* "jmespath/_lexer.pyx":215
+  /* "jmespath/_lexer.pyx":228
  * 
  *     cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):
  *         start = self._position             # <<<<<<<<<<<<<<
  *         current = self._current
  *         next_char = self._next()
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_position); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_start = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":216
+  /* "jmespath/_lexer.pyx":229
  *     cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):
  *         start = self._position
  *         current = self._current             # <<<<<<<<<<<<<<
@@ -4208,40 +4301,40 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__match_or_else(struct __pyx_ob
   __pyx_v_current = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":217
+  /* "jmespath/_lexer.pyx":230
  *         start = self._position
  *         current = self._current
  *         next_char = self._next()             # <<<<<<<<<<<<<<
  *         if next_char == expected:
  *             self._next()
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_next_char = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "jmespath/_lexer.pyx":218
+  /* "jmespath/_lexer.pyx":231
  *         current = self._current
  *         next_char = self._next()
  *         if next_char == expected:             # <<<<<<<<<<<<<<
  *             self._next()
  *             return {'type': match_type, 'value': current + next_char,
  */
-  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_next_char, __pyx_v_expected, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_next_char, __pyx_v_expected, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_2) {
 
-    /* "jmespath/_lexer.pyx":219
+    /* "jmespath/_lexer.pyx":232
  *         next_char = self._next()
  *         if next_char == expected:
  *             self._next()             # <<<<<<<<<<<<<<
  *             return {'type': match_type, 'value': current + next_char,
  *                     'start': start, 'end': start + 1}
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = ((struct __pyx_vtabstruct_8jmespath_6_lexer_Lexer *)__pyx_v_self->__pyx_vtab)->_next(__pyx_v_self); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "jmespath/_lexer.pyx":220
+    /* "jmespath/_lexer.pyx":233
  *         if next_char == expected:
  *             self._next()
  *             return {'type': match_type, 'value': current + next_char,             # <<<<<<<<<<<<<<
@@ -4249,31 +4342,31 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__match_or_else(struct __pyx_ob
  *         return {'type': else_type, 'value': current,
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_v_match_type) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = PyNumber_Add(__pyx_v_current, __pyx_v_next_char); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_v_match_type) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyNumber_Add(__pyx_v_current, __pyx_v_next_char); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "jmespath/_lexer.pyx":221
+    /* "jmespath/_lexer.pyx":234
  *             self._next()
  *             return {'type': match_type, 'value': current + next_char,
  *                     'start': start, 'end': start + 1}             # <<<<<<<<<<<<<<
  *         return {'type': else_type, 'value': current,
  *                 'start': start, 'end': start}
  */
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_start, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_start, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "jmespath/_lexer.pyx":218
+    /* "jmespath/_lexer.pyx":231
  *         current = self._current
  *         next_char = self._next()
  *         if next_char == expected:             # <<<<<<<<<<<<<<
@@ -4282,30 +4375,30 @@ static PyObject *__pyx_f_8jmespath_6_lexer_5Lexer__match_or_else(struct __pyx_ob
  */
   }
 
-  /* "jmespath/_lexer.pyx":222
+  /* "jmespath/_lexer.pyx":235
  *             return {'type': match_type, 'value': current + next_char,
  *                     'start': start, 'end': start + 1}
  *         return {'type': else_type, 'value': current,             # <<<<<<<<<<<<<<
  *                 'start': start, 'end': start}
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_v_else_type) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_v_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, __pyx_v_else_type) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_value, __pyx_v_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "jmespath/_lexer.pyx":223
+  /* "jmespath/_lexer.pyx":236
  *                     'start': start, 'end': start + 1}
  *         return {'type': else_type, 'value': current,
  *                 'start': start, 'end': start}             # <<<<<<<<<<<<<<
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_start, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_v_start) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "jmespath/_lexer.pyx":214
+  /* "jmespath/_lexer.pyx":227
  *                 'start': start, 'end': token_len}
  * 
  *     cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):             # <<<<<<<<<<<<<<
@@ -4597,8 +4690,6 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_0, __pyx_k_0, sizeof(__pyx_k_0), 0, 0, 1, 0},
-  {&__pyx_kp_s_9, __pyx_k_9, sizeof(__pyx_k_9), 0, 0, 1, 0},
   {&__pyx_kp_s_Bad_token_s, __pyx_k_Bad_token_s, sizeof(__pyx_k_Bad_token_s), 0, 0, 1, 0},
   {&__pyx_n_s_EmptyExpressionError, __pyx_k_EmptyExpressionError, sizeof(__pyx_k_EmptyExpressionError), 0, 0, 1, 1},
   {&__pyx_n_s_LexerError, __pyx_k_LexerError, sizeof(__pyx_k_LexerError), 0, 0, 1, 1},
@@ -4618,10 +4709,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 0, 1, 0},
   {&__pyx_kp_s__16, __pyx_k__16, sizeof(__pyx_k__16), 0, 0, 1, 0},
   {&__pyx_kp_s__17, __pyx_k__17, sizeof(__pyx_k__17), 0, 0, 1, 0},
-  {&__pyx_kp_s__18, __pyx_k__18, sizeof(__pyx_k__18), 0, 0, 1, 0},
+  {&__pyx_kp_s__19, __pyx_k__19, sizeof(__pyx_k__19), 0, 0, 1, 0},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
-  {&__pyx_kp_s__20, __pyx_k__20, sizeof(__pyx_k__20), 0, 0, 1, 0},
-  {&__pyx_kp_s__22, __pyx_k__22, sizeof(__pyx_k__22), 0, 0, 1, 0},
+  {&__pyx_kp_s__21, __pyx_k__21, sizeof(__pyx_k__21), 0, 0, 1, 0},
+  {&__pyx_kp_s__23, __pyx_k__23, sizeof(__pyx_k__23), 0, 0, 1, 0},
   {&__pyx_kp_s__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 0, 1, 0},
   {&__pyx_kp_s__25, __pyx_k__25, sizeof(__pyx_k__25), 0, 0, 1, 0},
   {&__pyx_kp_s__26, __pyx_k__26, sizeof(__pyx_k__26), 0, 0, 1, 0},
@@ -4698,8 +4789,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_PendingDeprecationWarning = __Pyx_GetBuiltinName(__pyx_n_s_PendingDeprecationWarning); if (!__pyx_builtin_PendingDeprecationWarning) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_PendingDeprecationWarning = __Pyx_GetBuiltinName(__pyx_n_s_PendingDeprecationWarning); if (!__pyx_builtin_PendingDeprecationWarning) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -4709,38 +4800,38 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "jmespath/_lexer.pyx":175
+  /* "jmespath/_lexer.pyx":188
  *     cdef _consume_literal(self):
  *         start = self._position
  *         lexeme = self._consume_until('`').replace('\\`', '`')             # <<<<<<<<<<<<<<
  *         try:
  *             # Assume it is valid JSON and attempt to parse.
  */
-  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_kp_s__18, __pyx_kp_s__10); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__18 = PyTuple_Pack(2, __pyx_kp_s__17, __pyx_kp_s__9); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "jmespath/_lexer.pyx":202
+  /* "jmespath/_lexer.pyx":215
  *                     'start': start, 'end': token_len}
  *         except ValueError as e:
  *             error_message = str(e).split(':')[0]             # <<<<<<<<<<<<<<
  *             raise LexerError(lexer_position=start,
  *                              lexer_value=lexeme,
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s__20); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s__19); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "jmespath/_lexer.pyx":209
+  /* "jmespath/_lexer.pyx":222
  *     cdef _consume_raw_string_literal(self):
  *         start = self._position
  *         lexeme = self._consume_until("'").replace("\\'", "'")             # <<<<<<<<<<<<<<
  *         token_len = self._position - start
  *         return {'type': 'literal', 'value': lexeme,
  */
-  __pyx_tuple__23 = PyTuple_Pack(2, __pyx_kp_s__22, __pyx_kp_s__7); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__22 = PyTuple_Pack(2, __pyx_kp_s__21, __pyx_kp_s__6); if (unlikely(!__pyx_tuple__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4854,12 +4945,12 @@ PyMODINIT_FUNC PyInit__lexer(void)
   __pyx_vtable_8jmespath_6_lexer_Lexer._consume_quoted_identifier = (PyObject *(*)(struct __pyx_obj_8jmespath_6_lexer_Lexer *))__pyx_f_8jmespath_6_lexer_5Lexer__consume_quoted_identifier;
   __pyx_vtable_8jmespath_6_lexer_Lexer._consume_raw_string_literal = (PyObject *(*)(struct __pyx_obj_8jmespath_6_lexer_Lexer *))__pyx_f_8jmespath_6_lexer_5Lexer__consume_raw_string_literal;
   __pyx_vtable_8jmespath_6_lexer_Lexer._match_or_else = (PyObject *(*)(struct __pyx_obj_8jmespath_6_lexer_Lexer *, PyObject *, PyObject *, PyObject *))__pyx_f_8jmespath_6_lexer_5Lexer__match_or_else;
-  if (PyType_Ready(&__pyx_type_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8jmespath_6_lexer_Lexer.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_8jmespath_6_lexer_Lexer.tp_dict, __pyx_vtabptr_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "Lexer", (PyObject *)&__pyx_type_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_8jmespath_6_lexer_Lexer.tp_dict, __pyx_vtabptr_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "Lexer", (PyObject *)&__pyx_type_8jmespath_6_lexer_Lexer) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_8jmespath_6_lexer_Lexer = &__pyx_type_8jmespath_6_lexer_Lexer;
-  if (PyType_Ready(&__pyx_type_8jmespath_6_lexer___pyx_scope_struct__tokenize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8jmespath_6_lexer___pyx_scope_struct__tokenize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8jmespath_6_lexer___pyx_scope_struct__tokenize.tp_print = 0;
   __pyx_ptype_8jmespath_6_lexer___pyx_scope_struct__tokenize = &__pyx_type_8jmespath_6_lexer___pyx_scope_struct__tokenize;
   /*--- Type import code ---*/
@@ -4954,45 +5045,45 @@ PyMODINIT_FUNC PyInit__lexer(void)
  * cdef unsigned long long IDENT_START = 0x7fffffe87fffffe
  * cdef unsigned long long *IDENT_TRAIL = [0x3ff000000000000, 0x7fffffe87fffffe]             # <<<<<<<<<<<<<<
  * 
- * 
+ * DEF LBRACKET = ord('[')
  */
   __pyx_t_3[0] = 0x3ff000000000000;
   __pyx_t_3[1] = 0x7fffffe87fffffe;
   __pyx_v_8jmespath_6_lexer_IDENT_TRAIL = __pyx_t_3;
 
-  /* "jmespath/_lexer.pyx":33
+  /* "jmespath/_lexer.pyx":35
  * 
  * cdef class Lexer(object):
  *     WHITESPACE = set(" \t\n\r")             # <<<<<<<<<<<<<<
  *     SIMPLE_TOKENS = {
  *         '.': 'dot',
  */
-  __pyx_t_1 = PySet_New(__pyx_kp_s__24); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PySet_New(__pyx_kp_s__23); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8jmespath_6_lexer_Lexer->tp_dict, __pyx_n_s_WHITESPACE, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8jmespath_6_lexer_Lexer->tp_dict, __pyx_n_s_WHITESPACE, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_8jmespath_6_lexer_Lexer);
 
-  /* "jmespath/_lexer.pyx":35
+  /* "jmespath/_lexer.pyx":37
  *     WHITESPACE = set(" \t\n\r")
  *     SIMPLE_TOKENS = {
  *         '.': 'dot',             # <<<<<<<<<<<<<<
  *         '*': 'star',
  *         ']': 'rbracket',
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__25, __pyx_n_s_dot) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__26, __pyx_n_s_star) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__3, __pyx_n_s_rbracket) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__27, __pyx_n_s_comma) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__20, __pyx_n_s_colon) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__28, __pyx_n_s_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__29, __pyx_n_s_lparen) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__30, __pyx_n_s_rparen) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__31, __pyx_n_s_lbrace) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__32, __pyx_n_s_rbrace) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_8jmespath_6_lexer_Lexer->tp_dict, __pyx_n_s_SIMPLE_TOKENS, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__24, __pyx_n_s_dot) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__25, __pyx_n_s_star) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__26, __pyx_n_s_rbracket) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__27, __pyx_n_s_comma) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__19, __pyx_n_s_colon) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__28, __pyx_n_s_current) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__29, __pyx_n_s_lparen) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__30, __pyx_n_s_rparen) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__31, __pyx_n_s_lbrace) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_s__32, __pyx_n_s_rbrace) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_8jmespath_6_lexer_Lexer->tp_dict, __pyx_n_s_SIMPLE_TOKENS, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_8jmespath_6_lexer_Lexer);
 
@@ -5188,6 +5279,107 @@ invalid_keyword:
     return 0;
 }
 
+#if CYTHON_USE_PYLONG_INTERNALS
+  #include "longintrepr.h"
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS && PY_MAJOR_VERSION >= 3
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    }
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
 static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
 #if CYTHON_COMPILING_IN_PYPY
     return PyObject_RichCompareBool(s1, s2, equals);
@@ -5307,107 +5499,6 @@ return_ne:
     return (equals == Py_NE);
 #endif
 }
-
-#if CYTHON_USE_PYLONG_INTERNALS
-  #include "longintrepr.h"
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS && PY_MAJOR_VERSION >= 3
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
     PyObject *result;
