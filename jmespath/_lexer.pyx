@@ -4,10 +4,31 @@ from json import loads
 
 from jmespath.exceptions import LexerError, EmptyExpressionError
 
+cdef unsigned long long IDENT_START = 0x7fffffe87fffffe
+cdef unsigned long long *IDENT_TRAIL = [0x3ff000000000000, 0x7fffffe87fffffe]
+
+
+cdef _is_ident_start(s):
+    cdef unsigned long long i
+    i = ord(s)
+    if i < 65:
+        return False
+    return (IDENT_START & (1ULL << (i - 64ULL))) > 0
+
+
+cdef _is_ident_trailing(s):
+    cdef unsigned x
+    cdef unsigned long long chrbit
+    if s is None:
+        return None
+    x = ord(s)
+    if x > 128:
+        return False
+    chrbit = (1ULL << (x % 64ULL))
+    return (IDENT_TRAIL[x / 64] & chrbit) > 0
+
 
 cdef class Lexer(object):
-    START_IDENTIFIER = set(string.ascii_letters + '_')
-    VALID_IDENTIFIER = set(string.ascii_letters + string.digits + '_')
     WHITESPACE = set(" \t\n\r")
     SIMPLE_TOKENS = {
         '.': 'dot',
@@ -41,10 +62,10 @@ cdef class Lexer(object):
                        'value': self._current,
                        'start': self._position, 'end': self._position + 1}
                 self._next()
-            elif self._current in self.START_IDENTIFIER:
+            elif _is_ident_start(self._current):
                 start = self._position
                 buff = self._current
-                while self._next() in self.VALID_IDENTIFIER:
+                while _is_ident_trailing(self._next()):
                     buff += self._current
                 yield {'type': 'unquoted_identifier', 'value': buff,
                        'start': start, 'end': start + len(buff)}
@@ -105,13 +126,13 @@ cdef class Lexer(object):
         yield {'type': 'eof', 'value': '',
                'start': self._length, 'end': self._length}
 
-    def _consume_number(self):
+    cdef _consume_number(self):
         buff = self._current
         while '0' <= self._next() <= '9':
             buff += self._current
         return buff
 
-    def _initialize_for_expression(self, expression):
+    cdef _initialize_for_expression(self, basestring expression):
         if not expression:
             raise EmptyExpressionError()
         self._position = 0
@@ -120,7 +141,7 @@ cdef class Lexer(object):
         self._current = self._chars[self._position]
         self._length = len(self._expression)
 
-    def _next(self):
+    cdef _next(self):
         if self._position == self._length - 1:
             self._current = None
         else:
@@ -128,7 +149,7 @@ cdef class Lexer(object):
             self._current = self._chars[self._position]
         return self._current
 
-    def _consume_until(self, delimiter):
+    cdef _consume_until(self, basestring delimiter):
         # Consume until the delimiter is reached,
         # allowing for the delimiter to be escaped with "\".
         start = self._position
@@ -148,7 +169,7 @@ cdef class Lexer(object):
         self._next()
         return buff
 
-    def _consume_literal(self):
+    cdef _consume_literal(self):
         start = self._position
         lexeme = self._consume_until('`').replace('\\`', '`')
         try:
@@ -169,7 +190,7 @@ cdef class Lexer(object):
         return {'type': 'literal', 'value': parsed_json,
                 'start': start, 'end': token_len}
 
-    def _consume_quoted_identifier(self):
+    cdef _consume_quoted_identifier(self):
         start = self._position
         lexeme = '"' + self._consume_until('"') + '"'
         try:
@@ -182,14 +203,14 @@ cdef class Lexer(object):
                              lexer_value=lexeme,
                              message=error_message)
 
-    def _consume_raw_string_literal(self):
+    cdef _consume_raw_string_literal(self):
         start = self._position
         lexeme = self._consume_until("'").replace("\\'", "'")
         token_len = self._position - start
         return {'type': 'literal', 'value': lexeme,
                 'start': start, 'end': token_len}
 
-    def _match_or_else(self, expected, match_type, else_type):
+    cdef _match_or_else(self, basestring expected, basestring match_type, basestring else_type):
         start = self._position
         current = self._current
         next_char = self._next()
