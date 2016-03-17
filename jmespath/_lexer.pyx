@@ -4,8 +4,34 @@ from json import loads
 
 from jmespath.exceptions import LexerError, EmptyExpressionError
 
+# Bitmask for starting identifier characters.  Check if the uint64
+# below has its bit set for the ord value of the char (minus 64).
 cdef unsigned long long IDENT_START = 0x7fffffe87fffffe
+
+# Same thing except for trailing identifiers, except you need to calculate
+# which uint64 to use based on ord being in 0-64 or 64-128.
 cdef unsigned long long *IDENT_TRAIL = [0x3ff000000000000, 0x7fffffe87fffffe]
+
+# If the ord value of char (minus SIMPLE_TOK_OFFSET) is a) within
+# the range of this table (0 - len(SIMPLE_TOK_TAB)) and nonzero, then it's
+# an index into the SIMPLE_TOK_NAMES for its corresponding token type.
+cdef short *SIMPLE_TOK_TAB = [
+    5, 4, 7, 0, 9, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 3, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 6, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+]
+cdef char **SIMPLE_TOK_NAMES = [
+    'rbrace', 'current', 'colon', 'rparen', 'lparen', 'lbrace', 'star',
+    'rbracket', 'comma', 'dot'
+]
+# This was essentially the min of map(ord, SIMPLE_TOKENS) so we can
+# save on space.
+DEF SIMPLE_TOK_OFFSET = 40
 
 DEF LBRACKET = ord('[')
 DEF RBRACKET = ord(']')
@@ -13,17 +39,17 @@ DEF ZERO = ord('0')
 DEF NINE = ord('9')
 
 
-cdef _is_ident_start(unsigned long long ch):
+cdef int _is_ident_start(unsigned long long ch):
     if ch < 65:
         return False
     return (IDENT_START & (1ULL << (ch - 64ULL))) > 0
 
 
-cdef _is_ident_trailing(s):
+cdef int _is_ident_trailing(s):
     cdef unsigned x
     cdef unsigned long long chrbit
     if s is None:
-        return None
+        return 0
     x = ord(s)
     if x > 128:
         return False
@@ -33,18 +59,6 @@ cdef _is_ident_trailing(s):
 
 cdef class Lexer(object):
     WHITESPACE = set(" \t\n\r")
-    SIMPLE_TOKENS = {
-        '.': 'dot',
-        '*': 'star',
-        ']': 'rbracket',
-        ',': 'comma',
-        ':': 'colon',
-        '@': 'current',
-        '(': 'lparen',
-        ')': 'rparen',
-        '{': 'lbrace',
-        '}': 'rbrace',
-    }
 
     cdef int _position, _length
     cdef basestring _expression, _current
@@ -69,8 +83,9 @@ cdef class Lexer(object):
                     buff += self._current
                 yield {'type': 'unquoted_identifier', 'value': buff,
                        'start': start, 'end': start + len(buff)}
-            elif self._current in self.SIMPLE_TOKENS:
-                yield {'type': self.SIMPLE_TOKENS[self._current],
+            elif (SIMPLE_TOK_OFFSET <= curchar <= 128) and \
+                    SIMPLE_TOK_TAB[curchar - SIMPLE_TOK_OFFSET]:
+                yield {'type': SIMPLE_TOK_NAMES[SIMPLE_TOK_TAB[curchar - SIMPLE_TOK_OFFSET] - 1],
                        'value': self._current,
                        'start': self._position, 'end': self._position + 1}
                 self._next()
