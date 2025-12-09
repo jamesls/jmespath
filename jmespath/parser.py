@@ -25,9 +25,6 @@ A few notes on the implementation.
   consuming from the token iterator one token at a time.
 
 """
-import random
-import threading
-
 from jmespath import lexer
 from jmespath.compat import with_repr_method
 from jmespath import ast
@@ -75,7 +72,6 @@ class Parser(object):
     # _CACHE dict.
     _CACHE = {}
     _MAX_SIZE = 128
-    _CACHE_LOCK = threading.Lock()
 
     def __init__(self, lookahead=2):
         self.tokenizer = None
@@ -84,13 +80,18 @@ class Parser(object):
         self._index = 0
 
     def parse(self, expression):
-        cached = self._CACHE.get(expression)
-        if cached is not None:
-            return cached
+        try:
+            return self._CACHE[expression]
+        except KeyError:
+            pass
         parsed_result = self._do_parse(expression)
+        if len(self._CACHE) >= self._MAX_SIZE:
+            try:
+                del self._CACHE[next(iter(self._CACHE))]
+            except (KeyError, StopIteration, RuntimeError):
+                # Key was already deleted and/or cache is now empty.
+                pass
         self._CACHE[expression] = parsed_result
-        if self._is_cache_full():
-            self._free_cache_entries()
         return parsed_result
 
     def _do_parse(self, expression):
@@ -489,16 +490,6 @@ class Parser(object):
                                               actual_type)
         raise exceptions.ParseError(
             lex_position, actual_value, actual_type, message)
-
-    def _is_cache_full(self):
-        return len(self._CACHE) > self._MAX_SIZE
-
-    def _free_cache_entries(self):
-        with self._CACHE_LOCK:
-            if self._is_cache_full():
-                cache_keys = list(self._CACHE.keys())
-                for key in random.sample(cache_keys, int(len(cache_keys)/2)):
-                    self._CACHE.pop(key, None)
 
     @classmethod
     def purge(cls):
