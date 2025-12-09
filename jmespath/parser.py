@@ -90,7 +90,8 @@ class Parser(object):
                 del self._CACHE[next(iter(self._CACHE))]
             except (KeyError, StopIteration, RuntimeError):
                 # Key was already deleted and/or cache is now empty.
-                pass
+                # DO NOT cache in this case.
+                return parsed_result
         self._CACHE[expression] = parsed_result
         return parsed_result
 
